@@ -20,6 +20,10 @@ Step 2 >
   
   using an increment of admindb name for each image
   
+  Read first file in directory
+  
+  break apart file name to find collection
+  
 Step 3 > 
   use identify/morgify to check image
   
