@@ -23,7 +23,9 @@ Step 2 >
   Read first file in directory
   
   break apart file name to find collection
+  
     * are there spaces in file name
+  
     * check filename length
   
 Step 3 >
