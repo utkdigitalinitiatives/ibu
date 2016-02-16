@@ -71,13 +71,18 @@ Clone > Make your Edits > Commit to Master > Sync
 		  * (xmllint --noout --schema http://www.loc.gov/standards/mods/v3/mods-3-5.xsd *.xml)-example
 		* syntactically correct AdminDB identifier (`/mods:mods/mods:identifier[@type='local']` = `\d{4}_\d{6}_\d{6}_\d{4}`) (pass|fail)
 		* create our own free standing schema that is based on our own [metadata application profile](https://wiki.lib.utk.edu/display/DLP/UTK+Data+Dictionary)
+      * Wouldn't it be better to test against it?  It's more specific.  More specifically test whether required fields are present.
 	* Image
 		* TIF
 			* Is it a multi-page TIF; i.e. are there embedded thumbnails? (if true then apply processing to remove extraneous embedded images)
 			* Is there compression? (if true then decompress?)
 			* Resolution? (pass|fail)
 			* Bit depth? (pass|fail)
-			* ???
+			* From newly [updated standards document](https://wiki.lib.utk.edu/pages/viewpage.action?pageId=11927581):
+        * What is pixel dimensions / spatial resolution?
+        * Master file format?
+        * Color?
+        * Bit-depth?
 		* JPG
 			* What kind of compression has been applied? (depending, decompress?)
 			* Resolution? (pass|fail)
