@@ -79,10 +79,10 @@ Clone > Make your Edits > Commit to Master > Sync
 			* Resolution? (pass|fail)
 			* Bit depth? (pass|fail)
 			* From newly [updated standards document](https://wiki.lib.utk.edu/pages/viewpage.action?pageId=11927581):
-        * What is pixel dimensions / spatial resolution?
-        * Master file format?
-        * Color?
-        * Bit-depth?
+				* What is pixel dimensions / spatial resolution?
+				* Master file format?
+				* Color?
+				* Bit-depth?
 		* JPG
 			* What kind of compression has been applied? (depending, decompress?)
 			* Resolution? (pass|fail)
