@@ -21,7 +21,11 @@ Step 2 >
   using an increment of admindb name for each image
   
 Step 3 > 
-  use identify to check image
+  use identify/morgify to check image
+    * check for compression
+    * check for pixel dimensions units
+    * check for multi tiffs
+    
 
 etc........ START HERE!
 
