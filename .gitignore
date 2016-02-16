@@ -1,0 +1,11 @@
+# .ignore
+
+# ignore IDEA directories
+.idea
+
+# ignore Vim and some other stuff
+.*~
+.*swp
+
+# ignore OSX ._*
+._*
