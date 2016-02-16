@@ -32,29 +32,6 @@ I'm thinking these are steps within another broader step
 	
 	  AdminDB makes unique identifier for collection
 	
-	Step 2 >
-	  DPS uses admindb name to scan individual items
-	
-	  using an increment of admindb name for each image
-	
-	  Read first file in directory
-	
-	  break apart file name to find collection
-	
-	    * are there spaces in file name
-	
-	    * check filename length
-	
-	Step 3 >
-	
-	  use identify/mogrify to check image
-	
-	    * check for compression -- remove compression
-	
-	    * check for pixel dimensions units -- inches versus mm versus cm
-	
-	    * check for multi-page tiffs -- delete thumbnail
-
 
 
 
