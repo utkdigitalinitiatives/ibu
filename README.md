@@ -46,7 +46,7 @@ Clone > Make your Edits > Commit to Master > Sync
 
 ####B. What ibu might do
 3. ibu copies (moves?) the paired (or just XML?) files from `foo_collection/delivery` to a separate processing area; i.e. `/gwork/ibu/rendering-plant/`.
-  * a move is fater than a copy and will prevent duplicate processing
+  * a move is faster than a copy and will prevent duplicate processing
 
 4. ibu starts the following checks:
 	* XML
