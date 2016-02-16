@@ -10,7 +10,14 @@ Clone > Make your Edits > Commit to Master > Sync
 
 
 ##High Level Overview:
-Step 1 > Step 2 > Step 3 > etc........ START HERE!
+Step 1 >
+  Special Collections makes collection entry in Admin DB for MS or AR physical collection
+  AdminDB make unique identifier for collection
+
+Step 2 >
+  DPS uses admindb name to scan individual items
+  using an increment of admindb name for each image
+Step 3 > etc........ START HERE!
 
 ##Task Breakdown/Signup:
 | Task                                   | Person |
