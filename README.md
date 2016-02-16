@@ -32,7 +32,7 @@ Clone > Make your Edits > Commit to Master > Sync
 		0012_001234_000200_0000.tif
 		0012_001234_000201_0000.xml
 		0012_001234_000201_0000.tif
-	
+
 	bar/
 	  work/
 		bridger_folders1-7/
@@ -43,6 +43,23 @@ Clone > Make your Edits > Commit to Master > Sync
 	```
 
 2. ibu (maybe?) has a processing model that tracks `delivery` subdirectories; when XML files are present in a delivery directory, then.... *Note:* ibu will ignore `bar/delivery/` until there are XML files present.
+3. **Question**: Wouldn't it be better if ibu was filename agnostic?
+  * Instead of having people name things according to AdminDB, ibu would
+    * Step 1: match an XML file to a TIF file
+      * /d1/area3/prod3/adams/adams1.tif
+      * github.com/utkcataloging/adams/cleanedmetadata/modsxml/adams1.xml
+    * Step 2: Query the XML for the MS or AR number
+        * /relatedItem[@type='host']/identifier = MS. 2306
+    * Step 3: Look at AdminDB for the AdminDB number and the last file created
+        * AdminDB Number = 759
+    * Step 4: Add the new file name to AdminDB
+        * 0012_000759_000201_0000
+    * Step 5: Rewrite filenames to:
+        * 0012_000759_000201_0000.tif
+        * 0012_000759_000201_0000.xml
+    * Step 6: If needed write the reference to the XML itself:
+        * /identifier[@type='local']
+    * Justification:  take out the human error
 
 ####B. What ibu might do
 3. ibu copies (moves?) the paired (or just XML?) files from `foo_collection/delivery` to a separate processing area; i.e. `/gwork/ibu/rendering-plant/`.
@@ -55,7 +72,7 @@ Clone > Make your Edits > Commit to Master > Sync
 		* syntactically correct AdminDB identifier (`/mods:mods/mods:identifier[@type='local']` = `\d{4}_\d{6}_\d{6}_\d{4}`) (pass|fail)
 		* ???
 	* Image
-		* TIF 
+		* TIF
 			* Is it a multi-page TIF; i.e. are there embedded thumbnails? (if true then apply processing to remove extraneous embedded images)
 			* Is there compression? (if true then decompress?)
 			* Resolution? (pass|fail)
@@ -79,5 +96,3 @@ Clone > Make your Edits > Commit to Master > Sync
 * This is not important but useful
 	* [README.md Markdown Formatting](https://guides.github.com/features/mastering-markdown/)
 * [2016 Updated Digitization Standards for Text and Still Image](https://wiki.lib.utk.edu/pages/viewpage.action?pageId=11927581)
-
-
