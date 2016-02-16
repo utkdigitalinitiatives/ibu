@@ -1,5 +1,5 @@
 # Ingestion Batch Utility
-Sprint to Ingestion Batch Utility for automating and validating Objects for ingestion
+Sprint to Ingestion Batch Utility for automating, validating Objects and ingestion
 ![IBU](http://i.imgur.com/wTI6m0G.png)
 <br/>:bangbang: **Don't fork!** :bangbang:<br/>
 NOT A WORKING REPO<br/>
@@ -29,9 +29,9 @@ you need the admindb name to be able to tell the files apart, multiple files fro
 I'm thinking these are steps within another broader step
 	Step 1 >
 	  Special Collections makes collection entry in Admin DB for MS or AR physical collection
-	
+
 	  AdminDB makes unique identifier for collection
-	
+
 
 
 
