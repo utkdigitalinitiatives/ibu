@@ -25,7 +25,7 @@ Step 2 >
   break apart file name to find collection
   
 Step 3 > 
-  use identify/morgify to check image
+  use identify/mogrify to check image
   
     * check for compression
     
