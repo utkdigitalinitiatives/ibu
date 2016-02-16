@@ -10,7 +10,6 @@
 import React, { Component } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Upload.scss';
-import Dropzone from 'react-dropzone';
 
 
 class Upload extends Component {
@@ -18,9 +17,7 @@ class Upload extends Component {
   render() {
     return (
       <div>
-        <Dropzone onDrop={this.onDrop}>
-          <div>Try dropping some files here, or click to select files to upload.</div>
-        </Dropzone>
+
       </div>
     );
   }
