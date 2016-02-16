@@ -32,11 +32,11 @@ Step 3 >
   
   use identify/mogrify to check image
   
-    * check for compression
+    * check for compression -- remove compression
     
-    * check for pixel dimensions units
+    * check for pixel dimensions units -- inches versus mm versus cm
     
-    * check for multi-page tiffs
+    * check for multi-page tiffs -- delete thumbnail
     
 
 etc........ START HERE!
