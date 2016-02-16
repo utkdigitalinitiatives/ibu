@@ -22,8 +22,11 @@ Step 2 >
   
 Step 3 > 
   use identify/morgify to check image
+  
     * check for compression
+    
     * check for pixel dimensions units
+    
     * check for multi tiffs
     
 
