@@ -42,5 +42,8 @@ I'm thinking these are steps within another broader step
 
 
 ##Resources
-This is not important but useful
-[README.md Markdown Formatting](https://guides.github.com/features/mastering-markdown/)
+* This is not important but useful
+	* [README.md Markdown Formatting](https://guides.github.com/features/mastering-markdown/)
+* [2016 Updated Digitization Standards for Text and Still Image](https://wiki.lib.utk.edu/pages/viewpage.action?pageId=11927581)
+
+
