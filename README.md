@@ -42,7 +42,7 @@ bar/
     bar002.jpg
 ```
 
-2. ibu (maybe?) has a processing model that tracks `delivery` subdirectories; when XML files are present in a delivery directory, then...
+2. ibu (maybe?) has a processing model that tracks `delivery` subdirectories; when XML files are present in a delivery directory, then.... *Note:* ibu will ignore `bar/delivery/` until there are XML files present.
  
 3. ibu copies (moves?) the paired (or just XML?) files from `foo_collection/delivery` to a separate processing area; i.e. `/gwork/ibu/rendering-plant/`.
 
