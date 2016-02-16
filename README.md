@@ -23,9 +23,12 @@ Step 2 >
   Read first file in directory
   
   break apart file name to find collection
+    * are there spaces in file name
+    * check filename length
   
-Step 3 > 
-  use identify/mogrify to check image
+Step 3 >
+  
+  use identify/morgify to check image
   
     * check for compression
     
