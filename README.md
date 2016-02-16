@@ -14,24 +14,59 @@ Clone > Make your Edits > Commit to Master > Sync
 
 
 ##High Level Overview:
-I bit more higher level.
 
 ###At a glance
+*Assumptions being made: samba share's directory structure is regular, AdminDB collection(s) already exist, metadata (MODS) will eventually move to the same delivery directory as the TIF|JPG, we're __only__ talking about basic|large image processing, and __several__ other unarticulated assumptions.*
 
-you need the admindb name to be able to tell the files apart, multiple files from multiple collections are being scanned concurrently.
+####A. What ibu looks for
 
-> Files[1] -> import into a submission form[2] -> validates all fields have been
->  imported or filled in[3] -> validates Obj(image) requirements[4] -> gives user
->  feedback (pass or error)[5] -> upon success exports Mods/Tiff into temp directory
->  with new file names (standTitleSubject.tiff standTitleSubject.xml)[6] -> server
->  runs Drush commands to ingest both files[7]
+1. ibu will be looking at directories that follow this pattern:
 
-I'm thinking these are steps within another broader step
-	Step 1 >
-	  Special Collections makes collection entry in Admin DB for MS or AR physical collection
-	
-	  AdminDB makes unique identifier for collection
-	
+```shell
+foo_collection/
+  work/
+    Park_files/
+    recrop_straighten/
+  delivery/
+    0012_001234_000200_0000.xml
+    0012_001234_000200_0000.tif
+    0012_001234_000201_0000.xml
+    0012_001234_000201_0000.tif
+
+bar/
+  work/
+    bridger_folders1-7/
+    Paul_folders8-12/
+  delivery/
+    bar001.jpg
+    bar002.jpg
+```
+
+2. ibu (maybe?) has a processing model that tracks `delivery` subdirectories; when XML files are present in a delivery directory, then...
+ 
+3. ibu copies (moves?) the paired (or just XML?) files from `foo_collection/delivery` to a separate processing area; i.e. `/gwork/ibu/rendering-plant/`.
+
+4. ibu starts the following checks:
+	* XML
+		* schema validity? (pass|fail)
+		* syntactically correct AdminDB identifier (`/mods:mods/mods:identifier[@type='local']` = `\d{4}_\d{6}_\d{6}_\d{4}`) (pass|fail)
+		* ???
+	* Image
+		* TIF 
+			* Is it a multi-page TIF; i.e. are there embedded thumbnails? (if true then apply processing to remove extraneous embedded images)
+			* Is there compression? (if true then decompress?)
+			* Resolution? (pass|fail)
+			* Bit depth? (pass|fail)
+			* ???
+		* JPG
+			* What kind of compression has been applied? (depending, decompress?)
+			* Resolution? (pass|fail)
+			* Bit depth? (pass|fail)
+			* ???
+
+
+		
+  
 
 
 
