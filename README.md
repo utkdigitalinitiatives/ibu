@@ -59,7 +59,6 @@ Clone > Make your Edits > Commit to Master > Sync
 			* Is there compression? (if true then decompress?)
 			* Resolution? (pass|fail)
 			* Bit depth? (pass|fail)
-			* if needed convert to correct bit depth,resolution,pixel units
 			* ???
 		* JPG
 			* What kind of compression has been applied? (depending, decompress?)
