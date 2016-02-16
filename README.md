@@ -28,13 +28,13 @@ Step 2 >
   
 Step 3 >
   
-  use identify/morgify to check image
+  use identify/mogrify to check image
   
     * check for compression
     
     * check for pixel dimensions units
     
-    * check for multi tiffs
+    * check for multi-page tiffs
     
 
 etc........ START HERE!
