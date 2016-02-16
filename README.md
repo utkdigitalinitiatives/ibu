@@ -88,6 +88,33 @@ Clone > Make your Edits > Commit to Master > Sync
 			* Resolution? (pass|fail)
 			* Bit depth? (pass|fail)
 			* ???
+    * **Question**: Instead of using Fedora as a guide for content type, would it make since to reference newly updated standards document? That would require a check higher up the list, but would be more accurate.
+      * Instead of simply handling "LargeImage", you'd be forced to choose a material type:
+        * Map, Drawing, Oversized Original
+          * Check for 8 bit color-depth
+          * Check for 400 Photographic
+          * Check Grey-scale or Color
+          * Can be TIFF or JP2
+        * Photograph
+          * Check for 16 bit color depth
+          * Check for 600 PPI
+          * Check for Color
+          * Must be TIFF
+        * Photographic Still Film up to 4 x 5
+          * Check for 16 bit color depth
+          * Check for 4000 PPI
+          * Check for Grey-scale or Color
+          * Must be TIFF
+        * Photographic Still Film Larger than 4" x 5"
+          * Check for 16 bit color depth
+          * Check for 2000 PPI
+          * Check for Color or Grey-scale
+          * Must be TIFF
+        * Reproduction of Artwork
+          * Check for 16 bit color depth
+          * Can we check for **12000 Pixels on longside???**
+          * Must be Color
+          * Must be TIFF
 
 5. ibu will run drush ingest scripts for file pairs that pass the above validity checks.
 
