@@ -17,6 +17,9 @@ Clone > Make your Edits > Commit to Master > Sync
 I bit more higher level.
 
 ###At a glance
+
+you need the admindb name to be able to tell the files apart, multiple files from multiple collections are being scanned concurrently.
+
 > Files[1] -> import into a submission form[2] -> validates all fields have been
 >  imported or filled in[3] -> validates Obj(image) requirements[4] -> gives user
 >  feedback (pass or error)[5] -> upon success exports Mods/Tiff into temp directory
