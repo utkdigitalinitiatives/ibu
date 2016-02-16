@@ -1,7 +1,7 @@
 # Ingestion Batch Utility
 Sprint to Ingestion Batch Utility for automating and validating Objects for ingestion
 ![IBU](http://i.imgur.com/wTI6m0G.png)
-<br/> ==Don't fork!== <br/>
+<br/>:cop: Don't fork! <br/>
 NOT A WORKING REPO<br/>
 This is a proof of concept only
 
@@ -20,4 +20,4 @@ Step 1 > Step 2 > Step 3 > etc........ START HERE!
 
 ##Resources
 This is not important but useful
-[README.md Markdown Formatting](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
+[README.md Markdown Formatting](https://guides.github.com/features/mastering-markdown/)
