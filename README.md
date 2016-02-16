@@ -64,6 +64,7 @@ Clone > Make your Edits > Commit to Master > Sync
 			* Bit depth? (pass|fail)
 			* ???
 
+5. ibu will run drush ingest scripts for file pairs that pass the above validity checks.
 
 ##Task Breakdown/Signup:
 | Task                                   | Person |
