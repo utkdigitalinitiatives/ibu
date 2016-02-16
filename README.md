@@ -1,6 +1,6 @@
 # Ingestion Batch Utility
 Sprint to Ingestion Batch Utility for automating and validating Objects for ingestion
-![IBU](https://pixabay.com/static/uploads/photo/2012/04/13/00/58/hops-31495_960_720.png)
+![IBU](http://i.imgur.com/wTI6m0G.png)
 NOT A WORKING REPO
 This is a proof of concept only
 
