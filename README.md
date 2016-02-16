@@ -70,7 +70,7 @@ Clone > Make your Edits > Commit to Master > Sync
 		* schema validity? (pass|fail)
 		  * (xmllint --noout --schema http://www.loc.gov/standards/mods/v3/mods-3-5.xsd *.xml)-example
 		* syntactically correct AdminDB identifier (`/mods:mods/mods:identifier[@type='local']` = `\d{4}_\d{6}_\d{6}_\d{4}`) (pass|fail)
-		* ???
+		* create our own free standing schema that is based on our own [metadata application profile](https://wiki.lib.utk.edu/display/DLP/UTK+Data+Dictionary)
 	* Image
 		* TIF
 			* Is it a multi-page TIF; i.e. are there embedded thumbnails? (if true then apply processing to remove extraneous embedded images)
