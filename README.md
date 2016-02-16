@@ -13,7 +13,7 @@ Clone > Make your Edits > Commit to Master > Sync
 Step 1 >
   Special Collections makes collection entry in Admin DB for MS or AR physical collection
   
-  AdminDB make unique identifier for collection
+  AdminDB makes unique identifier for collection
 
 Step 2 >
   DPS uses admindb name to scan individual items
