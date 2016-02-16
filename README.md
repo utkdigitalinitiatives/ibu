@@ -22,25 +22,25 @@ Clone > Make your Edits > Commit to Master > Sync
 
 1. ibu will be looking at directories that follow this pattern:
 
-```shell
-foo_collection/
-  work/
-    Park_files/
-    recrop_straighten/
-  delivery/
-    0012_001234_000200_0000.xml
-    0012_001234_000200_0000.tif
-    0012_001234_000201_0000.xml
-    0012_001234_000201_0000.tif
-
-bar/
-  work/
-    bridger_folders1-7/
-    Paul_folders8-12/
-  delivery/
-    bar001.jpg
-    bar002.jpg
-```
+	```shell
+	foo_collection/
+	  work/
+		Park_files/
+		recrop_straighten/
+	  delivery/
+		0012_001234_000200_0000.xml
+		0012_001234_000200_0000.tif
+		0012_001234_000201_0000.xml
+		0012_001234_000201_0000.tif
+	
+	bar/
+	  work/
+		bridger_folders1-7/
+		Paul_folders8-12/
+	  delivery/
+		bar001.jpg
+		bar002.jpg
+	```
 
 2. ibu (maybe?) has a processing model that tracks `delivery` subdirectories; when XML files are present in a delivery directory, then.... *Note:* ibu will ignore `bar/delivery/` until there are XML files present.
  
