@@ -9,3 +9,6 @@
 
 # ignore OSX ._*
 ._*
+
+# node stuff
+node_modules
