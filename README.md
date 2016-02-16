@@ -50,6 +50,7 @@ Clone > Make your Edits > Commit to Master > Sync
 4. ibu starts the following checks:
 	* XML
 		* schema validity? (pass|fail)
+		  * (xmllint --noout --schema http://www.loc.gov/standards/mods/v3/mods-3-5.xsd *.xml)-example
 		* syntactically correct AdminDB identifier (`/mods:mods/mods:identifier[@type='local']` = `\d{4}_\d{6}_\d{6}_\d{4}`) (pass|fail)
 		* ???
 	* Image
