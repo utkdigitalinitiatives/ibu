@@ -16,6 +16,7 @@ Step 1 >
 
 Step 2 >
   DPS uses admindb name to scan individual items
+  using an increment of admindb name for each image
 Step 3 > etc........ START HERE!
 
 ##Task Breakdown/Signup:
