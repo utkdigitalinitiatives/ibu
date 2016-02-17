@@ -21,6 +21,9 @@ fs.readdir(path, function(err, items) {
         console.log(items[i]);
     }
 });
+// build command pieces
+let serveruri = 'http://localhost';
+let contentmodel = 'islandora:sp_basic_image';
 // execute drush command
 var exec = require('child_process').exec;
 var cmd = 'drush -v --user=user --uri=http://localhost ibsp --content_models=islandora:sp_basic_image --type=directory --parent=collections:sanborn --namespace=sanborn --target=/gwork/user/sanborn-ingest';
