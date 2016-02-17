@@ -92,7 +92,7 @@ Clone > Make your Edits > Commit to Master > Sync
       * Instead of simply handling "LargeImage", you'd be forced to choose a material type:
         * Map, Drawing, Oversized Original
           * Check for 8 bit color-depth
-          * Check for 400 Photographic
+          * Check for 400 PPI
           * Check Grey-scale or Color
           * Can be TIFF or JP2
         * Photograph
