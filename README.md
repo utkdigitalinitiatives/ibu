@@ -124,7 +124,7 @@ Clone > Make your Edits > Commit to Master > Sync
 | Continuous Effective Technical Writing | Keila  | README.md
 | Abduction | **???** | abduction.js |
 | XML Validation | Bridger | XMLvalidation.js |
-| Image Validation| **???** | IMGvalidation.js |
+| Image Validation| Mark | IMGvalidation.js |
 | Ingestion | Paul | ingestion.js |
 | Status | Cricket | status.js |
 
