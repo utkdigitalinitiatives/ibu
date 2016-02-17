@@ -141,6 +141,8 @@ Clone > Make your Edits > Commit to Master > Sync
   >curl --silent --location https://rpm.nodesource.com/setup_5.x | bash -
   >yum install -y nodejs
   >yum install git-all
+  >exit
+  >cd ibu
   >npm i
   >npm i -g babel-cli
   >npm install -g n
