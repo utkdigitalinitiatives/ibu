@@ -1,14 +1,7 @@
-# .ignore
+# Include your project-specific ignores in this file
+# Read about how to use .gitignore: https://help.github.com/articles/ignoring-files
 
-# ignore IDEA directories
-.idea
-
-# ignore Vim and some other stuff
-.*~
-.*swp
-
-# ignore OSX ._*
-._*
-
-# node stuff
+build
 node_modules
+ncp-debug.log
+npm-debug.log

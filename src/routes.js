@@ -17,7 +17,6 @@ import LoginPage from './components/LoginPage';
 import RegisterPage from './components/RegisterPage';
 import NotFoundPage from './components/NotFoundPage';
 import ErrorPage from './components/ErrorPage';
-import Upload from './components/Upload';
 
 const router = new Router(on => {
   on('*', async (state, next) => {
@@ -30,8 +29,6 @@ const router = new Router(on => {
   on('/login', async () => <LoginPage />);
 
   on('/register', async () => <RegisterPage />);
-
-  on('/upload', async () => <Upload />);
 
   on('*', async (state) => {
     const response = await fetch(`/api/content?path=${state.path}`);
