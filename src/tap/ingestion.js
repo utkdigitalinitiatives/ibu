@@ -23,7 +23,7 @@ fs.readdir(path, function(err, items) {
 });
 // execute drush command
 var exec = require('child_process').exec;
-var cmd = 'drush ';
+var cmd = 'drush -v --user=user --uri=http://localhost ibsp --content_models=islandora:sp_basic_image --type=directory --parent=collections:sanborn --namespace=sanborn --target=/gwork/user/sanborn-ingest';
 
 exec(cmd, function(error, stdout, stderr) {
   // command output is in stdout
