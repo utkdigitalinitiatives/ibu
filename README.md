@@ -119,9 +119,14 @@ Clone > Make your Edits > Commit to Master > Sync
 5. ibu will run drush ingest scripts for file pairs that pass the above validity checks.
 
 ##Task Breakdown/Signup:
-| Task                                   | Person |
-| -------------------------------------- | ------ |
-| Continuous Effective Technical Writing | Keila  |
+| Task                                   | Person | File |
+| -------------------------------------- | ------ | ---- |
+| Continuous Effective Technical Writing | Keila  | README.md
+| Abduction | **???** | abduction.js |
+| XML Validation | **???** | XMLvalidation.js |
+| Image Validation| **???** | IMGvalidation.js |
+| Ingestion | **???** | ingestion.js |
+| Status | Cricket | status.js |
 
 
 ##Resources
