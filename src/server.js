@@ -8,9 +8,9 @@ import Html from './components/Html';
 import assets from './assets';
 import { port } from './config';
 
-//import controller from './tap/controller';
+import controller from './tap/controller';
 
-//server.on(controller);
+
 
 const server = global.server = express();
 
@@ -18,6 +18,11 @@ const server = global.server = express();
 // Register Node.js middleware
 // -----------------------------------------------------------------------------
 server.use(express.static(path.join(__dirname, 'public')));
+let input = "Success!";
+
+// Controller
+let pouring = controller(input);
+pouring;
 
 //
 // Register API middleware
