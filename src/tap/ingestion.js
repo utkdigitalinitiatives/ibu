@@ -36,4 +36,5 @@ var cmd = 'drush -v --user=user --uri='.serveruri.' ibsp --content_models='.cont
 
 exec(cmd, function(error, stdout, stderr) {
   // command output is in stdout
+  console.log(error);
 });
