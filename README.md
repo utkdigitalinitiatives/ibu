@@ -129,3 +129,15 @@ Clone > Make your Edits > Commit to Master > Sync
 	* [README.md Markdown Formatting](https://guides.github.com/features/mastering-markdown/)
 * [2016 Updated Digitization Standards for Text and Still Image](https://wiki.lib.utk.edu/pages/viewpage.action?pageId=11927581)
 * [UT Libraries Metadata Application Profile](https://wiki.lib.utk.edu/display/DLP/UTK+Data+Dictionary) aka UTK Data Dictionary
+
+**Fedora Install**
+  >sudo -i
+  >curl --silent --location https://rpm.nodesource.com/setup_5.x | bash -
+  >yum install -y nodejs
+  >yum install git-all
+  >npm i
+  >npm i -g babel-cli
+
+
+
+**BSD Install**
