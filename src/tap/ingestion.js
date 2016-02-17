@@ -22,9 +22,11 @@ fs.readdir(path, function(err, items) {
     }
 });
 // build command pieces
+// serveruri is the location of the drupal_home on the drupal server
 let serveruri = 'http://dlwork.lib.utk.edu/dev/';
 let contentmodel = 'islandora:sp_basic_image';
 let parentpid = '';
+// namespace
 let namespace = '';
 // target is the local directory holding the ingest files
 let target = '';
