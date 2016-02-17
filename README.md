@@ -143,7 +143,11 @@ Clone > Make your Edits > Commit to Master > Sync
 ```
 
 
-**OpenBSD Install**
+**FreeBSD Install**
 ```bash
-  >pkg_add -Iv node
+   > sudo pkg install node-5.5.0
+   > sudo pkg install www/npm
+   > npm install 
+   > npm start      
 ```
+__Note:__ Runnning a `pkg search node` will let you know the latest version of the package.
