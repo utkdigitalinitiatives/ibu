@@ -3,9 +3,6 @@
  */
  // 
 
-
-
-
  //---- example  file reader
 var fs = require('fs');
 
@@ -23,4 +20,11 @@ fs.readdir(path, function(err, items) {
     for (var i=0; i<items.length; i++) {
         console.log(items[i]);
     }
+});
+// execute drush command
+var exec = require('child_process').exec;
+var cmd = 'drush ';
+
+exec(cmd, function(error, stdout, stderr) {
+  // command output is in stdout
 });
