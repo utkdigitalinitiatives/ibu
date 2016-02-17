@@ -137,7 +137,10 @@ Clone > Make your Edits > Commit to Master > Sync
   >yum install git-all
   >npm i
   >npm i -g babel-cli
+  >npm install -g n
+  >sudo n stable
 
 
 
-**BSD Install**
+**OpenBSD Install**
+  >pkg_add -Iv node
