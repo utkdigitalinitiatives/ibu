@@ -131,6 +131,7 @@ Clone > Make your Edits > Commit to Master > Sync
 * [UT Libraries Metadata Application Profile](https://wiki.lib.utk.edu/display/DLP/UTK+Data+Dictionary) aka UTK Data Dictionary
 
 **Fedora Install**
+```bash
   >sudo -i
   >curl --silent --location https://rpm.nodesource.com/setup_5.x | bash -
   >yum install -y nodejs
@@ -139,8 +140,10 @@ Clone > Make your Edits > Commit to Master > Sync
   >npm i -g babel-cli
   >npm install -g n
   >sudo n stable
-
+```
 
 
 **OpenBSD Install**
+```bash
   >pkg_add -Iv node
+```
