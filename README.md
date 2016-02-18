@@ -9,14 +9,10 @@ This is a proof of concept only
   Takes files (either through drag and drop or from syncing a folder) and automates the process
   of import then validation then renaming files then processes during ingestion.
 
-##How to approach:
-Clone > Make your Edits > Commit to Master > Sync
-
-
-##High Level Overview:
 
 ###At a glance
 *Assumptions being made: samba share's directory structure is regular, AdminDB collection(s) already exist, metadata (MODS) will eventually move to the same delivery directory as the TIF|JPG, we're __only__ talking about basic|large image processing, and __several__ other unarticulated assumptions.*
+
 
 ####A. What ibu looks for
 
@@ -119,15 +115,30 @@ Clone > Make your Edits > Commit to Master > Sync
 5. ibu will run drush ingest scripts for file pairs that pass the above validity checks.
 
 ##Task Breakdown/Signup:
-| Task                                   | Person | File |
-| -------------------------------------- | ------ | ---- |
-| Continuous Effective Technical Writing | Keila  | README.md
-| Abduction | **???** | abduction.js |
-| XML Validation | Bridger | XMLvalidation.js |
-| Image Validation| Mark | IMGvalidation.js |
-| Ingestion | Paul | ingestion.js |
-| Status | Cricket | status.js |
+| Task                                   |  Person |        File        |
+| -------------------------------------- | ------- | ------------------ |
+| Continuous Effective Technical Writing |  Keila  |      README.md     |
+|                Abduction               |   Don   |     abduction.js   |
+|             XML Validation             | Bridger |   XMLvalidation.js |
+|             Image Validation           |  Mark   |   IMGvalidation.js |
+|               Ingestion                |  Paul   |   ingestion.js     |
+|                 Status                 | Cricket |     status.js      |
 
+##Inputs & Outputs
+
+###XMLvalidation.js
+  Input: **String**  (*'/d1/delivery/MODs-file.xml'* )<br/>
+  Output: ***Array*** ( [Sucess] **OR** [Error Message 1 , Error Message 2, Error...] <hr>
+###IMGvalidation.js
+  Input: **String**  (*'/d1/delivery/Object-file.tif'* )<br/>
+  Output: ***Array*** ( [Sucess] **OR** [Error Message 1 , Error Message 2, Error...] <hr>
+###ingestion.js
+  Input: **String**  (*'/d1/delivery/'* )<br/>
+  Output: ***Array*** ( [Sucess] **OR** [Error Message 1 , Error Message 2, Error...] <hr>
+###status.js
+  Input: ***Array***  (*[Error, Error, Errors]* )<br/>
+  Output: ***Array*** ( [Full Error Message 1 , Full Error Message 2, Full Error...] 
+<hr>
 
 ##Resources
 * This is not important but useful
@@ -154,7 +165,7 @@ Clone > Make your Edits > Commit to Master > Sync
 ```bash
    > sudo pkg install node-5.5.0
    > sudo pkg install www/npm
-   > npm install 
+   > npm install
    > npm start      
 ```
 __Note:__ Runnning a `pkg search node` will let you know the latest version of the package.
