@@ -7,7 +7,7 @@
  * output:
  *  log of drush run
  */
-function ingestion() {
+function ingestion(contentmodel,parentpid,namespace,target) {
   // build command pieces
   // serveruri is the location of the drupal_home on the drupal server
   let drupalhome = '/vhosts/digital/web/collections';
