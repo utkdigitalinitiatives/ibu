@@ -8,7 +8,7 @@
  *  log of drush run
  *
  * @param directory path
- * @result $message
+ * @return $message
  *
  */
 function ingestion(contentmodel,parentpid,namespace,target) {
