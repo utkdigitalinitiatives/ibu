@@ -2,12 +2,16 @@
  * ingestion.js
  * expects:  
  * 1. path of directory
- * 2. namespace
- * 3. model
+ * 2. parentpid
+ * 3. namespace
+ * 4. model
  * output:
  *  log of drush run
  *
- * @param directory path
+ * @param target directory path
+ * @param parentpid 
+ * @param namespace
+ * @param model
  * @return $message
  *
  */
