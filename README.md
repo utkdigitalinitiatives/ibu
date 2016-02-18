@@ -131,7 +131,7 @@ This is a proof of concept only
   Output: ***Array*** ( [Sucess] **OR** [Error Message 1 , Error Message 2, Error...] <hr>
 ###IMGvalidation.js
   Input: **String**  (*'/d1/delivery/Object-file.tif'* )<br/>
-  Output: ***Array*** ( [Sucess] **OR** [Error Message 1 , Error Message 2, Error...] <hr>
+  Output: ***Array*** ( [Sucess] **OR** [Collection, Filename, Error Message 1 , Error Message 2, Error...] <hr>
 ###ingestion.js
   Input: **String**  (*'/d1/delivery/'* ) the complete target directory<br/>
   Input: **String**  (*'collections:heilman'* ) the collection parent pid<br/>
