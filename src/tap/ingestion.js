@@ -44,10 +44,10 @@ function ingestion(target,parentpid,namespace,model) {
     });
   }// end if
   // exec second drush command
-  var exec = require('child_process').exec;
-  var cmd = 'drush -r '.drupalhome.'-v -u=1 --uri='.serveruri.' ibsp --content_models='.contentmodel.' --type=directory --parent='.parentpid.' --namespace='.namespace.' --target='target;
+  var exec2 = require('child_process').exec;
+  var cmd2 = 'drush -r '.drupalhome.'-v -u=1 --uri='.serveruri.' islandora_batch_ingest';
   if (target!='') {
-    exec(cmd, function(error, stdout, stderr) {
+    exec2(cmd2, function(error, stdout, stderr) {
      // command output is in stdout
      console.log(stdout);
      $message = 'ingest success';
