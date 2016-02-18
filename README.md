@@ -9,13 +9,23 @@ This is a proof of concept only
   Takes files (either through drag and drop or from syncing a folder) and automates the process
   of import then validation then renaming files then processes during ingestion.
 
-##How to approach:
-Clone > Make your Edits > Commit to Master > Sync
-
 
 ##High Level Overview:
 
 ###At a glance
+```text
+If './delivery' exist, check the number of images > the number of MODS.
+	
+Create 2 arrays of full file paths for both Image and xml
+	IMG[]
+	XML[]
+	
+Send each elliment in the Image array to IMGvalidation 
+Send each elliment in the XML array to XMLvalidation
+
+If error(s), send Image/XML error arrays to Status.js
+```
+
 *Assumptions being made: samba share's directory structure is regular, AdminDB collection(s) already exist, metadata (MODS) will eventually move to the same delivery directory as the TIF|JPG, we're __only__ talking about basic|large image processing, and __several__ other unarticulated assumptions.*
 
 ####A. What ibu looks for
