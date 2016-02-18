@@ -11,15 +11,20 @@
  * @param target directory path
  * @param parentpid 
  * @param namespace
- * @param contentmodel
+ * @param model
  * @return $message
  *
  */
-function ingestion(target,parentpid,namespace,contentmodel) {
+function ingestion(target,parentpid,namespace,model) {
   // build command pieces
   // serveruri is the location of the drupal_home on the drupal server
   let drupalhome = '/vhosts/digital/web/collections';
   let serveruri = 'http://dlwork.lib.utk.edu/dev/';
+  let parentpid = '';
+  // namespace
+  let namespace = '';
+  // target is the local directory holding the ingest files
+  let target = '';
   var $message = 'ingest did not happen';
   var contentmodel = '';
   if ((model)&& (model==='basic')) {
@@ -28,11 +33,6 @@ function ingestion(target,parentpid,namespace,contentmodel) {
   if ((model)&&(model==='large')) {
     contentmodel = 'islandora:sp_Large_image';
   }
-  let parentpid = '';
-  // namespace
-  let namespace = '';
-  // target is the local directory holding the ingest files
-  let target = '';
   // execute drush command
   var exec = require('child_process').exec;
   var cmd = 'drush -r '.drupalhome.'-v -u=1 --uri='.serveruri.' ibsp --content_models='.contentmodel.' --type=directory --parent='.parentpid.' --namespace='.namespace.' --target='target;
