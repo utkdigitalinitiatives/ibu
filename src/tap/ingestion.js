@@ -6,6 +6,10 @@
  * 3. model
  * output:
  *  log of drush run
+ *
+ * @param directory path
+ * @result $message
+ *
  */
 function ingestion(contentmodel,parentpid,namespace,target) {
   // build command pieces
