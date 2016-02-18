@@ -10,6 +10,7 @@
  // 
 // build command pieces
 // serveruri is the location of the drupal_home on the drupal server
+let drupalhome = '/vhosts/digital/web/collections';
 let serveruri = 'http://dlwork.lib.utk.edu/dev/';
 var contentmodel = '';
  if ((model)&& (model==='basic')) {
@@ -25,7 +26,7 @@ let namespace = '';
 let target = '';
 // execute drush command
 var exec = require('child_process').exec;
-var cmd = 'drush -v -u=1 --uri='.serveruri.' ibsp --content_models='.contentmodel.' --type=directory --parent='.parentpid.' --namespace='.namespace.' --target='target;
+var cmd = 'drush -r '.drupalhome.'-v -u=1 --uri='.serveruri.' ibsp --content_models='.contentmodel.' --type=directory --parent='.parentpid.' --namespace='.namespace.' --target='target;
 
 exec(cmd, function(error, stdout, stderr) {
   // command output is in stdout
