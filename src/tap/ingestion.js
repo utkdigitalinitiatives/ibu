@@ -25,7 +25,7 @@ let namespace = '';
 let target = '';
 // execute drush command
 var exec = require('child_process').exec;
-var cmd = 'drush -v --user=user --uri='.serveruri.' ibsp --content_models='.contentmodel.' --type=directory --parent='.parentpid.' --namespace='.namespace.' --target=-v --user=user --uri=http://localhost ibsp --content_models=islandora:sp_basic_image --type=directory --parent=collections:sanborn --namespace=sanborn --target='target;
+var cmd = 'drush -v -u=1 --uri='.serveruri.' ibsp --content_models='.contentmodel.' --type=directory --parent='.parentpid.' --namespace='.namespace.' --target='target;
 
 exec(cmd, function(error, stdout, stderr) {
   // command output is in stdout
