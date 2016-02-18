@@ -33,7 +33,17 @@ function ingestion(target,parentpid,namespace,model) {
   if ((model)&&(model==='large')) {
     contentmodel = 'islandora:sp_Large_image';
   }
-  // execute drush command
+  // execute first drush command 
+  var exec = require('child_process').exec;
+  var cmd = 'drush -r '.drupalhome.'-v -u=1 --uri='.serveruri.' ibsp --content_models='.contentmodel.' --type=directory --parent='.parentpid.' --namespace='.namespace.' --target='target;
+  if (target!='') {
+    exec(cmd, function(error, stdout, stderr) {
+     // command output is in stdout
+     console.log(stdout);
+     $message = 'ingest success';
+    });
+  }// end if
+  // exec second drush command
   var exec = require('child_process').exec;
   var cmd = 'drush -r '.drupalhome.'-v -u=1 --uri='.serveruri.' ibsp --content_models='.contentmodel.' --type=directory --parent='.parentpid.' --namespace='.namespace.' --target='target;
   if (target!='') {
