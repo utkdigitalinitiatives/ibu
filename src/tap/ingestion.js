@@ -11,7 +11,13 @@
 // build command pieces
 // serveruri is the location of the drupal_home on the drupal server
 let serveruri = 'http://dlwork.lib.utk.edu/dev/';
-let contentmodel = 'islandora:sp_basic_image';
+var contentmodel = '';
+ if ((model)&& (model==='basic')) {
+   contentmodel = 'islandora:sp_basic_image';
+ }   
+ if ((model)&&(model==='large')) {
+   contentmodel = 'islandora:sp_Large_image';
+ }
 let parentpid = '';
 // namespace
 let namespace = '';
