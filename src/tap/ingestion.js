@@ -16,7 +16,7 @@ function ingestion(contentmodel,parentpid,namespace,target) {
   // serveruri is the location of the drupal_home on the drupal server
   let drupalhome = '/vhosts/digital/web/collections';
   let serveruri = 'http://dlwork.lib.utk.edu/dev/';
-  var $message = '';
+  var $message = 'ingest did not happen';
   var contentmodel = '';
   if ((model)&& (model==='basic')) {
     contentmodel = 'islandora:sp_basic_image';
@@ -29,8 +29,6 @@ function ingestion(contentmodel,parentpid,namespace,target) {
   let namespace = '';
   // target is the local directory holding the ingest files
   let target = '';
-  // set default message
-  $message = 'ingest did not happen';
   // execute drush command
   var exec = require('child_process').exec;
   var cmd = 'drush -r '.drupalhome.'-v -u=1 --uri='.serveruri.' ibsp --content_models='.contentmodel.' --type=directory --parent='.parentpid.' --namespace='.namespace.' --target='target;
