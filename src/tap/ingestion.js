@@ -7,7 +7,7 @@
  * output:
  *  log of drush run
  */
- // 
+function ingestion() {
 // build command pieces
 // serveruri is the location of the drupal_home on the drupal server
 let drupalhome = '/vhosts/digital/web/collections';
@@ -32,4 +32,5 @@ exec(cmd, function(error, stdout, stderr) {
   // command output is in stdout
   console.log(error);
 });
-}
+}// end if
+}// end function
