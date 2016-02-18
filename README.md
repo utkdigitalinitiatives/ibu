@@ -136,6 +136,7 @@ This is a proof of concept only
   Input: **String**  (*'/d1/delivery/'* ) the complete target directory<br/>
   Input: **String**  (*'collections:heilman'* ) the collection parent pid<br/>
   Input: **String**  (*'heilman'* ) the namespace of the collection<br/> 
+  Input: **String**  (*'basic'* ) the content model - either "basic" or "large"<br/>
   Output: ***Array*** ( [Sucess] **OR** [Error Message 1 , Error Message 2, Error...] <hr>
 ###status.js
   Input: ***Array***  (*[Error, Error, Errors]* )<br/>
