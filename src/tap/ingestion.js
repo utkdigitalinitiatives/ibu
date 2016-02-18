@@ -11,11 +11,11 @@
  * @param target directory path
  * @param parentpid 
  * @param namespace
- * @param model
+ * @param contentmodel
  * @return $message
  *
  */
-function ingestion(contentmodel,parentpid,namespace,target) {
+function ingestion(target,parentpid,namespace,contentmodel) {
   // build command pieces
   // serveruri is the location of the drupal_home on the drupal server
   let drupalhome = '/vhosts/digital/web/collections';
