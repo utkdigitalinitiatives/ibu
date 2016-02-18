@@ -27,8 +27,9 @@ let target = '';
 // execute drush command
 var exec = require('child_process').exec;
 var cmd = 'drush -r '.drupalhome.'-v -u=1 --uri='.serveruri.' ibsp --content_models='.contentmodel.' --type=directory --parent='.parentpid.' --namespace='.namespace.' --target='target;
-
+if (target!='') {
 exec(cmd, function(error, stdout, stderr) {
   // command output is in stdout
   console.log(error);
 });
+}
