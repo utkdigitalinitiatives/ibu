@@ -1,8 +1,8 @@
-import status from './status';
-import abduction from './abduction';
-import imgvalid from './IMGvalidation';
-import xmlvalid from './XMLvalidation';
-import ingest from './ingestion';
+// import status from './status';
+// import abduction from './abduction';
+// import imgvalid from './IMGvalidation';
+// import xmlvalid from './XMLvalidation';
+// import ingest from './ingestion';
 
 /**
  * [someFunction description]
@@ -10,19 +10,19 @@ import ingest from './ingestion';
  */
 
 let fileList = [];
-abduction(fileList);
+// abduction(fileList);
 
 //imgvalid();
 //xmlvalid();
 
-if(status==='sucess'){
-  ingest();
-
-  function cleanup(){
-     // Remove Files from original folder
-   };
-};
-
+// if(status==='sucess'){
+//   ingest();
+//
+//   function cleanup(){
+//      // Remove Files from original folder
+//    };
+// };
+//
 
 
 function controller(input) {
