@@ -1,32 +1,51 @@
-// import status from './status';
-// import abduction from './abduction';
+//import status from './status';
+import abduction from './abduction';
 // import imgvalid from './IMGvalidation';
 // import xmlvalid from './XMLvalidation';
 // import ingest from './ingestion';
 
 /**
- * [someFunction description]
- * @return {[type]} [description]
+ * [abduction Search for './delivery' and Get Complete File List]
+ * @return {[String]} [Array of Strings]
  */
+// Developement testing
 
 let fileList = [];
-// abduction(fileList);
 
-//imgvalid();
-//xmlvalid();
+function controller() {
+  console.log('controller fired');
 
-// if(status==='sucess'){
-//   ingest();
-//
-//   function cleanup(){
-//      // Remove Files from original folder
-//    };
-// };
-//
+  fileList = abduction();
 
+  let imgStatus = imgvalid(fileList);
+  let xmlStatus = xmlvalid(fileList);
+  // status();
 
-function controller(input) {
-  console.log('controller '+input);
+  if(imgStatus[2]!='success'||xmlStatus[2]!='success'){
+    console.log('Failed? '+imgStatus[2]);
+  }else if(imgStatus[2]==='success'&&xmlStatus[2]==='success'){
+    console.log('Success! '+'['+imgStatus[2]+', '+xmlStatus[2]+']');
+  }else{
+    console.log('What just happened? Is this even possible?');
+  }
+};
+
+function imgvalid(input){
+  console.log('IMAGES: '+input);
+  let results = ['fileName', 'fileType', 'success'];
+  return results;
+};
+
+function xmlvalid(input){
+  console.log('XML: '+input);
+  let results = ['fileName', 'fileType', 'success'];
+  return results;
+};
+
+function status(input){
+  console.log('Status: '+input);
+  let results = ['fileName', 'error message is as follows', 'what to do with this'];
+  return results;
 };
 
 export default controller;
