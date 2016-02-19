@@ -17,14 +17,14 @@ This is a proof of concept only
 
 ###At a glance
 ```text
-If './delivery' exist, check the number of images > the number of MODS.
-	
+If './delivery' exist, check that the number of images equals the number of MODS.
+
 Create 2 arrays of full file paths for both Image and xml
 	IMG[]
 	XML[]
-	
-Send each elliment in the Image array to IMGvalidation 
-Send each elliment in the XML array to XMLvalidation
+
+Send each element in the Image array to IMGvalidation
+Send each element in the XML array to XMLvalidation
 
 If error(s), send Image/XML error arrays to Status.js
 ```
@@ -153,12 +153,12 @@ If error(s), send Image/XML error arrays to Status.js
 ###ingestion.js
   Input: **String**  (*'/d1/delivery/'* ) the complete target directory<br/>
   Input: **String**  (*'collections:heilman'* ) the collection parent pid<br/>
-  Input: **String**  (*'heilman'* ) the namespace of the collection<br/> 
+  Input: **String**  (*'heilman'* ) the namespace of the collection<br/>
   Input: **String**  (*'basic'* ) the content model - either "basic" or "large"<br/>
   Output: ***Array*** ( [Sucess] **OR** [Error Message 1 , Error Message 2, Error...] <hr>
 ###status.js
   Input: ***Array***  (*[Error, Error, Errors]* )<br/>
-  Output: ***Array*** ( [Full Error Message 1 , Full Error Message 2, Full Error...] 
+  Output: ***Array*** ( [Full Error Message 1 , Full Error Message 2, Full Error...]
 <hr>
 
 ##Resources
