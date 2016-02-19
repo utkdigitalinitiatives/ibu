@@ -8,6 +8,7 @@ let recursive = require('recursive-readdir');
  */
 
 let fileLocation = 'build/';
+let test = './something/delivery';
 
 function abduction(input) {
   recursive(fileLocation, ['ignore.cs', '*.js', '*.jade'], function (err, files) {
