@@ -1,3 +1,10 @@
+/**
+ * [IMGvalidation evaluates a large image and ensures it meets standards set here: https://wiki.lib.utk.edu/pages/viewpage.action?pageId=11927581]
+ * @param  {[String]} input [Image filename]
+ * @return {[Array]}       [Success] or [Collection, Filename, Error 1, Error 2, Error 3, ...]
+ *
+ */
+
 var exif = require('exiftool');
 var fs   = require('fs');
 var status = [];
