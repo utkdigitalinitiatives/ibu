@@ -21,10 +21,14 @@ function ingestion(target,parentpid,namespace,model) {
   let drupalhome = '/vhosts/digital/web/collections';
   let serveruri = 'http://dlwork.lib.utk.edu/dev/';
   let parentpid = '';
+  console.log('parentpid = '.parentpid.'\n');
   // namespace
   let namespace = '';
+  console.log('namespace = '.namespace.'\n');
   // target is the local directory holding the ingest files
   let target = '';
+  console.log('target = '.target.'\n');
+
   var $message = 'ingest did not happen';
   var contentmodel = '';
   if ((model)&& (model==='basic')) {
@@ -33,6 +37,7 @@ function ingestion(target,parentpid,namespace,model) {
   if ((model)&&(model==='large')) {
     contentmodel = 'islandora:sp_Large_image';
   }
+  console.log('model = '.model.'\n');
   // execute first drush command 
   var exec = require('child_process').exec;
   var cmd = 'drush -r '.drupalhome.'-v -u=1 --uri='.serveruri.' ibsp --content_models='.contentmodel.' --type=directory --parent='.parentpid.' --namespace='.namespace.' --target='target;
@@ -44,6 +49,10 @@ function ingestion(target,parentpid,namespace,model) {
      status.push("$message");
     });
   }// end if
+  else {
+      console.log('parameters for first command missing\n');
+      $message = 'parameters for first command missing';
+  }
   // exec second drush command
   //var exec2 = require('child_process').exec;
   var cmd2 = 'drush -r '.drupalhome.'-v -u=1 --uri='.serveruri.' islandora_batch_ingest';
