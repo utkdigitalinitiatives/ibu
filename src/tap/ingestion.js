@@ -40,7 +40,7 @@ function ingestion(target,parentpid,namespace,model) {
     exec(cmd, function(error, stdout, stderr) {
      // command output is in stdout
      console.log(stdout);
-     $message = 'ingest success';
+     $message = 'ingest prep drush command success';
     });
   }// end if
   // exec second drush command
@@ -50,7 +50,7 @@ function ingestion(target,parentpid,namespace,model) {
     exec2(cmd2, function(error, stdout, stderr) {
      // command output is in stdout
      console.log(stdout);
-     $message = 'ingest success';
+     $message = 'ingest drush command success';
     });
   }// end if
   return $message;
