@@ -41,7 +41,7 @@ function ingestion(target,parentpid,namespace,model) {
   // execute first drush command 
   var exec = require('child_process').exec;
   var cmd = 'drush -r '.drupalhome.'-v -u=1 --uri='.serveruri.' ibsp --content_models='.contentmodel.' --type=directory --parent='.parentpid.' --namespace='.namespace.' --target='target;
-  if (target!='') {
+  if ((target!='')&&(contentmodel!='')&&(parentpid!'')&&(namespace!'')) {
     exec(cmd, function(error, stdout, stderr) {
      // command output is in stdout
      //console.log(stdout);
@@ -52,6 +52,7 @@ function ingestion(target,parentpid,namespace,model) {
   else {
       console.log('parameters for first command missing\n');
       $message = 'parameters for first command missing';
+      return $message;
   }
   // exec second drush command
   //var exec2 = require('child_process').exec;
