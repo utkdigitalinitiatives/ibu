@@ -5,6 +5,8 @@
  * 2. parentpid
  * 3. namespace
  * 4. model
+ *   (note: basic image,large image,audio,video, collection, pdf, binary -- all require
+ * the "ibsp" in the command string, book requires the "ibbp" part in the drush command.)
  * output:
  *  log of drush run
  * errors:
