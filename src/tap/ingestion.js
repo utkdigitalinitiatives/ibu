@@ -39,8 +39,9 @@ function ingestion(target,parentpid,namespace,model) {
   if (target!='') {
     exec(cmd, function(error, stdout, stderr) {
      // command output is in stdout
-     console.log(stdout);
+     //console.log(stdout);
      $message = 'ingest prep drush command success';
+     status.push("$message");
     });
   }// end if
   // exec second drush command
@@ -51,6 +52,7 @@ function ingestion(target,parentpid,namespace,model) {
      // command output is in stdout
      console.log(stdout);
      $message = 'ingest drush command success';
+     status.push("$message");
     });
   }// end if
   return $message;
