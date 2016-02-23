@@ -79,7 +79,7 @@ function readExif(metadata) {
       }
       // Is it 400 PPI
       if (metadata['xResolution'] != '400' && metadata['yResolution'] != '400') {
-        status.push("Not 400 PPI")
+        status.push("Incorrect PPI")
       }
       // Is it 16 Bit Depth
       if (metadata['bitsPerSample'] == '8 8 8') {
@@ -97,7 +97,7 @@ function readExif(metadata) {
       }
       // Is it 400 PPI
       if (metadata['xResolution'] != '400' && metadata['yResolution'] != '400') {
-        status.push("Not 400 PPI")
+        status.push("Incorrect PPI")
       }
       // Is it 16 Bit Depth
       if (metadata['bitsPerSample'] == '8 8 8') {
@@ -110,7 +110,15 @@ function readExif(metadata) {
       break;
     //Test for Maps, Drawings, and Oversize Materials
     case 'Maps, Drawings, Over-sized Original':
+      //Is it a TIFF or JP2
+      if (metadata['format'] != 'image/tiff' || metadata['fileType'] != 'TIFF' || metadata['fileTypeExtension'] != 'tif' || metadata['fileTypeExtension'] != 'jp2') {
+        status.push("Incorrect file format")
+      }
       break;
+      // Is it 400 PPI
+      if (metadata['xResolution'] != '600' && metadata['yResolution'] != '600') {
+        status.push("Not 600 PPI")
+      }
     // Test for Photographs
     case 'Photographs':
       break;
