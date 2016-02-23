@@ -8,6 +8,10 @@
 var exif = require('exiftool');
 var fs   = require('fs');
 var status = [];
+//var filename = './test_images/freshman-record_1986_0001.tif';
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/ibu');
+var conn = mongoose.connection;
 
 function fileRead(err, data){
   var message;
@@ -39,7 +43,10 @@ function postResults(x, data) {
   }
 }
 
-function postStatus(x){
+function postStatus(x, y){
+  var mongoDoc = {"file":filename, "collection":y,"IMGerrors":x};
+  console.log(mongoDoc);
+  conn.collection('ibuerrors').insert(mongoDoc);
   return x;
 }
 
@@ -55,7 +62,14 @@ function testExif(err, metadata){
 }
 
 function readExif(metadata) {
-  switch(metadata['description']) {
+  var collection;
+  if(metadata['keywords']){
+    collection = metadata['keywords'];
+  }
+  else {
+    collection = "No collection";
+  }
+    switch(metadata['description']) {
     // Test for Book Imaging
     case 'Book Imaging':
       // Is it a TIFF or a JP2
@@ -111,12 +125,16 @@ function readExif(metadata) {
   }
   if (status.length >= 1){
     status.splice(0, 0, metadata['keywords'], filename);
-    postStatus(status);
+    postStatus(status, collection);
   }
   if (status.length == 0){
     status.push('Success');
-    postStatus(status);
+    postStatus(status, collection);
   }
 }
 
-fs.readFile(filename, fileRead);
+function startProcessing (file, callback){
+  fs.readFile(file, callback);
+}
+
+startProcessing(filename, fileRead);
