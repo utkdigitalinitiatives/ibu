@@ -23,6 +23,15 @@
  * @return $message
  *
  */
+// for testing 
+//
+var param = process.argv;
+console.log('hi');
+target = String(filename[2]);
+target = String(filename[3]);
+target = String(filename[4]);
+target = String(filename[5]);
+
 function ingestion(target,parentpid,namespace,model) {
   // build command pieces
   // serveruri is the location of the drupal_home on the drupal server
@@ -36,7 +45,11 @@ function ingestion(target,parentpid,namespace,model) {
   // target is the local directory holding the ingest files
   let target = '';
   console.log('target = '.target.'\n');
-
+  // make mongo connection
+  var mongoose = require('mongoose');
+  mongoose.connect('mongodb://localhost/ibu');
+  var conn = mongoose.connection;
+  //
   var $message = 'ingest did not happen';
   var contentmodel = '';
   if ((model)&& (model==='basic')) {
@@ -75,4 +88,5 @@ function ingestion(target,parentpid,namespace,model) {
   }// end if
   return $message;
 }// end function
-export default ingestion;
+//export default ingestion;
+ingestion();
