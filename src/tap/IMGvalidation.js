@@ -8,7 +8,8 @@
 var exif = require('exiftool');
 var fs   = require('fs');
 var status = [];
-//var filename = './test_images/freshman-record_1986_0001.tif';
+var filename = process.argv;
+filename = String(filename[2]);
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/ibu');
 var conn = mongoose.connection;
