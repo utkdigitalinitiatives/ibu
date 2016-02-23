@@ -28,9 +28,9 @@
 var param = process.argv;
 console.log('hi');
 target = String(filename[2]);
-target = String(filename[3]);
-target = String(filename[4]);
-target = String(filename[5]);
+parentpid = String(filename[3]);
+namespace = String(filename[4]);
+model = String(filename[5]);
 
 function ingestion(target,parentpid,namespace,model) {
   // build command pieces
