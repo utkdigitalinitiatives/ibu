@@ -75,11 +75,13 @@ function ingestion(target,parentpid,namespace,model) {
        console.log($message);
        return $message;
      }
-     $message = 'ingest prep drush command success';
-     console.log($message);
-     status.push("$message");
-     return $message;
-    });
+     else {
+       $message = 'ingest prep drush command success';
+       console.log($message);
+       status.push("$message");
+       return $message;
+     }//end else
+    });// end exec
   }// end if
   else {
      console.log('parameters for first command missing, ingest not started.\n');
@@ -96,7 +98,8 @@ function ingestion(target,parentpid,namespace,model) {
      // test command log for success indication
      // test for substr in stdout
      $message = 'ingest drush command success';
-     status.push("$message");
+     console.log($message);
+     status.push($message);
     });
   }// end if
   return $message;
