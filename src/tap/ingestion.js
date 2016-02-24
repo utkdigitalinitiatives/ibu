@@ -39,7 +39,7 @@ function ingestion(target,parentpid,namespace,model) {
   console.log('drupalhome = '.drupalhome);
   var serveruri = 'http://dlwork.lib.utk.edu/dev/';
   console.log('serveruri = '.serveruri);
-  console.log('parentpid = '.parentpid.'\n');
+  console.log('parentpid = '.parentpid);
   // namespace
   console.log('namespace = '.namespace.'\n');
   // target is the local directory holding the ingest files
