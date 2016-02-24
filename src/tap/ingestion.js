@@ -63,6 +63,7 @@ function ingestion(target,parentpid,namespace,model) {
   // execute first drush command 
   var exec = require('child_process').exec;
   var cmd = 'drush -r '.drupalhome.'-v -u=1 --uri='.serveruri.' ibsp --content_models='.contentmodel.' --type=directory --parent='.parentpid.' --namespace='.namespace.' --target='target;
+  console.log('cmd='.cmd);
   if ((target!='')&&(contentmodel!='')&&(parentpid!='')&&(namespace!='')) {
     exec(cmd, function(error, stdout, stderr) {
      // command output is in stdout
