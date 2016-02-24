@@ -1,7 +1,7 @@
 /**
  * ingestion.js
  * expects:  
- * 1. path of directory
+ * 1. path of directory (target)
  * 2. parentpid
  * 3. namespace
  * 4. model
