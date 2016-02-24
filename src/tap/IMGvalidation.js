@@ -86,7 +86,7 @@ function readExif(metadata) {
         status.push("More than 16 Bit Depth")
       }
       // Is it Color
-      if (metadata['colorSpaceData'] == 'RGB') {
+      if (metadata['colorSpaceData'] != 'RGB') {
         status.push("Not color")
       }
       break;
@@ -104,7 +104,7 @@ function readExif(metadata) {
         status.push("More than 16 Bit Depth")
       }
       // Is it Color
-      if (metadata['colorSpaceData'] == 'RGB') {
+      if (metadata['colorSpaceData'] != 'RGB') {
         status.push("Not color")
       }
       break;
@@ -124,6 +124,10 @@ function readExif(metadata) {
       if ((metadata['format'] != 'image/tiff') && (metadata['fileType'] != 'TIFF') && (metadata['fileTypeExtension'] != 'tif')) {
         status.push("Incorrect file format")
       }
+      // Is it Color
+      if (metadata['colorSpaceData'] != 'RGB') {
+        status.push("Not color")
+      }
       break;
     // Test for Small Negatives
     case 'Photographic Still Film up to 4" x 5"':
@@ -141,6 +145,10 @@ function readExif(metadata) {
     case 'Reproduction of Artwork':
       if ((metadata['format'] != 'image/tiff') && (metadata['fileType'] != 'TIFF') && (metadata['fileTypeExtension'] != 'tif')) {
         status.push("Incorrect file format")
+      }
+      // Is it Color
+      if (metadata['colorSpaceData'] != 'RGB') {
+        status.push("Not color")
       }
       break;
   }
