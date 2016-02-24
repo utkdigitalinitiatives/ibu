@@ -64,7 +64,7 @@ function ingestion(target,parentpid,namespace,model) {
   if ((target!='')&&(contentmodel!='')&&(parentpid!='')&&(namespace!='')) {
     exec(cmd, function(error, stdout, stderr) {
      // command output is in stdout
-     //console.log(stdout);
+     console.log(stdout);
      // test command log for success indication
      // test for substr in stdout
      $message = 'ingest prep drush command success';
@@ -83,6 +83,8 @@ function ingestion(target,parentpid,namespace,model) {
     exec(cmd2, function(error, stdout, stderr) {
      // command output is in stdout
      console.log(stdout);
+     // test command log for success indication
+     // test for substr in stdout
      $message = 'ingest drush command success';
      status.push("$message");
     });
