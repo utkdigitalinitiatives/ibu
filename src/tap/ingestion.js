@@ -36,14 +36,14 @@ function ingestion(target,parentpid,namespace,model) {
   // build command pieces
   // serveruri is the location of the drupal_home on the drupal server
   var drupalhome = '/vhosts/dlwork/web/collections';
-  console.log('drupalhome = '.drupalhome);
+  console.log('drupalhome = ',drupalhome);
   var serveruri = 'http://dlwork.lib.utk.edu/dev/';
-  console.log('serveruri = '.serveruri);
-  console.log('parentpid = '.parentpid);
+  console.log('serveruri = ',serveruri);
+  console.log('parentpid = ',parentpid);
   // namespace
-  console.log('namespace = '.namespace);
+  console.log('namespace = ',namespace);
   // target is the local directory holding the ingest files
-  console.log('target = '.target);
+  console.log('target = ',target);
   // make mongo connection
   /*
   var mongoose = require('mongoose');
@@ -59,11 +59,11 @@ function ingestion(target,parentpid,namespace,model) {
   if ((model)&&(model==='large')) {
     contentmodel = 'islandora:sp_Large_image';
   }
-  console.log('model = '.model);
+  console.log('model = ',model);
   // execute first drush command 
   var exec = require('child_process').exec;
-  var cmd = 'drush -r '.drupalhome.'-v -u=1 --uri='.serveruri.' ibsp --content_models='.contentmodel.' --type=directory --parent='.parentpid.' --namespace='.namespace.' --target='.target;
-  console.log('cmd='.cmd);
+  var cmd = 'drush -r ',drupalhome,'-v -u=1 --uri=',serveruri,' ibsp --content_models=',contentmodel,' --type=directory --parent=',parentpid,' --namespace=',namespace,' --target=',target;
+  console.log('cmd=',cmd);
   if ((target!='')&&(contentmodel!='')&&(parentpid!='')&&(namespace!='')) {
     exec(cmd, function(error, stdout, stderr) {
      // command output is in stdout
@@ -90,8 +90,8 @@ function ingestion(target,parentpid,namespace,model) {
      return $message;
   }
   // exec second drush command
-  var cmd2 = 'drush -r '.drupalhome.'-v -u=1 --uri='.serveruri.' islandora_batch_ingest';
-  console.log('cmd2='.cmd2);
+  var cmd2 = 'drush -r ',drupalhome,'-v -u=1 --uri=',serveruri,' islandora_batch_ingest';
+  console.log('cmd2=',cmd2);
   if ($message = 'ingest prep drush command success') { 
     exec(cmd2, function(error, stdout, stderr) {
      // command output is in stdout
