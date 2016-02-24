@@ -43,9 +43,11 @@ function ingestion(target,parentpid,namespace,model) {
   // target is the local directory holding the ingest files
   console.log('target = '.target.'\n');
   // make mongo connection
+  /*
   var mongoose = require('mongoose');
   mongoose.connect('mongodb://localhost/ibu');
   var conn = mongoose.connection;
+  */
   //
   var $message = 'ingest did not happen';
   var contentmodel = '';
