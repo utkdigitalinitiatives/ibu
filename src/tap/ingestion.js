@@ -27,10 +27,10 @@
 //
 var param = process.argv;
 console.log('hi');
-target = String(filename[2]);
-parentpid = String(filename[3]);
-namespace = String(filename[4]);
-model = String(filename[5]);
+target = String(param[2]);
+parentpid = String(param[3]);
+namespace = String(param[4]);
+model = String(param[5]);
 
 function ingestion(target,parentpid,namespace,model) {
   // build command pieces
