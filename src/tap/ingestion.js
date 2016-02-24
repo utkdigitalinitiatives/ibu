@@ -27,28 +27,29 @@
 //
 var param = process.argv;
 console.log('hi');
-target = String(filename[2]);
-parentpid = String(filename[3]);
-namespace = String(filename[4]);
-model = String(filename[5]);
+target = String(param[2]);
+parentpid = String(param[3]);
+namespace = String(param[4]);
+model = String(param[5]);
 
 function ingestion(target,parentpid,namespace,model) {
   // build command pieces
   // serveruri is the location of the drupal_home on the drupal server
-  let drupalhome = '/vhosts/digital/web/collections';
-  let serveruri = 'http://dlwork.lib.utk.edu/dev/';
-  let parentpid = '';
-  console.log('parentpid = '.parentpid.'\n');
+  var drupalhome = '/vhosts/dlwork/web/collections';
+  console.log('drupalhome = '.drupalhome);
+  var serveruri = 'http://dlwork.lib.utk.edu/dev/';
+  console.log('serveruri = '.serveruri);
+  console.log('parentpid = '.parentpid);
   // namespace
-  let namespace = '';
-  console.log('namespace = '.namespace.'\n');
+  console.log('namespace = '.namespace);
   // target is the local directory holding the ingest files
-  let target = '';
-  console.log('target = '.target.'\n');
+  console.log('target = '.target);
   // make mongo connection
+  /*
   var mongoose = require('mongoose');
   mongoose.connect('mongodb://localhost/ibu');
   var conn = mongoose.connection;
+  */
   //
   var $message = 'ingest did not happen';
   var contentmodel = '';
@@ -58,30 +59,35 @@ function ingestion(target,parentpid,namespace,model) {
   if ((model)&&(model==='large')) {
     contentmodel = 'islandora:sp_Large_image';
   }
-  console.log('model = '.model.'\n');
+  console.log('model = '.model);
   // execute first drush command 
   var exec = require('child_process').exec;
-  var cmd = 'drush -r '.drupalhome.'-v -u=1 --uri='.serveruri.' ibsp --content_models='.contentmodel.' --type=directory --parent='.parentpid.' --namespace='.namespace.' --target='target;
+  var cmd = 'drush -r '.drupalhome.'-v -u=1 --uri='.serveruri.' ibsp --content_models='.contentmodel.' --type=directory --parent='.parentpid.' --namespace='.namespace.' --target='.target;
+  console.log('cmd='.cmd);
   if ((target!='')&&(contentmodel!='')&&(parentpid!='')&&(namespace!='')) {
     exec(cmd, function(error, stdout, stderr) {
      // command output is in stdout
-     //console.log(stdout);
+     console.log(stdout);
+     // test command log for success indication
+     // test for substr in stdout
      $message = 'ingest prep drush command success';
      status.push("$message");
     });
   }// end if
   else {
-      console.log('parameters for first command missing\n');
-      $message = 'parameters for first command missing';
+      console.log('parameters for first command missing, ingest not started.\n');
+      $message = 'parameters for first command missing, ingest not started.';
       return $message;
   }
   // exec second drush command
-  //var exec2 = require('child_process').exec;
   var cmd2 = 'drush -r '.drupalhome.'-v -u=1 --uri='.serveruri.' islandora_batch_ingest';
+  console.log('cmd2='.cmd2);
   if ($message = 'ingest prep drush command success') { 
     exec(cmd2, function(error, stdout, stderr) {
      // command output is in stdout
      console.log(stdout);
+     // test command log for success indication
+     // test for substr in stdout
      $message = 'ingest drush command success';
      status.push("$message");
     });
