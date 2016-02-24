@@ -5,19 +5,47 @@
  *
  */
 
-/**
- * a list of paths for vars ([O)ptional|(R)equired]-[(Y)es|(N)o Repeatable?])
- *
- * abstract = modsIn["mods"]["abstract"] (O-Y)
- * coll = modsIn["mods"]["relatedItem"]["displayLabel"]["Collection"]["type"]["host"]["titleInfo"]["title"](R-N; Req'd if available)
- * collIdentifier = modsIn["mods"]["relatedItem"]["displayLabel"]["Collection"]["type"]["host"]["identifier"](R-N; Req'd if available)
- * dateCreated = modsIn["mods"]["originInfo"]["dateCreated"](R-R)
- * dateCreatedKey = modsIn["mods"]["originInfo"]["dateCreated"]["encoding"]["edtf"]["keyDate"]["yes"]["point"]["start"](R-N)
- * dateQualifier = modsIn["mods"]["originInfo"]["dateCreated"]["keyDate"]["yes"]["qualifier"]["..."](R-N; Req'd if available)
- * datePublication = modsIn["mods"]["originInfo"]["dateIssued"](O-N)
- * digitalOrigin = modsIn["mods"]["physicalDescription"]["digitalOrigin"](R-N)
- * extent = modsIn["mods"]["physicalDescription"]["extent"](O-N)
- * identifierFile = modsIn["mods"]["identifier"]["type"]["file"](R-Y)
- * identifierLocal = modsIn["mods"]["identifier"]["type"]["local"]...
- *
- */
+var fs = require('fs');
+var parser = require('xml2json');
+var status = [];
+var filename = process.argv;
+filename = String(filename[2]);
+
+startProcessing(filename, fileRead);
+
+function startProcessing(file, callback) {
+  fs.readFile(file, 'utf8', callback);
+}
+
+function fileRead(err, data) {
+  var message;
+  if (err) {
+    message = 'Cannot read file';
+  }
+  else {
+    message = 'Successfully read file';
+  }
+  console.log('message :' + message);
+  postResults(message, data);
+}
+
+function postResults(x, data) {
+  switch(x) {
+    case 'Cannot read file':
+      console.log('CANNOT');
+      break;
+    case 'Successfully read file':
+      console.log('READ');
+      console.log('typeof data: ' + typeof data);
+      // data is still XML at this point
+      //console.log(data);
+      //readMODS(data);
+      return data;
+      break;
+  }
+}
+
+//var dataS = parser.toJson(data);
+//console.log('typeof dataS: ' + dataS);
+//console.log('dataS: ' + dataS);
+
