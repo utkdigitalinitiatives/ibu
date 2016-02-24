@@ -106,4 +106,5 @@ function ingestion(target,parentpid,namespace,model) {
   return $message;
 }// end function
 //export default ingestion;
-ingestion();
+ingestion(target,parentpid,namespace,model);
+
