@@ -62,7 +62,7 @@ function ingestion(target,parentpid,namespace,model) {
   console.log('model = ',model);
   // execute first drush command 
   var exec = require('child_process').exec;
-  var cmd = String('drush -r ',drupalhome,'-v -u=1 --uri=',serveruri,' ibsp --content_models=',contentmodel,' --type=directory --parent=',parentpid,' --namespace=',namespace,' --target=',target );
+  var cmd = String('drush -r '+drupalhome+'-v -u=1 --uri='+serveruri+' ibsp --content_models='+contentmodel+' --type=directory --parent='+parentpid+' --namespace='+namespace+' --target='+target );
   // show assembled command
   console.log('cmd=',cmd);
   if ((target !='')&&(contentmodel !='')&&(parentpid !='')&&(namespace !='')) {
@@ -91,7 +91,7 @@ function ingestion(target,parentpid,namespace,model) {
      return $message;
   }
   // exec second drush command
-  var cmd2 = String('drush -r ',drupalhome,'-v -u=1 --uri=',serveruri,' islandora_batch_ingest');
+  var cmd2 = String('drush -r '+drupalhome+'-v -u=1 --uri='+serveruri+' islandora_batch_ingest');
   console.log('cmd2=',cmd2);
   if ($message = 'ingest prep drush command success') { 
     exec(cmd2, function(error, stdout, stderr) {
