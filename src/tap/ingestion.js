@@ -14,7 +14,7 @@
  *  if first command did not run
  *  if first command did run but did not prep ingest
  *  if first command ran with a good ingest but second command did not run
- *  if second ran but did not ingest
+ *   (only if first command ran successfully)if second ran but did not ingest
  *
  * @param target directory path
  * @param parentpid 
