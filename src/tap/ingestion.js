@@ -43,7 +43,7 @@ function ingestion(target,parentpid,namespace,model) {
   // namespace
   console.log('namespace = '.namespace);
   // target is the local directory holding the ingest files
-  console.log('target = '.target.'\n');
+  console.log('target = '.target);
   // make mongo connection
   /*
   var mongoose = require('mongoose');
