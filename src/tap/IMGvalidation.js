@@ -151,6 +151,8 @@ function readExif(metadata) {
         status.push("Not color")
       }
       break;
+    default:
+      status.push("No type description declared.");
   }
   if (status.length >= 1){
     status.splice(0, 0, metadata['keywords'], filename);
