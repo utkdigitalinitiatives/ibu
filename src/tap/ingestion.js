@@ -39,7 +39,6 @@ function ingestion(target,parentpid,namespace,model) {
   let serveruri = 'http://dlwork.lib.utk.edu/dev/';
   console.log('parentpid = '.parentpid.'\n');
   // namespace
-  let namespace = '';
   console.log('namespace = '.namespace.'\n');
   // target is the local directory holding the ingest files
   let target = '';
