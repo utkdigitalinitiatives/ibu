@@ -35,7 +35,7 @@ model = String(param[5]);
 function ingestion(target,parentpid,namespace,model) {
   // build command pieces
   // serveruri is the location of the drupal_home on the drupal server
-  let drupalhome = '/vhosts/digital/web/collections';
+  let drupalhome = '/vhosts/dlwork/web/collections';
   let serveruri = 'http://dlwork.lib.utk.edu/dev/';
   let parentpid = '';
   console.log('parentpid = '.parentpid.'\n');
