@@ -72,8 +72,8 @@ function ingestion(target,parentpid,namespace,model) {
     });
   }// end if
   else {
-      console.log('parameters for first command missing\n');
-      $message = 'parameters for first command missing';
+      console.log('parameters for first command missing, ingest not started.\n');
+      $message = 'parameters for first command missing, ingest not started.';
       return $message;
   }
   // exec second drush command
