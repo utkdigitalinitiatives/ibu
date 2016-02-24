@@ -81,6 +81,7 @@ function ingestion(target,parentpid,namespace,model) {
   }
   // exec second drush command
   var cmd2 = 'drush -r '.drupalhome.'-v -u=1 --uri='.serveruri.' islandora_batch_ingest';
+  console.log('cmd2='.cmd2);
   if ($message = 'ingest prep drush command success') { 
     exec(cmd2, function(error, stdout, stderr) {
      // command output is in stdout
