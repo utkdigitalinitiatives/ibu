@@ -74,7 +74,7 @@ function readExif(metadata) {
     // Test for Book Imaging
     case 'Book Imaging':
       // Is it a TIFF or a JP2
-      if (metadata['format'] != 'image/tiff' || metadata['fileType'] != 'TIFF' || metadata['fileTypeExtension'] != 'tif' || metadata['fileTypeExtension'] != 'jp2') {
+      if ((metadata['format'] != 'image/tiff') && (metadata['fileType'] != 'TIFF') && (metadata['fileTypeExtension'] != 'tif') && (metadata['fileTypeExtension'] != 'jp2')) {
         status.push("Incorrect file format")
       }
       // Is it 400 PPI
@@ -92,7 +92,7 @@ function readExif(metadata) {
       break;
     case 'Document Imaging':
       // Is it a TIFF or a JP2
-      if (metadata['format'] != 'image/tiff' || metadata['fileType'] != 'TIFF' || metadata['fileTypeExtension'] != 'tif' || metadata['fileTypeExtension'] != 'jp2') {
+      if ((metadata['format'] != 'image/tiff') && (metadata['fileType'] != 'TIFF') && (metadata['fileTypeExtension'] != 'tif') && (metadata['fileTypeExtension'] != 'jp2')) {
         status.push("Incorrect file format")
       }
       // Is it 400 PPI
@@ -111,7 +111,7 @@ function readExif(metadata) {
     //Test for Maps, Drawings, and Oversize Materials
     case 'Maps, Drawings, Over-sized Original':
       //Is it a TIFF or JP2
-      if (metadata['format'] != 'image/tiff' || metadata['fileType'] != 'TIFF' || metadata['fileTypeExtension'] != 'tif' || metadata['fileTypeExtension'] != 'jp2') {
+      if ((metadata['format'] != 'image/tiff') && (metadata['fileType'] != 'TIFF') && (metadata['fileTypeExtension'] != 'tif') && (metadata['fileTypeExtension'] != 'jp2')) {
         status.push("Incorrect file format")
       }
       break;
@@ -121,15 +121,27 @@ function readExif(metadata) {
       }
     // Test for Photographs
     case 'Photographs':
+      if ((metadata['format'] != 'image/tiff') && (metadata['fileType'] != 'TIFF') && (metadata['fileTypeExtension'] != 'tif')) {
+        status.push("Incorrect file format")
+      }
       break;
     // Test for Small Negatives
     case 'Photographic Still Film up to 4" x 5"':
+      if ((metadata['format'] != 'image/tiff') && (metadata['fileType'] != 'TIFF') && (metadata['fileTypeExtension'] != 'tif')) {
+        status.push("Incorrect file format")
+      }
       break;
     // Test for Larger Negatives
     case 'Photographic Still Film Larger than 4" x 5"':
+      if ((metadata['format'] != 'image/tiff') && (metadata['fileType'] != 'TIFF') && (metadata['fileTypeExtension'] != 'tif')) {
+        status.push("Incorrect file format")
+      }
       break;
     // Test for Artwork Reproduction
     case 'Reproduction of Artwork':
+      if ((metadata['format'] != 'image/tiff') && (metadata['fileType'] != 'TIFF') && (metadata['fileTypeExtension'] != 'tif')) {
+        status.push("Incorrect file format")
+      }
       break;
   }
   if (status.length >= 1){
