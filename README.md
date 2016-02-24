@@ -140,7 +140,7 @@ This is a proof of concept only
   Output: ***Array*** ( [Sucess] **OR** [Error Message 1 , Error Message 2, Error...] <hr>
 ###status.js
   Input: ***Array***  (*[Error, Error, Errors]* )<br/>
-  Output: ***Array*** ( [Full Error Message 1 , Full Error Message 2, Full Error...] 
+  Output: ***Array*** ( [Full Error Message 1 , Full Error Message 2, Full Error...] )
 <hr>
 
 ##Resources
