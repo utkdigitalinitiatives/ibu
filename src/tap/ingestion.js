@@ -32,6 +32,8 @@ parentpid = String(param[4]);
 namespace = String(param[5]);
 model = String(param[6]);
 
+var status=[];
+
 function ingestion(target,parentpid,namespace,model) {
   // build command pieces
   // serveruri is the location of the drupal_home on the drupal server
