@@ -37,7 +37,6 @@ function ingestion(target,parentpid,namespace,model) {
   // serveruri is the location of the drupal_home on the drupal server
   let drupalhome = '/vhosts/dlwork/web/collections';
   let serveruri = 'http://dlwork.lib.utk.edu/dev/';
-  let parentpid = '';
   console.log('parentpid = '.parentpid.'\n');
   // namespace
   let namespace = '';
