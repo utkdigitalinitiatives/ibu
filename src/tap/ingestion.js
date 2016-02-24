@@ -41,7 +41,7 @@ function ingestion(target,parentpid,namespace,model) {
   console.log('serveruri = '.serveruri);
   console.log('parentpid = '.parentpid);
   // namespace
-  console.log('namespace = '.namespace.'\n');
+  console.log('namespace = '.namespace);
   // target is the local directory holding the ingest files
   console.log('target = '.target.'\n');
   // make mongo connection
