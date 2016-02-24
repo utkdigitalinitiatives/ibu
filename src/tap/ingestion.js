@@ -70,6 +70,7 @@ function ingestion(target,parentpid,namespace,model) {
      console.log(stdout);
      // test command log for success indication
      // test for substr in stdout
+     var cmd1bad = 1;
      if (cmd1bad) {
        $message = 'first ingest command failed!';
        console.log($message);
