@@ -73,15 +73,14 @@ function ingestion(target,parentpid,namespace,model) {
      console.log(stdout);
      // test command log for success indication
      // test for substr in stdout
-     var cmd1bad = 1;
-     if (cmd1bad) {
-       $message = 'first ingest command failed!';
+     if(stdout.indexOf('Command dispatch complete') > -1) {
+       $message = 'ingest prep drush command success';
        console.log($message);
        status.push("$message");
-       return $message;
-     }
+       //return $message;
+     }// end if
      else {
-       $message = 'ingest prep drush command success';
+       $message = 'first ingest command failed!';
        console.log($message);
        status.push("$message");
        return $message;
@@ -93,7 +92,7 @@ function ingestion(target,parentpid,namespace,model) {
      $message = 'parameters for first command missing, ingest not started.';
      status.push("$message");
      return $message;
-  }
+  }// end else
   // exec second drush command
   var cmd2 = String('drush -r '+drupalhome+'-v -u=1 --uri='+serveruri+' islandora_batch_ingest');
   console.log('cmd2=',cmd2);
