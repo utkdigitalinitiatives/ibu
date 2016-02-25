@@ -77,7 +77,7 @@ function ingestion(target,parentpid,namespace,model) {
        $message = 'ingest prep drush command success';
        console.log($message);
        status.push("$message");
-       return $message;
+       //return $message;
      }// end if
      else {
        $message = 'first ingest command failed!';
