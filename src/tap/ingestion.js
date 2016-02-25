@@ -73,15 +73,14 @@ function ingestion(target,parentpid,namespace,model) {
      console.log(stdout);
      // test command log for success indication
      // test for substr in stdout
-     var cmd1bad = 1;
-     if (cmd1bad) {
-       $message = 'first ingest command failed!';
+     if(stdout.indexOf('Command dispatch complete') > -1) {
+       $message = 'ingest prep drush command success';
        console.log($message);
        status.push("$message");
        return $message;
-     }
+     }// end if
      else {
-       $message = 'ingest prep drush command success';
+       $message = 'first ingest command failed!';
        console.log($message);
        status.push("$message");
        return $message;
