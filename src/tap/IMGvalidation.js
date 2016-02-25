@@ -84,7 +84,7 @@ function readExif(metadata) {
       }
       // Is it 16 Bit Depth
       if (metadata['bitsPerSample'] == '8 8 8') {
-        status.push("More than 16 Bit Depth")
+        status.push("Wrong Color Depth")
       }
       // Is it Color
       if (metadata['colorSpaceData'] != 'RGB') {
@@ -102,7 +102,7 @@ function readExif(metadata) {
       }
       // Is it 16 Bit Depth
       if (metadata['bitsPerSample'] == '8 8 8') {
-        status.push("More than 16 Bit Depth")
+        status.push("Wrong Color Depth")
       }
       // Is it Color
       if (metadata['colorSpaceData'] != 'RGB') {
@@ -119,6 +119,10 @@ function readExif(metadata) {
       if (metadata['xResolution'] != '400' || metadata['yResolution'] != '400') {
         status.push("Incorrect PPI")
       }
+      // Is it 8 Bit Color Depth
+      if (metadata['bitsPerSample'] != '8 8 8') {
+        status.push("Wrong Color Depth")
+      }
       break;
     // Test for Photographs
     case 'Photographs':
@@ -133,6 +137,10 @@ function readExif(metadata) {
       if (metadata['xResolution'] != '600' || metadata['yResolution'] != '600') {
         status.push("Incorrect PPI")
       }
+      // Is it 16 Bit Depth
+      if (metadata['bitsPerSample'] == '8 8 8') {
+        status.push("Wrong Color Depth")
+      }
       break;
     // Test for Small Negatives
     case 'Photographic Still Film up to 4" x 5"':
@@ -143,6 +151,10 @@ function readExif(metadata) {
       if (metadata['xResolution'] != '4000' || metadata['yResolution'] != '4000') {
         status.push("Incorrect PPI")
       }
+      // Is it 16 Bit Depth
+      if (metadata['bitsPerSample'] == '8 8 8') {
+        status.push("Wrong Color Depth")
+      }
       break;
     // Test for Larger Negatives
     case 'Photographic Still Film Larger than 4" x 5"':
@@ -152,6 +164,10 @@ function readExif(metadata) {
       // Is it 4000 PPI
       if (metadata['xResolution'] != '2000' || metadata['yResolution'] != '2000') {
         status.push("Incorrect PPI")
+      }
+      // Is it 16 Bit Depth
+      if (metadata['bitsPerSample'] == '8 8 8') {
+        status.push("Wrong Color Depth")
       }
       break;
     // Test for Artwork Reproduction
@@ -166,6 +182,10 @@ function readExif(metadata) {
       // Is it 12000 PPI
       if (metadata['xResolution'] != '12000' && metadata['yResolution'] != '12000') {
         status.push("Incorrect PPI")
+      }
+      // Is it 16 Bit Depth
+      if (metadata['bitsPerSample'] == '8 8 8') {
+        status.push("Wrong Color Depth")
       }
       break;
     default:
