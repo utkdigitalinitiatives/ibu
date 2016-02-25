@@ -77,6 +77,7 @@ function ingestion(target,parentpid,namespace,model) {
      if (cmd1bad) {
        $message = 'first ingest command failed!';
        console.log($message);
+       status.push("$message");
        return $message;
      }
      else {
@@ -90,6 +91,7 @@ function ingestion(target,parentpid,namespace,model) {
   else {
      console.log('parameters for first command missing, ingest not started.\n');
      $message = 'parameters for first command missing, ingest not started.';
+     status.push("$message");
      return $message;
   }
   // exec second drush command
