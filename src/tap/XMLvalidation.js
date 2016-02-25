@@ -7,9 +7,43 @@
 
 var fs = require('fs');
 var parser = require('xml2json');
+var jp = require('jsonpath');
 var status = [];
 var filename = process.argv;
 filename = String(filename[2]);
+
+var modsIn = fs.readFileSync(filename, 'utf8');
+//console.log(modsIn);
+var modsObj = parser.toJson(modsIn, options = {object: true});
+
+// abstract (optional and repeatable)
+// MS/AR collection title test (req'd if available, non-repeating)
+if (jp.query(modsObj, '$.mods.relatedItem[?(@.displayLabel=="Collection")].titleInfo.title') > 1) {
+  console.log('Too many collection titles');
+  status.push('Too many collection titles');
+}
+// MS/AR collection identifier test (req'd if available, non-repeating)
+if (jp.query(modsObj, '$.mods.relatedItem[?(@.displayLabel=="Collection")].identifier') > 1) {
+  console.log('Too many MS/AR identifiers');
+  status.push('Too many MS/AR identifiers');
+}
+// originInfo/dateCreated test (required and repeatable)
+// @TODO clean up this test; should be at least 1 dateCreated w/ no keyDate
+if (!jp.query(modsObj, '$.mods.originInfo.dateCreated[0][?(@.keyDate)]')) {
+  console.log('Missing originInfo/dateCreated');
+  status.push('Missing originInfo/dateCreated');
+} else {
+  console.log('Has an originInfo/dateCreated');
+}
+// originInfo/dateCreated[@keyDate][@point='start'] (req'd, non-repeating)
+if (!jp.query(modsObj, '$.mods.originInfo.dateCreated[?(@.keyDate && @.point=="start")]' || jp.query(modsObj, '$.mods.originInfo.dateCreated[?(@.keyDate && @.point=="start")]') > 1)) {
+  console.log('Too many keyDate starting points');
+} else {
+  console.log('keyDate test passed');
+}
+
+
+
 
 startProcessing(filename, fileRead);
 
@@ -44,8 +78,3 @@ function postResults(x, data) {
       break;
   }
 }
-
-//var dataS = parser.toJson(data);
-//console.log('typeof dataS: ' + dataS);
-//console.log('dataS: ' + dataS);
-
