@@ -16,6 +16,10 @@ var modsIn = fs.readFileSync(filename, 'utf8');
 //console.log(modsIn);
 var modsObj = parser.toJson(modsIn, options = {object: true});
 
+// fileKey for mods/identifier[@local] comparisons and interacting with db
+var fileID = String(jp.query(modsObj, '$.mods.identifier[?(@.type=="filename")]["$t"]'));
+var fileKey = fileID.slice(0, -4);
+
 // abstract (optional and repeatable)
 // MS/AR collection title test (req'd if available, non-repeating)
 if (jp.query(modsObj, '$.mods.relatedItem[?(@.displayLabel=="Collection")].titleInfo.title') > 1) {
@@ -36,13 +40,31 @@ if (!jp.query(modsObj, '$.mods.originInfo.dateCreated[0][?(@.keyDate)]')) {
   console.log('Has an originInfo/dateCreated');
 }
 // originInfo/dateCreated[@keyDate][@point='start'] (req'd, non-repeating)
+// @TODO combine [@qualifier] test here?
 if (!jp.query(modsObj, '$.mods.originInfo.dateCreated[?(@.keyDate && @.point=="start")]' || jp.query(modsObj, '$.mods.originInfo.dateCreated[?(@.keyDate && @.point=="start")]') > 1)) {
   console.log('Too many keyDate starting points');
 } else {
   console.log('keyDate test passed');
 }
+// originInfo/dateCreated[@keyDate][@qualifier] (req'd if available, non-repeating)
 
-
+// originInfo/dateIssued (optional, non-repeating)
+// @TODO logic problem
+if (!jp.query(modsObj, '$.mods.originInfo.dateIssued') <= 1) {
+  console.log('Too many dateIssued elements');
+}
+// physicalDescription/digitalOrigin (required, non-repeating)
+if (jp.query(modsObj, '$.mods.physicalDescription.digitalOrigin') > 1) {
+  console.log('Too many digitalOrigin elements');
+}
+// physicalDescription/extent (optional, non-repeating)
+// @TODO logic problem
+if (!jp.query(modsObj, '$.mods.physicalDescription.extent') <= 1) {
+  console.log('Too many physicalDescription/extent elements');
+}
+// identifier[@type='filename'] and identifier[@type='local']
+// we have a problem in the identifier[@type='filename'] fails
+//if (jp.query(modsObj, '$.mods.identifier[?(.@type=="filename")]' == 1))
 
 
 startProcessing(filename, fileRead);
@@ -69,10 +91,6 @@ function postResults(x, data) {
       console.log('CANNOT');
       break;
     case 'Successfully read file':
-      console.log('READ');
-      console.log('typeof data: ' + typeof data);
-      // data is still XML at this point
-      //console.log(data);
       //readMODS(data);
       return data;
       break;
