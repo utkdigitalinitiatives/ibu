@@ -17,6 +17,7 @@ var modsIn = fs.readFileSync(filename, 'utf8');
 var modsObj = parser.toJson(modsIn, options = {object: true});
 
 // fileKey for mods/identifier[@local] comparisons and interacting with db
+// @TODO what about multiple identifier[@type='filename']s?
 var fileID = String(jp.query(modsObj, '$.mods.identifier[?(@.type=="filename")]["$t"]'));
 var fileKey = fileID.slice(0, -4);
 
@@ -62,9 +63,41 @@ if (jp.query(modsObj, '$.mods.physicalDescription.digitalOrigin') > 1) {
 if (!jp.query(modsObj, '$.mods.physicalDescription.extent') <= 1) {
   console.log('Too many physicalDescription/extent elements');
 }
-// identifier[@type='filename'] and identifier[@type='local']
+// identifier[@type='filename'] and identifier[@type='local'] (@type='filename': req'd and repeatable; @type='local': req'd if available, repeatable)
+// also identifier[@type='opac']
 // we have a problem in the identifier[@type='filename'] fails
 //if (jp.query(modsObj, '$.mods.identifier[?(.@type=="filename")]' == 1))
+
+// physicalDescription/form (required and repeatable)
+if (!jp.query(modsObj, '$.mods.physicalDescription.form')); {
+  console.log('Missing physicalDescription/form');
+}
+// genre (optional and repeatable)
+// host title relatedItem[@type='host']/titleInfo/title (optional and repeatable)
+// physicalDescription/internetMediaType (required, non-repeating)
+if (jp.query(modsObj, '$.mods.physicalDescription.internetMediaType') > 1) {
+  console.log('Too many internetMediaTypes');
+}
+// typeOfResource (required, non-repeating)
+var typeRes = jp.query(modsObj, '$.mods.typeOfResource');
+if ((typeRes > 1) || (typeRes = 0)) {
+  console.log('Problems with typeOfResource');
+}
+// language/languageTerm (optional, repeatable)
+// recordInfo/languageOfCataloging (required, non-repeating)
+var langTerm = jp.query(modsObj, '$.mods.recordInfo.languageOfCataloging.languageTerm["$t"]');
+if (String(langTerm) != "eng") {
+  console.log('Verify languageOfCataloging/languageTerm');
+}
+if ((langTerm > 1) || (langTerm < 1)) {
+  console.log('Problems with languageTerm');
+}
+// name/namePart
+// name[@authority]
+// name/namePart/role/roleTerm
+// ...
+// publisher
+
 
 
 startProcessing(filename, fileRead);
