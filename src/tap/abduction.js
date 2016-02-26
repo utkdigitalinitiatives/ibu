@@ -10,35 +10,22 @@ const fs = require('fs');
  *
  */
 
-let fileLocation = 'build/';
 let search = 'delivery';
-let pump = '../../test';
+let gravity = './test/';
+let path = require('path');
+let fileArray = [];
 
-var path = require('path');
+console.log('fs: ', process.cwd() );
 
-console.log('fs: ',process.cwd());
 // Find File List within a folder
 module.exports = function() {
-  let gravity = '../../test';
-  console.log('It fired');
-  console.log(filesInDirectory());
+  fileArray = deliveryDirectory();
 };
 
-function filesInDirectory(callback){
-  let something;
-  recursive('../../test/', function (err, files) {
-     // Files is an array of filename
-     console.log(files);
-     something = files;
-     callback(null, something);
-     //return files;
-   });
-};
-
-function deliveryDirectory(pump){
-  recursive(pump, function (err, files) {
-     // Files is an array of filename
-     console.log(files);
-     return files;
-   });
-};
+function deliveryDirectory(){
+  recursive(gravity, ['*.txt'], function (err, files) {
+      // Files is an array of filename
+      console.log(files);
+      return files;
+    });
+ };
