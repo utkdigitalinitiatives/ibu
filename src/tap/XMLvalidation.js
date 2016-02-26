@@ -13,123 +13,108 @@ var filename = process.argv;
 filename = String(filename[2]);
 
 var modsIn = fs.readFileSync(filename, 'utf8');
-//console.log(modsIn);
 var modsObj = parser.toJson(modsIn, options = {object: true});
 
+var xmlValues = [];
+// only testing for fields that are required and/or non-repeating
+var xmlTargets = [0,   //collTitle (req if avail, non-repeating)
+                  0,   //ms_arID (req if avail, non-repeating)
+                  2,   //dateCreated*
+                  1,   //dateIssued (optional, non-repeating)
+                  1,   //digitalOrigin (req'd, non-repeating)
+                  1,   //physicalDescription/extent (optional, non-repeating)
+                  1,   //identifier[@type='filename'] (req'd, repeatable)
+                  1,   //physicalDescription/form (req'd, repeatable)
+                  1,   //physicalDescription/internetMediaType (req'd, non-repeating)
+                  1,   //typeOfResource (req'd, non-repeating)
+                  1,   //languageOfCataloging/languageTerm (req'd, non-repeating)
+                  1,   //note[@type='ownership'] (optional, non-repeating)
+                  1,   //recordInfo/recordOrigin (req'd, non-repeating)
+                  1,   //recordInfo/recordContentSource (optional, non-repeating)
+                  1,   //location/physicalLocation (req if avail, non-repeating)
+                  1,   //rights! (required, non-repeating)
+                  1,   //shelfLocator (optional, non-repeating)
+                  1    //titleInfo/title (required, repeatable)
+
+                 ];
+var xmlErrors = ["XML: too many collection titles",
+                 "XML: too many MS/AR numbers",
+                 "XML: verify dateCreated values",
+                 "XML: too many dateIssued elements",
+                 "XML: problems with digitalOrigin",
+                 "XML: too many extent elements",
+                 "XML: please verify identifier[@type=\'filename\']",
+                 "XML: too many form elements",
+                 "XML: please verify internetMediaType",
+                 "XML: please verify typeOfResource",
+                 "XML: please verify languageOfCataloging/languageTerm",
+                 "XML: please check the number of note[@type=\'ownership\']",
+                 "XML: please check the number of recordOrigin elements",
+                 "XML: please check the number of recordContentSource elements",
+                 "XML: please check the number of location/physicalLocation elements",
+                 "XML: please check the accessCondition element",
+                 "XML: too many shelfLocator elements",
+                 "XML: please add a titleInfo/title element"
+
+                 ];
+
+xmlValues[0] = jp.query(modsObj, '$.mods.relatedItem[?(@.displayLabel=="Collection")].titleInfo.title').length;
+xmlValues[1] = jp.query(modsObj, '$.mods.relatedItem[?(@.displayLabel=="Collection")].identifier').length;
+xmlValues[2] = jp.query(modsObj, '$.mods.originInfo.dateCreated.*').length;
+xmlValues[3] = jp.query(modsObj, '$.mods.originInfo.dateIssued').length;
+xmlValues[4] = jp.query(modsObj, '$.mods.physicalDescription.digitalOrigin').length;
+xmlValues[5] = jp.query(modsObj, '$.mods.physicalDescription.extent').length;
+xmlValues[6] = jp.query(modsObj, '$.mods.identifier[?(@.type=="filename")]').length;
+xmlValues[7] = jp.query(modsObj, '$.mods.physicalDescription.form').length;
+xmlValues[8] = jp.query(modsObj, '$.mods.physicalDescription.internetMediaType').length;
+xmlValues[9] = jp.query(modsObj, '$.mods.typeOfResource').length;
+xmlValues[10] = jp.query(modsObj, '$.mods.note[?(@.type=="ownership")]').length;
+xmlValues[11] = jp.query(modsObj, '$.mods.recordInfo.recordOrigin').length;
+xmlValues[12] = jp.query(modsObj, '$.mods.recordInfo.recordContentSource').length;
+xmlValues[13] = jp.query(modsObj, '$.mods.location.physicalLocation').length;
+xmlValues[14] = jp.query(modsObj, '$.mods.accessCondition').length;
+xmlValues[15] = jp.query(modsObj, '$..shelfLocator').length;
+xmlValues[16] = jp.query(modsObj, '$.mods.titleInfo[*].title').length
+
+for(i=0; i < xmlValues.length; i++) {
+  if(xmlValues[i]!=xmlTargets[i]) {
+    console.log(`oops! Error Message: \"${xmlErrors[i]}\"\n ${xmlValues[i]} didn\'t match the expected value of ${xmlTargets[i]}`);
+  }
+}
+
 // fileKey for mods/identifier[@local] comparisons and interacting with db
-// @TODO what about multiple identifier[@type='filename']s?
-var fileID = String(jp.query(modsObj, '$.mods.identifier[?(@.type=="filename")]["$t"]'));
-var fileKey = fileID.slice(0, -4);
+// should accommodate multiple identifier[@type='filename']s now; this takes the first
+// TODO this should incorporate a simple adminDB formatting validity check
+var fileID = jp.query(modsObj, '$.mods.identifier[?(@.type=="filename")]["$t"]');
+var fileKey = String(fileID[0]).slice(0, -4);
+console.log('fileID: ' + fileID);
+console.log('fileKey: ' + fileKey);
 
-// abstract (optional and repeatable)
-// MS/AR collection title test (req'd if available, non-repeating)
-var collTitle = jp.query(modsObj, '$.mods.relatedItem[?(@.displayLabel=="Collection")].titleInfo.title');
-if (collTitle.length > 0) {
-  console.log('Too many relatedItem[@displayLabel=\'Collection\']/titleInfo/title elements');
-  status.push('Too many relatedItem[@displayLabel=\'Collection\']/titleInfo/title elements');
-}
-if (jp.query(modsObj, '$.mods.relatedItem[?(@.displayLabel=="Collection")].titleInfo.title') > 0) {
-  console.log('Too many collection titles');
-  status.push('Too many collection titles');
-}
-// MS/AR collection identifier test (req'd if available, non-repeating)
-if (jp.query(modsObj, '$.mods.relatedItem[?(@.displayLabel=="Collection")].identifier') > 1) {
-  status.push('Too many MS/AR identifiers');
-}
-// originInfo/dateCreated test (required and repeatable)
-// @TODO clean up this test; should be at least 1 dateCreated w/ no keyDate
-if (!jp.query(modsObj, '$.mods.originInfo.dateCreated[0][?(@.keyDate)]')) {
-  status.push('Missing originInfo/dateCreated');
-}
-// originInfo/dateCreated[@keyDate][@point='start'] (req'd, non-repeating)
-// @TODO combine [@qualifier] test here?
-if (!jp.query(modsObj, '$.mods.originInfo.dateCreated[?(@.keyDate && @.point=="start")]' || jp.query(modsObj, '$.mods.originInfo.dateCreated[?(@.keyDate && @.point=="start")]') > 1)) {
-  status.push('Too many keyDate starting points');
-}
-// originInfo/dateCreated[@keyDate][@qualifier] (req'd if available, non-repeating)
+// originInfo/dateCreated* test (required and repeatable)
+// TODO should be at least 1 dateCreated w/ no keyDate
+// dateCreated[no attributes] = 1 (required, repeatable)
+// dateCreated[@keyDate][@point='start'] = 1 (req'd, non-repeating)
+// dateCreated[@keyDate][@qualifier] <= 1 (optional, non-repeating)
 
-// originInfo/dateIssued (optional, non-repeating)
-// @TODO logic problem
-if (!jp.query(modsObj, '$.mods.originInfo.dateIssued') <= 1) {
-  console.log('Too many dateIssued elements');
-}
-// physicalDescription/digitalOrigin (required, non-repeating)
-if (jp.query(modsObj, '$.mods.physicalDescription.digitalOrigin') > 1) {
-  status.push('Too many digitalOrigin elements');
-}
-// physicalDescription/extent (optional, non-repeating)
-// @TODO logic problem
-if (!jp.query(modsObj, '$.mods.physicalDescription.extent') <= 1) {
-  console.log('Too many physicalDescription/extent elements');
-}
-// identifier[@type='filename'] and identifier[@type='local'] (@type='filename': req'd and repeatable; @type='local': req'd if available, repeatable)
-// also identifier[@type='opac']
-// we have a problem in the identifier[@type='filename'] fails
-//if (jp.query(modsObj, '$.mods.identifier[?(.@type=="filename")]' == 1))
+// TODO identifier testing
+// identifier[@type='filename'], [@type='local'], [@type='opac']
+// identifier[@type='filename'] is the only req'd, all repeatable
 
-// physicalDescription/form (required and repeatable)
-if (!jp.query(modsObj, '$.mods.physicalDescription.form')); {
-  status.push('Missing physicalDescription/form');
-}
 // genre (optional and repeatable)
 // host title relatedItem[@type='host']/titleInfo/title (optional and repeatable)
-// physicalDescription/internetMediaType (required, non-repeating)
-if (jp.query(modsObj, '$.mods.physicalDescription.internetMediaType') > 1) {
-  status.push('Too many internetMediaTypes');
-}
-// typeOfResource (required, non-repeating)
-var typeRes = jp.query(modsObj, '$.mods.typeOfResource');
-if ((typeRes > 1) || (typeRes = 0)) {
-  status.push('Problems with typeOfResource');
-}
+
 // language/languageTerm (optional, repeatable)
 // recordInfo/languageOfCataloging (required, non-repeating)
-var langTerm = jp.query(modsObj, '$.mods.recordInfo.languageOfCataloging.languageTerm["$t"]');
-if (String(langTerm) != "eng") {
-  status.push('Verify languageOfCataloging/languageTerm');
-}
-if ((langTerm > 1) || (langTerm < 1)) {
-  status.push('Problems with languageTerm');
-}
+
 // name/namePart (optional, repeatable)
 // name[@authority] (optional, repeatable)
 // name/namePart/role/roleTerm (req'd if available, repeatable)
 // name[@type] (optional, repeatable)
-// note[@type='ownership'] (optional, non-repeating)
-if (jp.query(modsObj, '$.mods.note[?(@.type=="ownership")]'))
-// publisher
-// recordInfo/recordOrigin (req'd, non-repeating)
-var recordOrigin = jp.query(modsObj, '$.mods.recordInfo.recordOrigin');
-if (jp.query(modsObj, '$.mods.recordInfo.recordOrigin') > 1) {
-  status.push('Too many recordOrigin elements');
-}
-// recordInfo/recordContentSource (optional, non-repeating)
-if (jp.query(modsObj, '$.mods.recordInfo.recordContentSource') > 1) {
-  status.push('Too man recordContentSource elements');
-}
-// repository, mods/location/physicalLocation (req'd if available, non-repeating)
-if ((jp.query(modsObj, '$.mods.location.physicalLocation') > 1) || (jp.query(modsObj, '$.mods.location.physicalLocation') < 1)) {
-  status.push('physicalLocation problem');
-}
-// rights (required, non-repeating)
-var rights = jp.query(modsObj, '$.mods.accessCondition');
-if ((rights > 1) || (rights < 1)) {
-  status.push('Rights problem');
-}
-// shelf_locator, location/holdingSimple/copyInformation/shelfLocator (optional, non-repeating)
-if (jp.query(modsObj, '$.mods.location.holdingSimple.copyInformation.shelfLocator') > 1) {
-  status.push('Too many shelfLocators');
-}
+
 // subjects (all optional, all repeatable)
 // thumbnail (req'd if applicable, non-repeating)
 // title_initial_article, titleInfo/nonSort: articles in the title element (req'd if applicable, repeatable)
 // title_of_part, titleInfo/partName (req'd if applicable, repeatable)
-// title (required, repeatable)
-if (!jp.query(modsObj, '$.mods.titleInfo.title') >= 1) {
-  console.log('Not enough titles');
-}
-
-
 
 startProcessing(filename, fileRead);
 
@@ -145,7 +130,7 @@ function fileRead(err, data) {
   else {
     message = 'Successfully read file';
   }
-  console.log('message :' + message);
+  //console.log('message :' + message);
   postResults(message, data);
 }
 
