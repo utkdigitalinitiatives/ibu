@@ -9,9 +9,14 @@
  * The inputs (described in detail below) are command line arguments type string.
  *
  * The output is a single multiline string, suitable for sending to a file or
- * printing on the screen.  
+ * printing on the screen. 
+ *
+ * command line example:
+ * node status.js 0012_000251_000028_0001.jp2 "Cannot read file" "Incorrect file format" "no kittens"  * node statusjs 0012_000251_000028_0001.jp2 "Cannot read file" "Incorrect file format" "no kittens"
  * 
  */
+
+
 
 /* 
  * February 26, 2016
@@ -19,17 +24,16 @@
  * to be posted as translationTable7.js in https://github.com/utkdigitalinitiatives/ibu
  * path: /src/tap/translationTable7.js
  *
- * command line example:
+ * command line
  * node translationTable7.js 0012_000251_000028_0001.jp2 "Cannot read file" "Incorrect file format" "no kittens"
  *
- * translationTable7.js expects the following command line arguments:
+ * translationTable7.js expects the following command line:
  * node translationTable7.js filename error1 [error2 error3 ...errorN]
  * 
  * standard errors are translated to reader friendly code.
  * non-standard errors are included in the output with "This error is not on the list."
- *
- * The return value is a multiline string, defined as returnString.
- * 
+ 
+ 
  */
 
 
@@ -63,6 +67,7 @@ console.log("cmdLine="+cmdLine);
 
  var returnString = translateArgs(myargv);
  var printString = returnString;
+ //console.log(returnString);
  console.log(printString);
  
  function translateArgs(myargv){
