@@ -9,7 +9,7 @@ let abduction = require('./abduction');
 
 let mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/ibu');
-let conn = mongoose.connection;
+let db = mongoose.connection;
 
 
 /**
@@ -35,5 +35,6 @@ function controller() {
   //   console.log('What just happened? Is this even possible?');
   // }
 };
-controller();
-//export default controller;
+// controller();
+
+export default controller;
