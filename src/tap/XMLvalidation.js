@@ -16,28 +16,68 @@ var modsIn = fs.readFileSync(filename, 'utf8');
 //console.log(modsIn);
 var modsObj = parser.toJson(modsIn, options = {object: true});
 
-// fileKey for mods/identifier[@local] comparisons and interacting with db
-// @TODO what about multiple identifier[@type='filename']s?
-var fileID = String(jp.query(modsObj, '$.mods.identifier[?(@.type=="filename")]["$t"]'));
-var fileKey = fileID.slice(0, -4);
+var xmlValues = [];
+var xmlTargets = [0,   //collTitle (req if avail, non-repeating)
+                  0,   //ms_arID (req if avail, non-repeating)
+                  2,   //dateCreated*
+                  1,   //dateIssued (optional, non-repeating)
+                  1,   //digitalOrigin (req'd, non-repeating)
+                  1,   //physicalDescription/extent (optional, non-repeating)
+                  1    //identifier[@type='filename'] (req'd, repeatable)
+                 ];
+var xmlErrors = ["XML: too many collection titles",
+                 "XML: too many MS/AR numbers",
+                 "XML: verify dateCreated values",
+                 "XML: too many dateIssued elements",
+                 "XML: problems with digitalOrigin",
+                 "XML: too many extent elements",
+                 "XML: please verify identifier[@type=\'filename\']"];
 
+xmlValues[0] = jp.query(modsObj, '$.mods.relatedItem[?(@.displayLabel=="Collection")].titleInfo.title').length;
+xmlValues[1] = jp.query(modsObj, '$.mods.relatedItem[?(@.displayLabel=="Collection")].identifier').length;
+xmlValues[2] = jp.query(modsObj, '$.mods.originInfo.dateCreated.*').length;
+xmlValues[3] = jp.query(modsObj, '$.mods.originInfo.dateIssued').length;
+xmlValues[4] = jp.query(modsObj, '$.mods.physicalDescription.digitalOrigin').length;
+xmlValues[5] = jp.query(modsObj, '$.mods.physicalDescription.extent').length;
+xmlValues[6] = jp.query(modsObj, '$.mods.identifier[?(@.type=="filename")]').length;
+
+console.log('xmlValues: ' + xmlValues);
+console.log();
+
+for(i=0; i < xmlValues.length; i++) {
+  if(xmlValues[i]!=xmlTargets[i]) {
+    console.log(`oops! Error Message: \"${xmlErrors[i]}\"\n ${xmlValues[i]} didn\'t match the expected value of ${xmlTargets[i]}`);
+  }
+
+}
+
+
+
+// fileKey for mods/identifier[@local] comparisons and interacting with db
+// should accommodate multiple identifier[@type='filename']s now; this takes the first
+// TODO this should incorporate a simple adminDB formatting validity check
+var fileID = jp.query(modsObj, '$.mods.identifier[?(@.type=="filename")]["$t"]');
+var fileKey = String(fileID).slice(0, -4);
+console.log('fileID: ' + fileID);
+console.log('fileKey: ' + fileKey);
+
+// TODO prepend XML to these statuses
 // abstract (optional and repeatable)
 // MS/AR collection title test (req'd if available, non-repeating)
 var collTitle = jp.query(modsObj, '$.mods.relatedItem[?(@.displayLabel=="Collection")].titleInfo.title');
-if (collTitle.length > 0) {
+if (collTitle.length > 1) {
   console.log('Too many relatedItem[@displayLabel=\'Collection\']/titleInfo/title elements');
-  status.push('Too many relatedItem[@displayLabel=\'Collection\']/titleInfo/title elements');
-}
-if (jp.query(modsObj, '$.mods.relatedItem[?(@.displayLabel=="Collection")].titleInfo.title') > 0) {
-  console.log('Too many collection titles');
-  status.push('Too many collection titles');
+  status.push('XML: too many relatedItem[@displayLabel=\'Collection\']/titleInfo/title elements');
 }
 // MS/AR collection identifier test (req'd if available, non-repeating)
-if (jp.query(modsObj, '$.mods.relatedItem[?(@.displayLabel=="Collection")].identifier') > 1) {
-  status.push('Too many MS/AR identifiers');
+var ms_arID = jp.query(modsObj, '$.mods.relatedItem[?(@.displayLabel=="Collection")].identifier');
+if (ms_arID > 1) {
+  console.log('Too many MS/AR numbers');
+  status.push('XML: too many MS/AR numbers');
 }
 // originInfo/dateCreated test (required and repeatable)
 // @TODO clean up this test; should be at least 1 dateCreated w/ no keyDate
+var dateCreated = jp.query(modsObj, '$.mods.originInfo.dateCreated');
 if (!jp.query(modsObj, '$.mods.originInfo.dateCreated[0][?(@.keyDate)]')) {
   status.push('Missing originInfo/dateCreated');
 }
@@ -50,7 +90,7 @@ if (!jp.query(modsObj, '$.mods.originInfo.dateCreated[?(@.keyDate && @.point=="s
 
 // originInfo/dateIssued (optional, non-repeating)
 // @TODO logic problem
-if (!jp.query(modsObj, '$.mods.originInfo.dateIssued') <= 1) {
+if (!jp.query(modsObj, '$.mods.originInfo.dateIssued') > 1) {
   console.log('Too many dateIssued elements');
 }
 // physicalDescription/digitalOrigin (required, non-repeating)
