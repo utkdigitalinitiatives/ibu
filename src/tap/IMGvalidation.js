@@ -70,67 +70,126 @@ function readExif(metadata) {
   else {
     collection = "No collection";
   }
+  console.log(metadata);
     switch(metadata['description']) {
     // Test for Book Imaging
     case 'Book Imaging':
       // Is it a TIFF or a JP2
-      if (metadata['format'] != 'image/tiff' || metadata['fileType'] != 'TIFF' || metadata['fileTypeExtension'] != 'tif' || metadata['fileTypeExtension'] != 'jp2') {
+      if ((metadata['format'] != 'image/tiff') && (metadata['fileType'] != 'TIFF') && (metadata['fileTypeExtension'] != 'tif') && (metadata['fileTypeExtension'] != 'jp2')) {
         status.push("Incorrect file format")
       }
       // Is it 400 PPI
-      if (metadata['xResolution'] != '400' && metadata['yResolution'] != '400') {
+      if (metadata['xResolution'] != '400' || metadata['yResolution'] != '400') {
         status.push("Incorrect PPI")
       }
       // Is it 16 Bit Depth
       if (metadata['bitsPerSample'] == '8 8 8') {
-        status.push("More than 16 Bit Depth")
+        status.push("Wrong Color Depth")
       }
       // Is it Color
-      if (metadata['colorSpaceData'] == 'RGB') {
+      if (metadata['colorSpaceData'] != 'RGB') {
         status.push("Not color")
       }
       break;
     case 'Document Imaging':
       // Is it a TIFF or a JP2
-      if (metadata['format'] != 'image/tiff' || metadata['fileType'] != 'TIFF' || metadata['fileTypeExtension'] != 'tif' || metadata['fileTypeExtension'] != 'jp2') {
+      if ((metadata['format'] != 'image/tiff') && (metadata['fileType'] != 'TIFF') && (metadata['fileTypeExtension'] != 'tif') && (metadata['fileTypeExtension'] != 'jp2')) {
         status.push("Incorrect file format")
       }
       // Is it 400 PPI
-      if (metadata['xResolution'] != '400' && metadata['yResolution'] != '400') {
+      if (metadata['xResolution'] != '400' || metadata['yResolution'] != '400') {
         status.push("Incorrect PPI")
       }
       // Is it 16 Bit Depth
       if (metadata['bitsPerSample'] == '8 8 8') {
-        status.push("More than 16 Bit Depth")
+        status.push("Wrong Color Depth")
       }
       // Is it Color
-      if (metadata['colorSpaceData'] == 'RGB') {
+      if (metadata['colorSpaceData'] != 'RGB') {
         status.push("Not color")
       }
       break;
     //Test for Maps, Drawings, and Oversize Materials
     case 'Maps, Drawings, Over-sized Original':
       //Is it a TIFF or JP2
-      if (metadata['format'] != 'image/tiff' || metadata['fileType'] != 'TIFF' || metadata['fileTypeExtension'] != 'tif' || metadata['fileTypeExtension'] != 'jp2') {
+      if ((metadata['format'] != 'image/tiff') && (metadata['fileType'] != 'TIFF') && (metadata['fileTypeExtension'] != 'tif') && (metadata['fileTypeExtension'] != 'jp2')) {
         status.push("Incorrect file format")
       }
-      break;
       // Is it 400 PPI
-      if (metadata['xResolution'] != '600' && metadata['yResolution'] != '600') {
-        status.push("Not 600 PPI")
+      if (metadata['xResolution'] != '400' || metadata['yResolution'] != '400') {
+        status.push("Incorrect PPI")
       }
+      // Is it 8 Bit Color Depth
+      if (metadata['bitsPerSample'] != '8 8 8') {
+        status.push("Wrong Color Depth")
+      }
+      break;
     // Test for Photographs
     case 'Photographs':
+      if ((metadata['format'] != 'image/tiff') && (metadata['fileType'] != 'TIFF') && (metadata['fileTypeExtension'] != 'tif')) {
+        status.push("Incorrect file format")
+      }
+      // Is it Color
+      if (metadata['colorSpaceData'] != 'RGB') {
+        status.push("Not color")
+      }
+      // Is it 600 PPI
+      if (metadata['xResolution'] != '600' || metadata['yResolution'] != '600') {
+        status.push("Incorrect PPI")
+      }
+      // Is it 16 Bit Depth
+      if (metadata['bitsPerSample'] == '8 8 8') {
+        status.push("Wrong Color Depth")
+      }
       break;
     // Test for Small Negatives
     case 'Photographic Still Film up to 4" x 5"':
+      if ((metadata['format'] != 'image/tiff') && (metadata['fileType'] != 'TIFF') && (metadata['fileTypeExtension'] != 'tif')) {
+        status.push("Incorrect file format")
+      }
+      // Is it 4000 PPI
+      if (metadata['xResolution'] != '4000' || metadata['yResolution'] != '4000') {
+        status.push("Incorrect PPI")
+      }
+      // Is it 16 Bit Depth
+      if (metadata['bitsPerSample'] == '8 8 8') {
+        status.push("Wrong Color Depth")
+      }
       break;
     // Test for Larger Negatives
     case 'Photographic Still Film Larger than 4" x 5"':
+      if ((metadata['format'] != 'image/tiff') && (metadata['fileType'] != 'TIFF') && (metadata['fileTypeExtension'] != 'tif')) {
+        status.push("Incorrect file format")
+      }
+      // Is it 4000 PPI
+      if (metadata['xResolution'] != '2000' || metadata['yResolution'] != '2000') {
+        status.push("Incorrect PPI")
+      }
+      // Is it 16 Bit Depth
+      if (metadata['bitsPerSample'] == '8 8 8') {
+        status.push("Wrong Color Depth")
+      }
       break;
     // Test for Artwork Reproduction
     case 'Reproduction of Artwork':
+      if ((metadata['format'] != 'image/tiff') && (metadata['fileType'] != 'TIFF') && (metadata['fileTypeExtension'] != 'tif')) {
+        status.push("Incorrect file format")
+      }
+      // Is it Color
+      if (metadata['colorSpaceData'] != 'RGB') {
+        status.push("Not color")
+      }
+      // Is it 12000 PPI
+      if (metadata['xResolution'] != '12000' && metadata['yResolution'] != '12000') {
+        status.push("Incorrect PPI")
+      }
+      // Is it 16 Bit Depth
+      if (metadata['bitsPerSample'] == '8 8 8') {
+        status.push("Wrong Color Depth")
+      }
       break;
+    default:
+      status.push("No material type description declared.");
   }
   if (status.length >= 1){
     status.splice(0, 0, metadata['keywords'], filename);

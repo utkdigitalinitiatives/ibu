@@ -1,4 +1,7 @@
+"use strict";
+
 let recursive = require('recursive-readdir');
+const fs = require('fs');
 
 /**
  * [abduction description]
@@ -7,17 +10,22 @@ let recursive = require('recursive-readdir');
  *
  */
 
-let fileLocation = 'build/';
-let test = './something/delivery';
+let search = 'delivery';
+let gravity = './test/';
+let path = require('path');
+let fileArray = [];
 
-function abduction(input) {
-  recursive(fileLocation, ['ignore.cs', '*.js', '*.jade'], function (err, files) {
-     // Files is an array of filename
-     console.log(files);
-     return files;
-   });
+console.log('fs: ', process.cwd() );
 
+// Find File List within a folder
+module.exports = function() {
+  fileArray = deliveryDirectory();
 };
 
-
-export default abduction;
+function deliveryDirectory(){
+  recursive(gravity, ['*.txt'], function (err, files) {
+      // Files is an array of filename
+      console.log(files);
+      return files;
+    });
+ };
