@@ -4,17 +4,15 @@
  *
  */
 
-var ibuErrorSchema = new Schema({
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
+var ibuErrorSchema = Schema({
   filename: {
     type: String,
-    validate: {
-      validator: function(v){
-        return /^[^.]+$/.test(v);
-      },
-      message: 'Filename is not valid!'
-    }
+    validate: /^[^.]+$/,
+    unique: true
   },
-  collection: {
+  digitalcollection: {
     type: String
   },
   IMGerrors: {
@@ -26,3 +24,14 @@ var ibuErrorSchema = new Schema({
 });
 
 var ibuErrorDoc = mongoose.model('ibuErrorDoc', ibuErrorSchema);
+exports.testErrorDoc = new ibuErrorDoc();
+
+// Some test's to show schema validator working
+//testobj.filename = 'testdoc.xml';
+//
+//testobj.save(function(err){
+//  console.log(err.errors.filename);
+//});
+//
+//console.log(testobj);
+
