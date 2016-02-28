@@ -1,7 +1,8 @@
 /**
+ * 16028 chd 
+ *
  * status.js
  *
- * translationTable7.js for status.js
  * 
  * Because I have no definite information of final input and output formats,
  * this is a command line program written in the simplest way possible.
@@ -12,8 +13,28 @@
  * printing on the screen. 
  *
  * command line example:
- * node status.js 0012_000251_000028_0001.jp2 "Cannot read file" "Incorrect file format" "no kittens"  * node statusjs 0012_000251_000028_0001.jp2 "Cannot read file" "Incorrect file format" "no kittens"
+ * node status.js 0012_000251_000028_0001.jp2 "Cannot read file" "Incorrect file format" "no kittens"  
+ *
+ * function call example:
+ * returnString= tranlsateArgs(myargv);
+ * where myargv is the array:
+ 
+  var myargv = [ "0012_000251_000028_0001.jp2"
+                 ,"Cannot read file" 
+				 ,"Incorrect file format" 
+				 ,"no kittens"
+				 ];
  * 
+ * Example of ErrorReport:
+ 
+ 
+ Filename: 0012_000251_000028_0001.jp2
+ ErrorReport:
+         1.  The image file cannot be read.
+         2.  The image file is not in the correct file format.
+         3.  no kittens : This error is not found on the standard error list.
+		 
+		 
  */
 
 
@@ -21,121 +42,82 @@
 /* 
  * February 26, 2016
  * coding by Cricket Deane for DLI project "sprint"
- * to be posted as translationTable7.js in https://github.com/utkdigitalinitiatives/ibu
- * path: /src/tap/translationTable7.js
+ * to be posted as status.js in https://github.com/utkdigitalinitiatives/ibu
+ * path: /src/tap/status.js
  *
- * command line
- * node translationTable7.js 0012_000251_000028_0001.jp2 "Cannot read file" "Incorrect file format" "no kittens"
+ * command line example:
+ * node status.js 0012_000251_000028_0001.jp2 "Cannot read file" "Incorrect file format" "no kittens"
  *
- * translationTable7.js expects the following command line:
- * node translationTable7.js filename error1 [error2 error3 ...errorN]
+ * status.js expects the following command line:
+ * node status.js filename error1 [error2 error3 ...errorN]
  * 
  * standard errors are translated to reader friendly code.
  * non-standard errors are included in the output with "This error is not on the list."
- 
- 
+ *
+ * function call example:
+ * returnString= tranlsateArgs(myargv);
+ *
+ * where myargv is the array filename error1 [error2 error3 ...errorN]
+ * filename and error1 are required.
+ * if there is only one error to report, that error should be a success message.
+ *
+ * The values in the standardError variable are test values.
+ * These should be replaced with real values when available.
  */
 
 
 /******************************************************
  * argv block                                         *
- * console.log=(`argv_dot_length= argvLen is toxic`); *
  ******************************************************/
 var process = require('process');
-
-
-var argv = process.argv; //you have to do this.
-
-var cmdLine = "";
-var myargv =[];  //declare an array
-var i = 0;  //declare an integer variable
-
-var argvLen = argv.length;
-while (i<argvLen){
-	myargv[i]=process.argv[i];
-	cmdLine = cmdLine +" "+myargv[i];
-	i = i+1;
-	}
-
-var myargvLen=myargv.length;
-console.log("myargvLen= "+myargvLen)
-console.log("argvLen= "+argvLen)
-console.log("cmdLine="+cmdLine);
+var myargv = process.argv;
 /******************************************************
  * end argv block                                     *
  ******************************************************/
 
  var returnString = translateArgs(myargv);
- var printString = returnString;
+ //r printString = returnString;
  //console.log(returnString);
- console.log(printString);
+ console.log(returnString);
  
  function translateArgs(myargv){
 
-var a=[ "Success" 
-	,"Cannot read file" 
-	,"Cannot read exif data" 
-	,"Successfully read file" 
-	,"Successfully read exif" 
-	,"Incorrect file format" 	
-	,"Incorrect PPI" 
-	,"More than 16 Bit Depth" 
-	,"Not color"
-	,"Not 600 PPI"
-	];
-
-var b=["The image file passes all validation tests."
-	,"The image file cannot be read."
-	,"The exif data in the image file cannot be read."
-	,"The image file is readable."
-	,"The exif data in the image file is readable."
-	,"The image file is not in the correct file format."
-	,"The image file has incorrect PPI."
-	,"The image file has a bit depth greater than 16."
-	,"The image file is not color."
-	,"The image file is not 600 PPI."	
-	];
+var standardError = {
+	"Success" : "The image file passes all validation tests."
+	,"Cannot read file" : "The image file cannot be read."
+	,"Cannot read exif data" : "The exif data in the image file cannot be read."
+	,"Successfully read file" : "The image file is readable."
+	,"Successfully read exif" : "The exif data in the image file is readable."
+	,"Incorrect file format" : "The image file is not in the correct file format."	
+	,"Incorrect PPI" : "The image file has incorrect PPI."
+	,"More than 16 Bit Depth" : "The image file has a bit depth greater than 16."
+	,"Not color" : "The image file is not color."
+	,"Not 600 PPI" : "The image file is not 600 PPI."
+	};
 
 
 var rawValue  = "";//argv[3];///"Incorrect PPI";//test without while_outer
 var engValue  = "";
 var filename  = myargv[2];///imgFile;
 
-var retString = filename+" Errors:";
-
-var icount    = 0;
-var errorFound =0;
+var retString = "\nFilename: "+filename+"\nErrorReport:";
 var errorCount =0;
+var myargvLen=myargv.length;
 
-var iInner = 0;
-var iOuter = 0;
 
 var iargv = 3;//counter for args that list errors (argv[iargv])
-//console.log(`got to here 108`);
-//console.log(`BEGIN while_outer\n================================`);
-while (iargv<myargvLen){//while_outer	
-	rawValue= argv[iargv];
-	icount = 0; //reset each time...duh...
-
-while(icount<a.length){//while_inner
-	errorFound = 0;
-	if (rawValue === a[icount]) {
-	    engValue = engValue+ "\n\t"+b[icount];
-		break;
-		}//end if
-	else{
-		engValue = engValue+"\n\t"+rawValue+": This error is not on the list.";
-		break;
-	    }//end else
-	iInner=iInner+1;
-	icount = icount+1;
-	}//end while_inner
-iargv = iargv+1;
-}//end while_outer
-//console.log(`=====================================\nEND while_outer`)
+while (iargv<myargvLen){//while_outer
 	
-	///console.log(cmdLine);
-retString = retString+engValue; 
+	errorCount=errorCount+1;	
+	rawValue= myargv[iargv];
+	engValue=standardError[rawValue];
+	if (!engValue){
+		engValue  = rawValue +" : This error is not found on the standard error list.";
+	}
+	retString = retString+"\n\t "+errorCount+".  "+engValue;
+	iargv=iargv+1;
+}//end while_outer
+	 
 return(retString);
  }//end function translateArgs(myargv)
 
