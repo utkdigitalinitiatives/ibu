@@ -9,15 +9,12 @@
  * the "ibsp" in the command string, book requires the "ibbp" part in the drush command.)
  * 
  * output:
- *  if first command is successful: "ingest prep drush command success"
  *  if second command is successful: "ingest drush command success"
  *  
  * errors:
  *  if parameters missing
- *  if first command did not run
- *  if first command did run but did not prep ingest
- *  if first command ran with a good ingest but second command did not run
- *   (only if first command ran successfully)if second ran but did not ingest
+ *  if first command did not return success
+ *  (only if first command ran successfully)if second ran but did not ingest
  *
  * @param target directory path
  * @param parentpid 
