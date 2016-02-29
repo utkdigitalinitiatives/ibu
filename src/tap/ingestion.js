@@ -91,6 +91,8 @@ function ingestion(target,parentpid,namespace,model) {
     });// end exec
   }// end if
   else {
+     // this could be broken down here into individual error messages for the actual parameters that are missing,
+     // but since the parameter passing is handled programatically, this might work.
      console.log('parameters for first command missing, ingest not started.\n');
      $message = 'parameters for first command missing, ingest not started.';
      status.push("$message");
