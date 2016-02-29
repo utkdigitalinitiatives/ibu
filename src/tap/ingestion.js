@@ -9,12 +9,13 @@
  * the "ibsp" in the command string, book requires the "ibbp" part in the drush command.)
  * 
  * output:
- *  if second command is successful: "ingest drush command success"
+ *  if second command is successful: "success"
  *  
  * errors:
- *  if parameters missing
- *  if first command did not return success
- *  (only if first command ran successfully)if second ran but did not ingest
+ *  if parameters missing  "parameters missing, ingest failed" 
+ *  if first command did not return success   "prep ingest command failed"
+ *  (only if first command ran successfully)
+ *     if second ran but did not ingest   "second ingest command failed"
  *
  * @param target directory path
  * @param parentpid 
@@ -74,13 +75,13 @@ function ingestion(target,parentpid,namespace,model) {
      // test command log for success indication
      // test for substr in stdout
      if(stdout.indexOf('SetID:') > -1) {
-       $message = 'ingest prep drush command success';
+       $message = 'prep success';
        console.log($message);
        status.push("$message");
        //return $message;
      }// end if
      else {
-       $message = 'first ingest command failed!';
+       $message = 'prep ingest command failed!';
        console.log($message);
        status.push("$message");
        return $message;
@@ -90,28 +91,28 @@ function ingestion(target,parentpid,namespace,model) {
   else {
      // this could be broken down here into individual error messages for the actual parameters that are missing,
      // but since the parameter passing is handled programatically, this might work.
-     console.log('parameters for first command missing, ingest not started.\n');
-     $message = 'parameters for first command missing, ingest not started.';
+     console.log('parameters missing, ingest failed');
+     $message = 'parameters missing, ingest failed';
      status.push("$message");
      return $message;
   }// end else
   // exec second drush command
   var cmd2 = String('drush -r '+drupalhome+'-v -u=1 --uri='+serveruri+' islandora_batch_ingest');
   console.log('cmd2=',cmd2);
-  if ($message = 'ingest prep drush command success') { 
+  if ($message = 'prep success') { 
     exec(cmd2, function(error, stdout, stderr) {
      // command output is in stdout
      console.log(stdout);
      // test command log for success indication
      // test for substr in stdout
-     if(stdout.indexOf('Processing Complete:') > -1) {
-       $message = 'ingest drush command success';
+     if(stdout.indexOf('Processing Complete;') > -1) {
+       $message = 'success';
        console.log($message);
        status.push("$message");
        //return $message;
      }// end if
      else {
-       $message = 'second ingest command failed!';
+       $message = 'second ingest command failed';
        console.log($message);
        status.push("$message");
        return $message;
