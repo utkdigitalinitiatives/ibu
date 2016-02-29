@@ -58,7 +58,7 @@ var xmlErrors = ["XML: too many collection titles",
 
                  ];
 
-xmlValues[0] = jp.query(modsObj, '$.mods.relatedItem[?(@.displayLabel=="Collection")].titleInfo.title').length;
+xmlValues[0] = jp.query(modsObj, '$.mods.relatedItem[?(@.displayLabel=="Collection")].titleInfo..title').length;
 xmlValues[1] = jp.query(modsObj, '$.mods.relatedItem[?(@.displayLabel=="Collection")].identifier').length;
 xmlValues[2] = jp.query(modsObj, '$.mods.originInfo.dateCreated.*').length;
 xmlValues[3] = jp.query(modsObj, '$.mods.originInfo.dateIssued').length;
@@ -81,7 +81,7 @@ console.log('xmlValues:  ' + xmlValues + ' length: ' + xmlValues.length);
 console.log('xmlTargets: ' + xmlTargets + ' length: ' + xmlTargets.length);
 
 for(i=0; i < xmlValues.length; i++) {
-  if((i==0) && ((xmlValues[i]>(xmlTargets[i])+1))) {
+  if((i==0) && (xmlValues[i]>1)) {
     console.log(`XML: Collection titles: ${xmlValues[i]} didn\'t match the expected value of ${xmlTargets[i]}`);
   }
   if((i==1) && (xmlValues[i]>1)) {
@@ -89,6 +89,11 @@ for(i=0; i < xmlValues.length; i++) {
   }
   if((i==2) && (xmlValues[i]>xmlTargets[i])) {
     console.log(`XML: dateCreated error: ${xmlValues[i]} didn\'t match the expected value of ${xmlTargets[i]}`);
+    if(!jp.query(modsObj, '$.mods.originInfo.dateCreated[?(@.keyDate=="yes")]')) {
+      console.log('dateCreated is here');
+    } else {
+      console.log('problems finding dateCreated');
+    }
   }
   // else {
   //  if(xmlValues[i]!=xmlTargets[i]) {
