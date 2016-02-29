@@ -7,7 +7,10 @@
  * 4. model
  *   (note: basic image,large image,audio,video, collection, pdf, binary -- all require
  * the "ibsp" in the command string, book requires the "ibbp" part in the drush command.)
+ * 
  * output:
+ *  if first command is successful: "ingest prep drush command success"
+ *  if second command is successful: "ingest drush command success"
  *  
  * errors:
  *  if parameters missing
