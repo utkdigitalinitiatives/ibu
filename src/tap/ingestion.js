@@ -7,8 +7,11 @@
  * 4. model
  *   (note: basic image,large image,audio,video, collection, pdf, binary -- all require
  * the "ibsp" in the command string, book requires the "ibbp" part in the drush command.)
+ * 
  * output:
- *  log of drush run
+ *  if first command is successful: "ingest prep drush command success"
+ *  if second command is successful: "ingest drush command success"
+ *  
  * errors:
  *  if parameters missing
  *  if first command did not run
@@ -73,7 +76,7 @@ function ingestion(target,parentpid,namespace,model) {
      console.log(stdout);
      // test command log for success indication
      // test for substr in stdout
-     if(stdout.indexOf('Command dispatch complete') > -1) {
+     if(stdout.indexOf('SetID:') > -1) {
        $message = 'ingest prep drush command success';
        console.log($message);
        status.push("$message");
@@ -88,6 +91,8 @@ function ingestion(target,parentpid,namespace,model) {
     });// end exec
   }// end if
   else {
+     // this could be broken down here into individual error messages for the actual parameters that are missing,
+     // but since the parameter passing is handled programatically, this might work.
      console.log('parameters for first command missing, ingest not started.\n');
      $message = 'parameters for first command missing, ingest not started.';
      status.push("$message");
@@ -102,9 +107,18 @@ function ingestion(target,parentpid,namespace,model) {
      console.log(stdout);
      // test command log for success indication
      // test for substr in stdout
-     $message = 'ingest drush command success';
-     console.log($message);
-     status.push($message);
+     if(stdout.indexOf('Processing Complete:') > -1) {
+       $message = 'ingest drush command success';
+       console.log($message);
+       status.push("$message");
+       //return $message;
+     }// end if
+     else {
+       $message = 'second ingest command failed!';
+       console.log($message);
+       status.push("$message");
+       return $message;
+     }//end else
     });
   }// end if
   return $message;
