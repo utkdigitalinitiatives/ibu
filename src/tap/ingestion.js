@@ -73,7 +73,7 @@ function ingestion(target,parentpid,namespace,model) {
      console.log(stdout);
      // test command log for success indication
      // test for substr in stdout
-     if(stdout.indexOf('Command dispatch complete') > -1) {
+     if(stdout.indexOf('SetID:') > -1) {
        $message = 'ingest prep drush command success';
        console.log($message);
        status.push("$message");
@@ -102,9 +102,18 @@ function ingestion(target,parentpid,namespace,model) {
      console.log(stdout);
      // test command log for success indication
      // test for substr in stdout
-     $message = 'ingest drush command success';
-     console.log($message);
-     status.push($message);
+     if(stdout.indexOf('Processing Complete:') > -1) {
+       $message = 'ingest prep drush command success';
+       console.log($message);
+       status.push("$message");
+       //return $message;
+     }// end if
+     else {
+       $message = 'second ingest command failed!';
+       console.log($message);
+       status.push("$message");
+       return $message;
+     }//end else
     });
   }// end if
   return $message;
