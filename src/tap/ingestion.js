@@ -8,7 +8,7 @@
  *   (note: basic image,large image,audio,video, collection, pdf, binary -- all require
  * the "ibsp" in the command string, book requires the "ibbp" part in the drush command.)
  * output:
- *  log of drush run
+ *  
  * errors:
  *  if parameters missing
  *  if first command did not run
@@ -103,7 +103,7 @@ function ingestion(target,parentpid,namespace,model) {
      // test command log for success indication
      // test for substr in stdout
      if(stdout.indexOf('Processing Complete:') > -1) {
-       $message = 'ingest prep drush command success';
+       $message = 'ingest drush command success';
        console.log($message);
        status.push("$message");
        //return $message;
