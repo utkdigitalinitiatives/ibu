@@ -68,19 +68,65 @@ xmlValues[6] = jp.query(modsObj, '$.mods.identifier[?(@.type=="filename")]').len
 xmlValues[7] = jp.query(modsObj, '$.mods.physicalDescription.form').length;
 xmlValues[8] = jp.query(modsObj, '$.mods.physicalDescription.internetMediaType').length;
 xmlValues[9] = jp.query(modsObj, '$.mods.typeOfResource').length;
-xmlValues[10] = jp.query(modsObj, '$.mods.note[?(@.type=="ownership")]').length;
-xmlValues[11] = jp.query(modsObj, '$.mods.recordInfo.recordOrigin').length;
-xmlValues[12] = jp.query(modsObj, '$.mods.recordInfo.recordContentSource').length;
-xmlValues[13] = jp.query(modsObj, '$.mods.location.physicalLocation').length;
-xmlValues[14] = jp.query(modsObj, '$.mods.accessCondition').length;
-xmlValues[15] = jp.query(modsObj, '$..shelfLocator').length;
-xmlValues[16] = jp.query(modsObj, '$.mods.titleInfo[*].title').length
+xmlValues[10] = jp.query(modsObj, '$.mods..languageOfCataloging.languageTerm').length;
+xmlValues[11] = jp.query(modsObj, '$.mods.note[?(@.type=="ownership")]').length;
+xmlValues[12] = jp.query(modsObj, '$.mods.recordInfo.recordOrigin').length;
+xmlValues[13] = jp.query(modsObj, '$.mods.recordInfo.recordContentSource').length;
+xmlValues[14] = jp.query(modsObj, '$.mods.location.physicalLocation').length;
+xmlValues[15] = jp.query(modsObj, '$.mods.accessCondition').length;
+xmlValues[16] = jp.query(modsObj, '$..shelfLocator').length;
+xmlValues[17] = jp.query(modsObj, '$.mods.titleInfo[*].title').length;
+
+console.log('xmlValues:  ' + xmlValues + ' length: ' + xmlValues.length);
+console.log('xmlTargets: ' + xmlTargets + ' length: ' + xmlTargets.length);
 
 for(i=0; i < xmlValues.length; i++) {
-  if(xmlValues[i]!=xmlTargets[i]) {
-    console.log(`oops! Error Message: \"${xmlErrors[i]}\"\n ${xmlValues[i]} didn\'t match the expected value of ${xmlTargets[i]}`);
+  if((i==0) && ((xmlValues[i]>(xmlTargets[i])+1))) {
+    console.log(`XML: Collection titles: ${xmlValues[i]} didn\'t match the expected value of ${xmlTargets[i]}`);
+  }
+  if((i==1) && (xmlValues[i]>1)) {
+    console.log(`XML: MS/AR identifier(s): ${xmlValues[i]} didn\'t match the expected value of ${xmlTargets[i]}`);
+  }
+  if((i==2) && (xmlValues[i]>xmlTargets[i])) {
+    console.log(`XML: dateCreated error: ${xmlValues[i]} didn\'t match the expected value of ${xmlTargets[i]}`);
+  }
+  // else {
+  //  if(xmlValues[i]!=xmlTargets[i]) {
+  //    console.log(`oops! Error Message: \"${xmlErrors[i]}\"\n ${xmlValues[i]} didn\'t match the expected value of ${xmlTargets[i]}`);
+  //  }
+  //}
+}
+
+startProcessing(filename, fileRead);
+
+function startProcessing(file, callback) {
+  fs.readFile(file, 'utf8', callback);
+}
+
+function fileRead(err, data) {
+  var message;
+  if (err) {
+    message = 'Cannot read file';
+  }
+  else {
+    message = 'Successfully read file';
+  }
+  //console.log('message :' + message);
+  postResults(message, data);
+}
+
+function postResults(x, data) {
+  switch(x) {
+    case 'Cannot read file':
+      console.log('CANNOT');
+      break;
+    case 'Successfully read file':
+      //readMODS(data);
+      return data;
+      break;
   }
 }
+
 
 // fileKey for mods/identifier[@local] comparisons and interacting with db
 // should accommodate multiple identifier[@type='filename']s now; this takes the first
@@ -115,33 +161,3 @@ console.log('fileKey: ' + fileKey);
 // thumbnail (req'd if applicable, non-repeating)
 // title_initial_article, titleInfo/nonSort: articles in the title element (req'd if applicable, repeatable)
 // title_of_part, titleInfo/partName (req'd if applicable, repeatable)
-
-startProcessing(filename, fileRead);
-
-function startProcessing(file, callback) {
-  fs.readFile(file, 'utf8', callback);
-}
-
-function fileRead(err, data) {
-  var message;
-  if (err) {
-    message = 'Cannot read file';
-  }
-  else {
-    message = 'Successfully read file';
-  }
-  //console.log('message :' + message);
-  postResults(message, data);
-}
-
-function postResults(x, data) {
-  switch(x) {
-    case 'Cannot read file':
-      console.log('CANNOT');
-      break;
-    case 'Successfully read file':
-      //readMODS(data);
-      return data;
-      break;
-  }
-}
