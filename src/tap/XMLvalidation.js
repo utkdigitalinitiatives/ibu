@@ -83,16 +83,16 @@ console.log('xmlTargets: ' + xmlTargets + ' length: ' + xmlTargets.length);
 for(i=0; i < xmlValues.length; i++) {
   // collection titles
   if((i==0) && (xmlValues[i]>1)) {
-    console.log(`XML: ${xmlErrors[i]}`);
+    console.log(`${xmlErrors[i]}`);
   }
   // MS/AR numbers
   if((i==1) && (xmlValues[i]>1)) {
-    console.log(`XML: ${xmlErrors[i]}`);
+    console.log(`${xmlErrors[i]}`);
   }
   // dateCreated
   // TODO asdfasdf
   if((i==2) && (xmlValues[i]>xmlTargets[i])) {
-    console.log(`XML: dateCreated error: ${xmlValues[i]} didn\'t match the expected value of ${xmlTargets[i]}`);
+    console.log(`dateCreated error: ${xmlValues[i]} didn\'t match the expected value of ${xmlTargets[i]}`);
     if(!jp.query(modsObj, '$.mods.originInfo.dateCreated[?(@.keyDate=="yes")]')) {
       console.log('dateCreated is here');
     } else {
@@ -101,64 +101,64 @@ for(i=0; i < xmlValues.length; i++) {
   }
   // dateIssued
   if((i==3) && (xmlValues[i]>1)) {
-    console.log(`XML: ${xmlErrors[i]}`);
+    console.log(`${xmlErrors[i]}`);
   }
   // digitalOrigin
   if((i==4) && (xmlValues[i]>1)) {
-    console.log(`XML: ${xmlErrors[i]}`);
+    console.log(`${xmlErrors[i]}`);
   }
   // extent
   if((i==5) && (xmlValues[i]>1)) {
-    console.log(`XML: ${xmlErrors[i]}`);
+    console.log(`${xmlErrors[i]}`);
   }
   // identifier[@type='filename']
   // TODO verify value(s) here?
   if((i==6) && (xmlValues[i]==0)) {
-    console.log(`XML: ${xmlErrors[i]}`);
+    console.log(`${xmlErrors[i]}`);
   }
   // physicalDescription/form
   if((i==7) && (xmlValues[i]==0)) {
-    console.log(`XML: ${xmlErrors[i]}`);
+    console.log(`${xmlErrors[i]}`);
   }
   // physicalDescription/internetMediaType
   if((i==8) && (xmlValues[i]!==1)) {
-    console.log(`XML: ${xmlErrors[i]}`);
+    console.log(`${xmlErrors[i]}`);
   }
   // typeOfResource
   if((i==9) && (xmlValues[i]!==1)) {
-    console.log(`XML: ${xmlErrors[i]}`);
+    console.log(`${xmlErrors[i]}`);
   }
   // languageOfCataloging/languageTerm
   if((i==10) && (xmlValues[i]!==1)) {
-    console.log(`XML: ${xmlErrors[i]}`);
+    console.log(`${xmlErrors[i]}`);
   }
   // note[@type='ownership']
   if((i==11) && (xmlValues[i]>1)) {
-    console.log(`XML: ${xmlErrors[i]}`);
+    console.log(`${xmlErrors[i]}`);
   }
   // recordInfo/recordOrigin
   if((i==12) && (xmlValues[i]!==1)) {
-    console.log(`XML: ${xmlErrors[i]}`);
+    console.log(`${xmlErrors[i]}`);
   }
   // recordInfo/recordContentSource
   if((i==13) && (xmlValues[i]>1)) {
-    console.log(`XML: ${xmlErrors[i]}`);
+    console.log(`${xmlErrors[i]}`);
   }
   // location/physicalLocation
   if((i==14) && (xmlValues[i]>1)) {
-    console.log(`XML: ${xmlErrors[i]}`);
+    console.log(`${xmlErrors[i]}`);
   }
   // rights!!
   if((i==15) && (xmlValues[i]!==1)) {
-    console.log(`XML: ${xmlErrors[i]}`);
+    console.log(`${xmlErrors[i]}`);
   }
   // shelfLocator
   if((i==16) && (xmlValues[i]>1)) {
-    console.log(`XML: ${xmlErrors[i]}`);
+    console.log(`${xmlErrors[i]}`);
   }
   // titleInfo/title
   if((i==17) && (xmlValues[i]<1)) {
-    console.log(`XML: ${xmlErrors[i]}`);
+    console.log(`${xmlErrors[i]}`);
   }
   // else {
   //  if(xmlValues[i]!=xmlTargets[i]) {
