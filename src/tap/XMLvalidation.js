@@ -44,7 +44,7 @@ var xmlErrors = ["XML: too many collection titles",
                  "XML: problems with digitalOrigin",
                  "XML: too many extent elements",
                  "XML: please verify identifier[@type=\'filename\']",
-                 "XML: please verify mods/form",
+                 "XML: please verify physicalDescription/form",
                  "XML: please verify internetMediaType",
                  "XML: please verify typeOfResource",
                  "XML: please verify languageOfCataloging/languageTerm",
@@ -116,8 +116,27 @@ for(i=0; i < xmlValues.length; i++) {
   if((i==6) && (xmlValues[i]==0)) {
     console.log(`XML: ${xmlErrors[i]}`);
   }
-  // form
-  if((i==7) && (xmlValues[i]==0))
+  // physicalDescription/form
+  if((i==7) && (xmlValues[i]==0)) {
+    console.log(`XML: ${xmlErrors[i]}`);
+  }
+  // physicalDescription/internetMediaType
+  if((i==8) && (xmlValues[i]!=1)) {
+    console.log(`XML: ${xmlErrors[i]}`);
+  }
+  // typeOfResource
+  if((i==9) && (xmlValues[i]!=1)) {
+    console.log(`XML: ${xmlErrors[i]}`);
+  }
+  // languageOfCataloging/languageTerm
+  if((i==10) && (xmlValues[i]!=1)) {
+    console.log(`XML: ${xmlErrors[i]}`);
+  }
+  // note[@type='ownership']
+  if((i==11) && (xmlValues[i]>1)) {
+    console.log(`XML: ${xmlErrors[i]}`);
+  }
+  //
   // else {
   //  if(xmlValues[i]!=xmlTargets[i]) {
   //    console.log(`oops! Error Message: \"${xmlErrors[i]}\"\n ${xmlValues[i]} didn\'t match the expected value of ${xmlTargets[i]}`);
@@ -155,37 +174,8 @@ function postResults(x, data) {
   }
 }
 
+//var fileID = jp.query(modsObj, '$.mods.identifier[?(@.type=="filename")]["$t"]');
+//var fileKey = String(fileID[0]).slice(0, -4);
+//console.log('fileID: ' + fileID);
+//console.log('fileKey: ' + fileKey);
 
-// fileKey for mods/identifier[@local] comparisons and interacting with db
-// should accommodate multiple identifier[@type='filename']s now; this takes the first
-// TODO this should incorporate a simple adminDB formatting validity check
-var fileID = jp.query(modsObj, '$.mods.identifier[?(@.type=="filename")]["$t"]');
-var fileKey = String(fileID[0]).slice(0, -4);
-console.log('fileID: ' + fileID);
-console.log('fileKey: ' + fileKey);
-
-// originInfo/dateCreated* test (required and repeatable)
-// TODO should be at least 1 dateCreated w/ no keyDate
-// dateCreated[no attributes] = 1 (required, repeatable)
-// dateCreated[@keyDate][@point='start'] = 1 (req'd, non-repeating)
-// dateCreated[@keyDate][@qualifier] <= 1 (optional, non-repeating)
-
-// TODO identifier testing
-// identifier[@type='filename'], [@type='local'], [@type='opac']
-// identifier[@type='filename'] is the only req'd, all repeatable
-
-// genre (optional and repeatable)
-// host title relatedItem[@type='host']/titleInfo/title (optional and repeatable)
-
-// language/languageTerm (optional, repeatable)
-// recordInfo/languageOfCataloging (required, non-repeating)
-
-// name/namePart (optional, repeatable)
-// name[@authority] (optional, repeatable)
-// name/namePart/role/roleTerm (req'd if available, repeatable)
-// name[@type] (optional, repeatable)
-
-// subjects (all optional, all repeatable)
-// thumbnail (req'd if applicable, non-repeating)
-// title_initial_article, titleInfo/nonSort: articles in the title element (req'd if applicable, repeatable)
-// title_of_part, titleInfo/partName (req'd if applicable, repeatable)
