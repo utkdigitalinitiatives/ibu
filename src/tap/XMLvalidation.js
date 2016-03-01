@@ -44,7 +44,7 @@ var xmlErrors = ["XML: too many collection titles",
                  "XML: problems with digitalOrigin",
                  "XML: too many extent elements",
                  "XML: please verify identifier[@type=\'filename\']",
-                 "XML: too many form elements",
+                 "XML: please verify mods/form",
                  "XML: please verify internetMediaType",
                  "XML: please verify typeOfResource",
                  "XML: please verify languageOfCataloging/languageTerm",
@@ -81,12 +81,16 @@ console.log('xmlValues:  ' + xmlValues + ' length: ' + xmlValues.length);
 console.log('xmlTargets: ' + xmlTargets + ' length: ' + xmlTargets.length);
 
 for(i=0; i < xmlValues.length; i++) {
+  // collection titles
   if((i==0) && (xmlValues[i]>1)) {
     console.log(`XML: Collection titles: ${xmlValues[i]} didn\'t match the expected value of ${xmlTargets[i]}`);
   }
+  // MS/AR numbers
   if((i==1) && (xmlValues[i]>1)) {
     console.log(`XML: MS/AR identifier(s): ${xmlValues[i]} didn\'t match the expected value of ${xmlTargets[i]}`);
   }
+  // dateCreated
+  // TODO asdfasdf
   if((i==2) && (xmlValues[i]>xmlTargets[i])) {
     console.log(`XML: dateCreated error: ${xmlValues[i]} didn\'t match the expected value of ${xmlTargets[i]}`);
     if(!jp.query(modsObj, '$.mods.originInfo.dateCreated[?(@.keyDate=="yes")]')) {
@@ -95,6 +99,25 @@ for(i=0; i < xmlValues.length; i++) {
       console.log('problems finding dateCreated');
     }
   }
+  // dateIssued
+  if((i==3) && (xmlValues[i]>1)) {
+    console.log(`XML: ${xmlErrors[i]}`);
+  }
+  // digitalOrigin
+  if((i==4) && (xmlValues[i]>1)) {
+    console.log(`XML: ${xmlErrors[i]}`);
+  }
+  // extent
+  if((i==5) && (xmlValues[i]>1)) {
+    console.log(`XML: ${xmlErrors[i]}`);
+  }
+  // identifier[@type='filename']
+  // TODO verify value(s) here?
+  if((i==6) && (xmlValues[i]==0)) {
+    console.log(`XML: ${xmlErrors[i]}`);
+  }
+  // form
+  if((i==7) && (xmlValues[i]==0))
   // else {
   //  if(xmlValues[i]!=xmlTargets[i]) {
   //    console.log(`oops! Error Message: \"${xmlErrors[i]}\"\n ${xmlValues[i]} didn\'t match the expected value of ${xmlTargets[i]}`);
