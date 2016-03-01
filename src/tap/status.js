@@ -70,14 +70,23 @@
  * argv block                                         *
  ******************************************************/
 var process = require('process');
-var myargv = process.argv;
+var argv = process.argv;
 /******************************************************
  * end argv block                                     *
  ******************************************************/
+ 
+ var myargv=[];
+ var i  = 0;
+ var ct = 2; 
+ while (ct < argv.length){
+	 myargv[i] = argv[ct];
+	 //console.log ("myargv["+i+"]="+myargv[i]);
+	 i  = i  +1;
+	 ct = ct +1;
+ }
+ 
 
  var returnString = translateArgs(myargv);
- //r printString = returnString;
- //console.log(returnString);
  console.log(returnString);
  
  function translateArgs(myargv){
@@ -98,14 +107,14 @@ var standardError = {
 
 var rawValue  = "";//argv[3];///"Incorrect PPI";//test without while_outer
 var engValue  = "";
-var filename  = myargv[2];///imgFile;
+var filename  = myargv[0];///imgFile;
 
 var retString = "\nFilename: "+filename+"\nErrorReport:";
 var errorCount =0;
 var myargvLen=myargv.length;
 
 
-var iargv = 3;//counter for args that list errors (argv[iargv])
+var iargv = 1;//counter for args that list errors (argv[iargv])
 while (iargv<myargvLen){//while_outer
 	
 	errorCount=errorCount+1;	
