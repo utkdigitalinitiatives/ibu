@@ -40,7 +40,7 @@ function ingestion(target,parentpid,namespace,model) {
   // serveruri is the location of the drupal_home on the drupal server
   var drupalhome = '/vhosts/dlwork/web/collections';
   console.log('drupalhome = ',drupalhome);
-  var serveruri = 'http://dlwork.lib.utk.edu/dev/';
+  var serveruri = 'http://localhost/';
   console.log('serveruri = ',serveruri);
   console.log('parentpid = ',parentpid);
   // namespace
@@ -56,7 +56,7 @@ function ingestion(target,parentpid,namespace,model) {
   if ((model)&&(model==='large')) {
     contentmodel = 'islandora:sp_Large_image';
   }
-  console.log('model = ',model);
+  console.log('model = ',model);http://dlweb.lib.utk.edu/pc/index.php
   // execute first drush command 
   var exec = require('child_process').exec;
   var cmd = String('drush -r '+drupalhome+'-v -u=1 --uri='+serveruri+' ibsp --content_models='+contentmodel+' --type=directory --parent='+parentpid+' --namespace='+namespace+' --target='+target );
