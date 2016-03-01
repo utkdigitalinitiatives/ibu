@@ -20,20 +20,20 @@ var xmlValues = [];
 var xmlTargets = [0,   //collTitle (req if avail, non-repeating)
                   0,   //ms_arID (req if avail, non-repeating)
                   2,   //dateCreated*
-                  1,   //dateIssued (optional, non-repeating)
+                  0,   //dateIssued (optional, non-repeating)
                   1,   //digitalOrigin (req'd, non-repeating)
-                  1,   //physicalDescription/extent (optional, non-repeating)
+                  0,   //physicalDescription/extent (optional, non-repeating)
                   1,   //identifier[@type='filename'] (req'd, repeatable)
                   1,   //physicalDescription/form (req'd, repeatable)
                   1,   //physicalDescription/internetMediaType (req'd, non-repeating)
                   1,   //typeOfResource (req'd, non-repeating)
                   1,   //languageOfCataloging/languageTerm (req'd, non-repeating)
-                  1,   //note[@type='ownership'] (optional, non-repeating)
+                  0,   //note[@type='ownership'] (optional, non-repeating)
                   1,   //recordInfo/recordOrigin (req'd, non-repeating)
-                  1,   //recordInfo/recordContentSource (optional, non-repeating)
-                  1,   //location/physicalLocation (req if avail, non-repeating)
+                  0,   //recordInfo/recordContentSource (optional, non-repeating)
+                  0,   //location/physicalLocation (req if avail, non-repeating)
                   1,   //rights! (required, non-repeating)
-                  1,   //shelfLocator (optional, non-repeating)
+                  0,   //shelfLocator (optional, non-repeating)
                   1    //titleInfo/title (required, repeatable)
 
                  ];
@@ -83,11 +83,11 @@ console.log('xmlTargets: ' + xmlTargets + ' length: ' + xmlTargets.length);
 for(i=0; i < xmlValues.length; i++) {
   // collection titles
   if((i==0) && (xmlValues[i]>1)) {
-    console.log(`XML: Collection titles: ${xmlValues[i]} didn\'t match the expected value of ${xmlTargets[i]}`);
+    console.log(`XML: ${xmlErrors[i]}`);
   }
   // MS/AR numbers
   if((i==1) && (xmlValues[i]>1)) {
-    console.log(`XML: MS/AR identifier(s): ${xmlValues[i]} didn\'t match the expected value of ${xmlTargets[i]}`);
+    console.log(`XML: ${xmlErrors[i]}`);
   }
   // dateCreated
   // TODO asdfasdf
@@ -121,22 +121,45 @@ for(i=0; i < xmlValues.length; i++) {
     console.log(`XML: ${xmlErrors[i]}`);
   }
   // physicalDescription/internetMediaType
-  if((i==8) && (xmlValues[i]!=1)) {
+  if((i==8) && (xmlValues[i]!==1)) {
     console.log(`XML: ${xmlErrors[i]}`);
   }
   // typeOfResource
-  if((i==9) && (xmlValues[i]!=1)) {
+  if((i==9) && (xmlValues[i]!==1)) {
     console.log(`XML: ${xmlErrors[i]}`);
   }
   // languageOfCataloging/languageTerm
-  if((i==10) && (xmlValues[i]!=1)) {
+  if((i==10) && (xmlValues[i]!==1)) {
     console.log(`XML: ${xmlErrors[i]}`);
   }
   // note[@type='ownership']
   if((i==11) && (xmlValues[i]>1)) {
     console.log(`XML: ${xmlErrors[i]}`);
   }
-  //
+  // recordInfo/recordOrigin
+  if((i==12) && (xmlValues[i]!==1)) {
+    console.log(`XML: ${xmlErrors[i]}`);
+  }
+  // recordInfo/recordContentSource
+  if((i==13) && (xmlValues[i]>1)) {
+    console.log(`XML: ${xmlErrors[i]}`);
+  }
+  // location/physicalLocation
+  if((i==14) && (xmlValues[i]>1)) {
+    console.log(`XML: ${xmlErrors[i]}`);
+  }
+  // rights!!
+  if((i==15) && (xmlValues[i]!==1)) {
+    console.log(`XML: ${xmlErrors[i]}`);
+  }
+  // shelfLocator
+  if((i==16) && (xmlValues[i]>1)) {
+    console.log(`XML: ${xmlErrors[i]}`);
+  }
+  // titleInfo/title
+  if((i==17) && (xmlValues[i]<1)) {
+    console.log(`XML: ${xmlErrors[i]}`);
+  }
   // else {
   //  if(xmlValues[i]!=xmlTargets[i]) {
   //    console.log(`oops! Error Message: \"${xmlErrors[i]}\"\n ${xmlValues[i]} didn\'t match the expected value of ${xmlTargets[i]}`);
