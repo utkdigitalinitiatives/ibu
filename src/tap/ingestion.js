@@ -47,12 +47,6 @@ function ingestion(target,parentpid,namespace,model) {
   console.log('namespace = ',namespace);
   // target is the local directory holding the ingest files
   console.log('target = ',target);
-  // make mongo connection
-  /*
-  var mongoose = require('mongoose');
-  mongoose.connect('mongodb://localhost/ibu');
-  var conn = mongoose.connection;
-  */
   //
   var $message = 'ingest did not happen';
   var contentmodel = '';
@@ -99,7 +93,7 @@ function ingestion(target,parentpid,namespace,model) {
   // exec second drush command
   var cmd2 = String('drush -r '+drupalhome+'-v -u=1 --uri='+serveruri+' islandora_batch_ingest');
   console.log('cmd2=',cmd2);
-  if ($message = 'prep success') { 
+  if ($message == 'prep success') { 
     exec(cmd2, function(error, stdout, stderr) {
      // command output is in stdout
      console.log(stdout);
