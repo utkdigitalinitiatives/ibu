@@ -1,19 +1,26 @@
 /**
- * 16028 chd 
+ * 160301 coding by Cricket Deane for DLI project "sprint"
+ * to be posted as status.js in https://github.com/utkdigitalinitiatives/ibu
+ * path: /src/tap/status.js
+ *
  *
  * status.js
  *
  * 
- * Because I have no definite information of final input and output formats,
- * this is a command line program written in the simplest way possible.
  *
  * The inputs (described in detail below) are command line arguments type string.
  *
  * The output is a single multiline string, suitable for sending to a file or
  * printing on the screen. 
  *
+ * status.js expects the following command line:
+ * node status.js filename error1 [error2 error3 ...errorN]
+ *
  * command line example:
- * node status.js 0012_000251_000028_0001.jp2 "Cannot read file" "Incorrect file format" "no kittens"  
+ * node status.js 0012_000251_000028_0001.jp2 "Cannot read file" "Incorrect file format" "no kittens" 
+ *
+ * function translateArgs(array) expects the following array to be passed:
+ * filename, error1, [error2, error3, ...errorN]
  *
  * function call example:
  * returnString= tranlsateArgs(myargv);
@@ -34,35 +41,11 @@
          2.  The image file is not in the correct file format.
          3.  no kittens : This error is not found on the standard error list.
 		 
-		 
- */
-
-
-
-/* 
- * February 26, 2016
- * coding by Cricket Deane for DLI project "sprint"
- * to be posted as status.js in https://github.com/utkdigitalinitiatives/ibu
- * path: /src/tap/status.js
- *
- * command line example:
- * node status.js 0012_000251_000028_0001.jp2 "Cannot read file" "Incorrect file format" "no kittens"
- *
- * status.js expects the following command line:
- * node status.js filename error1 [error2 error3 ...errorN]
+		
+ * The values in the standardError array are values from
+ *   1. IMGvalidation.js
+ *   2. XMLvalidation.js
  * 
- * standard errors are translated to reader friendly code.
- * non-standard errors are included in the output with "This error is not on the list."
- *
- * function call example:
- * returnString= tranlsateArgs(myargv);
- *
- * where myargv is the array filename error1 [error2 error3 ...errorN]
- * filename and error1 are required.
- * if there is only one error to report, that error should be a success message.
- *
- * The values in the standardError variable are test values.
- * These should be replaced with real values when available.
  */
 
 
@@ -99,9 +82,29 @@ var standardError = {
 	,"Successfully read exif" : "The exif data in the image file is readable."
 	,"Incorrect file format" : "The image file is not in the correct file format."	
 	,"Incorrect PPI" : "The image file has incorrect PPI."
+    ,"Wrong Color Depth" : "The image file has the wrong color depth."
 	,"More than 16 Bit Depth" : "The image file has a bit depth greater than 16."
 	,"Not color" : "The image file is not color."
 	,"Not 600 PPI" : "The image file is not 600 PPI."
+    ,"No material type description declared." : "The image file has no material type description declared." 
+	,"XML: too many collection titles" : "The mods file contains too many collection titles."
+	,"XML: too many MS/AR numbers" : "The mods file contains too many MS/AR numbers."
+	,"XML: verify dateCreated values" : "The mods file lacks verification of dateCreated values."
+	,"XML: too many dateIssued elements" : "The mods file contains too many dateIssued values."
+	,"XML: problems with digitalOrigin" : "The mods file has problems with the digitalOrigin value."
+	,"XML: too many extent elements" : "The mods file contains too many extent values."
+	,"XML: please verify identifier[@type=filename]" : "Please verify identifier[@type=filename]."
+	,"XML: please verify physicalDescription/form" : "Please verify physicalDescription/form value."
+	,"XML: please verify internetMediaType" : "Please verify intenetMediaType value."
+	,"XML: please verify typeOfResource" : "Please verify typeOfResource value."
+	,"XML: please verify languageOfCataloging/languageTerm" : "Please verify languageOfCataloging/languageTerm value."
+	,"XML: please check the number of note[@type=ownership]" : "Please check the number of note[@type=ownership] values."
+	,"XML: please check the number of recordOrigin elements" : "Please check the number of recordOrigin elements."
+	,"XML: please check the number of recordContentSource elements" : "Please check the number of recordOrigin elements."
+	,"XML: please check the number of location/physicalLocation elements" : "Please check the number of location/physicalLocation elements."
+	,"XML: please check the accessCondition element" : "Pease check the accessCondition value."
+	,"XML: too many shelfLocator elements" : "The mods file contains too many shelfLocator values."
+	,"XML: please add a titleInfo/title element" : "Please add a titleInfo/title element."
 	};
 
 
@@ -110,12 +113,12 @@ var engValue  = "";
 var filename  = myargv[0];///imgFile;
 
 var retString = "\nFilename: "+filename+"\nErrorReport:";
-var errorCount =0;
+var errorCount = 0;
 var myargvLen=myargv.length;
 
 
 var iargv = 1;//counter for args that list errors (argv[iargv])
-while (iargv<myargvLen){//while_outer
+while (iargv<myargvLen){
 	
 	errorCount=errorCount+1;	
 	rawValue= myargv[iargv];
@@ -125,7 +128,7 @@ while (iargv<myargvLen){//while_outer
 	}
 	retString = retString+"\n\t "+errorCount+".  "+engValue;
 	iargv=iargv+1;
-}//end while_outer
+}
 	 
 return(retString);
  }//end function translateArgs(myargv)
