@@ -82,6 +82,14 @@ console.log('xmlTargets: ' + xmlTargets + ' length: ' + xmlTargets.length);
 console.log(jp.query(modsObj, '$.mods.originInfo.dateCreated[?(@keyDate && @point=="start")]'));
 console.log('typeof modsObj: ' + typeof modsObj);
 console.log(Object.keys(modsObj));
+if("point" in modsObj["mods"]["originInfo"]["dateCreated"]) {
+  console.log('point is there');
+} else {
+  console.log('point is not there');
+}
+console.log( 'keyDate: ' + modsObj.mods.originInfo.dateCreated[1].keyDate );
+
+
 
 
 for(i=0; i < xmlValues.length; i++) {
