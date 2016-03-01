@@ -53,8 +53,8 @@ var xmlErrors = ["XML: too many collection titles",
                  "XML: please check the number of recordContentSource elements",
                  "XML: please check the number of location/physicalLocation elements",
                  "XML: please check the accessCondition element",
-                 "XML: too many shelfLocator elements",
-                 "XML: please add a titleInfo/title element"
+                 "XML: please verify shelfLocator",
+                 "XML: please verify titleInfo/title"
 
                  ];
 
@@ -75,40 +75,51 @@ xmlValues[13] = jp.query(modsObj, '$.mods.recordInfo.recordContentSource').lengt
 xmlValues[14] = jp.query(modsObj, '$.mods.location.physicalLocation').length;
 xmlValues[15] = jp.query(modsObj, '$.mods.accessCondition').length;
 xmlValues[16] = jp.query(modsObj, '$..shelfLocator').length;
-xmlValues[17] = jp.query(modsObj, '$.mods.titleInfo[*].title').length;
+xmlValues[17] = jp.query(modsObj, '$.mods.titleInfo..title').length;
 
 console.log('xmlValues:  ' + xmlValues + ' length: ' + xmlValues.length);
 console.log('xmlTargets: ' + xmlTargets + ' length: ' + xmlTargets.length);
+console.log(jp.query(modsObj, '$.mods.originInfo.dateCreated[?(@keyDate && @point=="start")]'));
+console.log('typeof modsObj: ' + typeof modsObj);
+console.log(Object.keys(modsObj));
+
 
 for(i=0; i < xmlValues.length; i++) {
   // collection titles
-  if((i==0) && (xmlValues[i]>1)) {
+  if((i==0) && (xmlValues[i]>xmlTargets[0]+1)) {
     console.log(`${xmlErrors[i]}`);
   }
   // MS/AR numbers
-  if((i==1) && (xmlValues[i]>1)) {
+  if((i==1) && (xmlValues[i]>xmlTargets[0]+1)) {
     console.log(`${xmlErrors[i]}`);
   }
   // dateCreated
   // TODO asdfasdf
   if((i==2) && (xmlValues[i]>xmlTargets[i])) {
     console.log(`dateCreated error: ${xmlValues[i]} didn\'t match the expected value of ${xmlTargets[i]}`);
-    if(!jp.query(modsObj, '$.mods.originInfo.dateCreated[?(@.keyDate=="yes")]')) {
+    if(jp.query(modsObj, '$.mods.originInfo.dateCreated[?(@.keyDate && @.point)]')) {
       console.log('dateCreated is here');
     } else {
       console.log('problems finding dateCreated');
     }
   }
+  // dateCreated
+  //
+  if((i==2) && (xmlValues[i]<xmlTargets[i])) {
+    console.log(`${xmlErrors[i]}`);
+  } else if ((i==2) && ((xmlValues[i]==xmlTargets[i]) || (xmlValues[i]>xmlTargets[i]))) {
+
+  }
   // dateIssued
-  if((i==3) && (xmlValues[i]>1)) {
+  if((i==3) && (xmlValues[i]>xmlTargets[i]+1)) {
     console.log(`${xmlErrors[i]}`);
   }
   // digitalOrigin
-  if((i==4) && (xmlValues[i]>1)) {
+  if((i==4) && (xmlValues[i]>xmlTargets[i])) {
     console.log(`${xmlErrors[i]}`);
   }
   // extent
-  if((i==5) && (xmlValues[i]>1)) {
+  if((i==5) && (xmlValues[i]>xmlTargets[i]+1)) {
     console.log(`${xmlErrors[i]}`);
   }
   // identifier[@type='filename']
@@ -117,47 +128,47 @@ for(i=0; i < xmlValues.length; i++) {
     console.log(`${xmlErrors[i]}`);
   }
   // physicalDescription/form
-  if((i==7) && (xmlValues[i]==0)) {
+  if((i==7) && (xmlValues[i]<xmlTargets[i])) {
     console.log(`${xmlErrors[i]}`);
   }
   // physicalDescription/internetMediaType
-  if((i==8) && (xmlValues[i]!==1)) {
+  if((i==8) && (xmlValues[i]!==xmlTargets[i])) {
     console.log(`${xmlErrors[i]}`);
   }
   // typeOfResource
-  if((i==9) && (xmlValues[i]!==1)) {
+  if((i==9) && (xmlValues[i]!==xmlTargets[i])) {
     console.log(`${xmlErrors[i]}`);
   }
   // languageOfCataloging/languageTerm
-  if((i==10) && (xmlValues[i]!==1)) {
+  if((i==10) && (xmlValues[i]!==xmlTargets[i])) {
     console.log(`${xmlErrors[i]}`);
   }
   // note[@type='ownership']
-  if((i==11) && (xmlValues[i]>1)) {
+  if((i==11) && (xmlValues[i]>xmlTargets[i]+1)) {
     console.log(`${xmlErrors[i]}`);
   }
   // recordInfo/recordOrigin
-  if((i==12) && (xmlValues[i]!==1)) {
+  if((i==12) && (xmlValues[i]!==xmlTargets[i])) {
     console.log(`${xmlErrors[i]}`);
   }
   // recordInfo/recordContentSource
-  if((i==13) && (xmlValues[i]>1)) {
+  if((i==13) && (xmlValues[i]>xmlTargets[i]+1)) {
     console.log(`${xmlErrors[i]}`);
   }
   // location/physicalLocation
-  if((i==14) && (xmlValues[i]>1)) {
+  if((i==14) && (xmlValues[i]>xmlTargets[i]+1)) {
     console.log(`${xmlErrors[i]}`);
   }
   // rights!!
-  if((i==15) && (xmlValues[i]!==1)) {
+  if((i==15) && (xmlValues[i]!==xmlTargets[i])) {
     console.log(`${xmlErrors[i]}`);
   }
   // shelfLocator
-  if((i==16) && (xmlValues[i]>1)) {
+  if((i==16) && (xmlValues[i]>xmlTargets[i]+1)) {
     console.log(`${xmlErrors[i]}`);
   }
   // titleInfo/title
-  if((i==17) && (xmlValues[i]<1)) {
+  if((i==17) && (xmlValues[i]<xmlTargets[i])) {
     console.log(`${xmlErrors[i]}`);
   }
   // else {
