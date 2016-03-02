@@ -21,10 +21,6 @@ var ibuErrorSchema = new Schema({
     type: String,
     unique: true
   },
-  extentionName: {
-    type: String,
-    trim: true
-  },
   digitalcollection: {
     type: String
   },

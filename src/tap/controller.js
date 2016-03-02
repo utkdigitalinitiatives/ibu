@@ -1,6 +1,6 @@
 'use strict';
 // import status from './status';
-//import abduction from './abduction';
+import abduction from './abduction';
 // import imgvalid from './IMGvalidation';
 // import xmlvalid from './XMLvalidation';
 // import ingest from './ingestion';
@@ -16,7 +16,7 @@ let gravity = './test/';
 let Promise = require('bluebird');
 
 function controller(){
-  //  abduction(gravity);
+   abduction(gravity);
    ingestionPrep();
 };
 
