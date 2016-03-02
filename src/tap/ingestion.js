@@ -27,10 +27,10 @@
 //
 var param = process.argv;
 console.log('hi');
-target = String(param[3]);
-parentpid = String(param[4]);
-namespace = String(param[5]);
-model = String(param[6]);
+target = String(param[2]);
+parentpid = String(param[3]);
+namespace = String(param[4]);
+model = String(param[5]);
 
 var status=[];
 
