@@ -79,6 +79,7 @@ function ingestion(target,parentpid,namespace,model) {
      // test for substr in stdout
      if(stdout.indexOf('Command dispatch complete') > -1) {
        $message = 'ingest prep drush command success';
+       console.log(stdout);
        console.log($message);
        status.push("$message");
        //return $message;
