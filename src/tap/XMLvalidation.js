@@ -8,9 +8,13 @@
 var fs = require('fs');
 var parser = require('xml2json');
 var jp = require('jsonpath');
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost:ibu');
+var conn = mongoose.connection;
 var status = [];
 var filename = process.argv;
 filename = String(filename[2]);
+
 
 var modsIn = fs.readFileSync(filename, 'utf8');
 var modsObj = parser.toJson(modsIn, options = {object: true});
@@ -37,24 +41,25 @@ var xmlTargets = [0,   //collTitle (req if avail, non-repeating)
                   1    //titleInfo/title (required, repeatable)
 
                  ];
-var xmlErrors = ["XML: too many collection titles",
-                 "XML: too many MS/AR numbers",
-                 "XML: please verify dateCreated elements and attributes",
-                 "XML: too many dateIssued elements",
-                 "XML: problems with digitalOrigin",
-                 "XML: too many extent elements",
-                 "XML: please verify identifier[@type=\'filename\']",
-                 "XML: please verify physicalDescription/form",
-                 "XML: please verify internetMediaType",
-                 "XML: please verify typeOfResource",
-                 "XML: please verify languageOfCataloging/languageTerm",
-                 "XML: please check the number of note[@type=\'ownership\']",
-                 "XML: please check the number of recordOrigin elements",
-                 "XML: please check the number of recordContentSource elements",
-                 "XML: please check the number of location/physicalLocation elements",
-                 "XML: please check the accessCondition element",
-                 "XML: please verify shelfLocator",
-                 "XML: please verify titleInfo/title"
+// fix this for cricket (xml##); not strings
+var xmlErrors = ["xml00",   //XML: too many collection titles
+                 "xml01",   //XML: too many MS/AR numbers
+                 "xml02",   //XML: please verify dateCreated elements and attributes
+                 "xml03",   //XML: too many dateIssued elements
+                 "xml04",   //XML: problems with digitalOrigin
+                 "xml05",   //XML: too many extent elements
+                 "xml06",   //XML: please verify identifier[@type=filename]
+                 "xml07",   //XML: please verify physicalDescription/form
+                 "xml08",   //XML: please verify internetMediaType
+                 "xml09",   //XML: please verify typeOfResource
+                 "xml10",   //XML: please verify languageOfCataloging/languageTerm
+                 "xml11",   //XML: please check the number of note[@type=ownership]
+                 "xml12",   //XML: please check the number of recordOrigin elements
+                 "xml13",   //XML: please check the number of recordContentSource elements
+                 "xml14",   //XML: please check the number of location/physicalLocation elements
+                 "xml15",   //XML: please check the accessCondition element
+                 "xml16",   //XML: please verify shelfLocator
+                 "xml17"    //XML: please verify titleInfo/title
 
                  ];
 
@@ -95,7 +100,7 @@ for(i=0; i < xmlValues.length; i++) {
   } else if ((i==2) && ((xmlValues[i]==xmlTargets[i]) || (xmlValues[i]>xmlTargets[i]))) {
       for(n=0; n<xmlValues[i]; n++) {
         if((n==0) && ((!modsObj.mods.originInfo.dateCreated[n].keyDate) && (!modsObj.mods.originInfo.dateCreated[n].point))) {
-          console.log('first dateCreated is okay');
+          //console.log('first dateCreated is okay');
         } else if((n>0) && ((!modsObj.mods.originInfo.dateCreated[n].keyDate) && (!modsObj.mods.originInfo.dateCreated[n].point))) {
           console.log(`${xmlErrors[i]}`);
         }
@@ -167,7 +172,7 @@ for(i=0; i < xmlValues.length; i++) {
 startProcessing(filename, fileRead);
 
 function startProcessing(file, callback) {
-  fs.readFile(file, 'utf8', callback);
+  fs.readFileSync(file, 'utf8', callback);
 }
 
 function fileRead(err, data) {
