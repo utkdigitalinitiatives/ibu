@@ -37,9 +37,11 @@ var status=[];
 
 function ingestion(target,parentpid,namespace,model) {
   // build command pieces
-  // serveruri is the location of the drupal_home on the drupal server
-  var drupalhome = '/vhosts/dlwork/web/collections';
+  // two drupalhomes one for testing on vagrant and one for server installation
+  var drupalhome = '/var/www/drupal';
+  //var drupalhome = '/vhosts/dlwork/web/collections';
   console.log('drupalhome = ',drupalhome);
+  // serveruri is the location of the drupal_home on the drupal server
   var serveruri = 'http://localhost/';
   console.log('serveruri = ',serveruri);
   console.log('parentpid = ',parentpid);
