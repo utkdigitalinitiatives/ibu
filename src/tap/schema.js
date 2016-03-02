@@ -8,7 +8,7 @@
 const mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var ibuErrorSchema = Schema({
+var ibuErrorSchema = new Schema({
   filename: {
     type: String,
     trim: true
@@ -44,7 +44,8 @@ var ibuErrorSchema = Schema({
 //     return /^[^.]+$/.test(v);
 
 var ibuErrorDoc = mongoose.model('ibuErrorDoc', ibuErrorSchema);
-exports.testErrorDoc = new ibuErrorDoc();
+// exports.default = new ibuErrorDoc();
+module.exports = ibuErrorDoc;
 
 // Some test's to show schema validator working
 //testobj.filename = 'testdoc.xml';
