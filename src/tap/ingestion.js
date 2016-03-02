@@ -36,10 +36,16 @@ var status=[];
 
 function ingestion(target,parentpid,namespace,model) {
   // build command pieces
-  // serveruri is the location of the drupal_home on the drupal server
-  var drupalhome = '/vhosts/dlwork/web/collections';
+  // two drupalhomes one for testing on vagrant and one for server installation
+  var drupalhome = '/var/www/drupal';
+  //var drupalhome = '/vhosts/dlwork/web/collections';
   console.log('drupalhome = ',drupalhome);
+<<<<<<< HEAD
+  // serveruri is the location of the drupal_home on the drupal server
+  var serveruri = 'http://localhost/';
+=======
   var serveruri = 'http://dlwork.lib.utk.edu/dev/';
+>>>>>>> daeb3e4105688c593ed25428263cfe55d0d57055
   console.log('serveruri = ',serveruri);
   console.log('parentpid = ',parentpid);
   // namespace
