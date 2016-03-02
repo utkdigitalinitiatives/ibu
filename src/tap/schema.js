@@ -1,16 +1,29 @@
+'use strict';
 /**
  * [schema defines validation schemas for Mongo documents being inserted into db:ibu collection:ibuerrors]
  *
  *
  */
-
-var mongoose = require('mongoose');
+ // Mongoose connection to MongoDB
+const mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+
 var ibuErrorSchema = Schema({
   filename: {
     type: String,
-    validate: /^[^.]+$/,
+    trim: true
+  },
+  filePathXML: {
+    type: String,
     unique: true
+  },
+  filePathIMG: {
+    type: String,
+    unique: true
+  },
+  extentionName: {
+    type: String,
+    trim: true
   },
   digitalcollection: {
     type: String
@@ -20,8 +33,15 @@ var ibuErrorSchema = Schema({
   },
   XMLerrors: {
     type: Array
+  },
+  created: {
+    type: Date , default: Date.now
   }
 });
+//,
+// validate: {
+//   validator: function(v){
+//     return /^[^.]+$/.test(v);
 
 var ibuErrorDoc = mongoose.model('ibuErrorDoc', ibuErrorSchema);
 exports.testErrorDoc = new ibuErrorDoc();
@@ -34,4 +54,3 @@ exports.testErrorDoc = new ibuErrorDoc();
 //});
 //
 //console.log(testobj);
-
