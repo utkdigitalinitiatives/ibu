@@ -1,46 +1,24 @@
 'use strict';
 // import status from './status';
-import abduction from './abduction';
+//import abduction from './abduction';
 // import imgvalid from './IMGvalidation';
 // import xmlvalid from './XMLvalidation';
 // import ingest from './ingestion';
 const fs = require('fs');
+//import db from './schema';
 
 // function img(abductionExport, callback){
 //   console.log('abductionCallBack: ', abductionExport);
 //   callback = 'success';
 //   return(null, callback);
 // };
+let gravity = './test/';
+let Promise = require('bluebird');
 
 function controller(){
-  Promise.all([
-    abduction,
-    ingestionPrep
-  ]).then(function(values){
-      let abduct = values[0];
-      let ingestPrep= values[1];
-      console.log(abduct, ingestPrep);
-  });
-  // function xml(callback){console.log('xml');};
-  // function img(callback){console.log('img');};
-  // function drush(callback){console.log('drush');};
-  // function cleanup(callback){console.log('cleanup');};
+  //  abduction(gravity);
+   ingestionPrep();
 };
-
-    // takeAction.next().value;
-    // if(imgvalid=='success') {
-  //   takeAction.next().value};
-  //   }else{console.log(loadFileList)};
-  // if(xmlvalid=='success') {
-  //   takeAction.next().value};
-  //   }else{console.log(loadFileList)};
-  // if(ingestionPrep=='success') {
-  //   takeAction.next().value};
-  //   }else{console.log(loadFileList)};
-  // if(ingest=='success') {
-  //   takeAction.next().value};
-  //   }else{console.log(loadFileList)};
-// };
 
 function ingestionPrep(status){
   if(fs.existsSync('./test/staging')){
