@@ -40,7 +40,6 @@ function ingestion(target,parentpid,namespace,model) {
   var drupalhome = '/var/www/drupal';
   //var drupalhome = '/vhosts/dlwork/web/collections';
   console.log('drupalhome = ',drupalhome);
-<<<<<<< HEAD
   // serveruri is the location of the drupal_home on the drupal server
   var serveruri = 'http://localhost/';
 
