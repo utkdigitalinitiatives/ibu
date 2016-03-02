@@ -43,9 +43,8 @@ function ingestion(target,parentpid,namespace,model) {
 <<<<<<< HEAD
   // serveruri is the location of the drupal_home on the drupal server
   var serveruri = 'http://localhost/';
-=======
-  var serveruri = 'http://dlwork.lib.utk.edu/dev/';
->>>>>>> daeb3e4105688c593ed25428263cfe55d0d57055
+
+  //var serveruri = 'http://dlwork.lib.utk.edu/dev/';
   console.log('serveruri = ',serveruri);
   console.log('parentpid = ',parentpid);
   // namespace
