@@ -112,7 +112,7 @@ This is a proof of concept only
           * Must be Color
           * Must be TIFF
 
-5. ibu will run drush ingest scripts for delivery directory that passes the above validity checks.
+5. ibu will run drush ingest scripts for file pairs that pass the above validity checks.
 
 ##Task Breakdown/Signup:
 | Task                                   |  Person |        File        |

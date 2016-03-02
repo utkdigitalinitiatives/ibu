@@ -1,135 +1,86 @@
 /**
- * 160301 coding by Cricket Deane for DLI project "sprint"
- * to be posted as status.js in https://github.com/utkdigitalinitiatives/ibu
- * path: /src/tap/status.js
- *
- *
  * status.js
+ * chd 160218
  *
- * 
+ * status: 
+ * function inputs:  
+ *    0. I do not have final information on what the inputs will be.
+ *    1. error.txt array of strings from XMLvalidataion  
+ *    2. error.txt array of strings from IMGvalidataion  
+ *    3. error.txt array of strings from Controller_validataion  
+ * function outputs:  
+ *    0. I do not have final information on what the outputs will be. 
+ *    1. errorReport.txt flat file written to a directory or sent to Controller
+ *    2. errorLog.txt flat file written to a directory or sent to Controller
+ * function purpose:  
+ *    1. Translate shortform input messages to English Language format for errorReport.txt
+ *    2. Send shortform input messages to errorLog format for errorLog.txt
  *
- * The inputs (described in detail below) are command line arguments type string.
+ * This file uses the module nodejs\node_modules\abbrev that is already installed as part of node.js.
  *
- * The output is a single multiline string, suitable for sending to a file or
- * printing on the screen. 
  *
- * status.js expects the following command line:
- * node status.js filename error1 [error2 error3 ...errorN]
- *
- * command line example:
- * node status.js 0012_000251_000028_0001.jp2 "Cannot read file" "Incorrect file format" "no kittens" 
- *
- * function translateArgs(array) expects the following array to be passed:
- * filename, error1, [error2, error3, ...errorN]
- *
- * function call example:
- * returnString= tranlsateArgs(myargv);
- * where myargv is the array:
- 
-  var myargv = [ "0012_000251_000028_0001.jp2"
-                 ,"Cannot read file" 
-				 ,"Incorrect file format" 
-				 ,"no kittens"
-				 ];
- * 
- * Example of ErrorReport:
- 
- 
- Filename: 0012_000251_000028_0001.jp2
- ErrorReport:
-         1.  The image file cannot be read.
-         2.  The image file is not in the correct file format.
-         3.  no kittens : This error is not found on the standard error list.
-		 
-		
- * The values in the standardError array are values from
- *   1. IMGvalidation.js
- *   2. XMLvalidation.js
- * 
+ * @return {[type]} [description]
  */
 
 
-/******************************************************
- * argv block                                         *
- ******************************************************/
-var process = require('process');
-var argv = process.argv;
-/******************************************************
- * end argv block                                     *
- ******************************************************/
- 
- var myargv=[];
- var i  = 0;
- var ct = 2; 
- while (ct < argv.length){
-	 myargv[i] = argv[ct];
-	 //console.log ("myargv["+i+"]="+myargv[i]);
-	 i  = i  +1;
-	 ct = ct +1;
- }
- 
 
- var returnString = translateArgs(myargv);
- console.log(returnString);
- 
- function translateArgs(myargv){
+var abbrev = require('./abbrev.js')
+var assert = require("assert")
+var util = require("util")
 
-var standardError = {
-	"Success" : "The image file passes all validation tests."
-	,"Cannot read file" : "The image file cannot be read."
-	,"Cannot read exif data" : "The exif data in the image file cannot be read."
-	,"Successfully read file" : "The image file is readable."
-	,"Successfully read exif" : "The exif data in the image file is readable."
-	,"Incorrect file format" : "The image file is not in the correct file format."	
-	,"Incorrect PPI" : "The image file has incorrect PPI."
-    ,"Wrong Color Depth" : "The image file has the wrong color depth."
-	,"More than 16 Bit Depth" : "The image file has a bit depth greater than 16."
-	,"Not color" : "The image file is not color."
-	,"Not 600 PPI" : "The image file is not 600 PPI."
-    ,"No material type description declared." : "The image file has no material type description declared." 
-	,"XML: too many collection titles" : "The mods file contains too many collection titles."
-	,"XML: too many MS/AR numbers" : "The mods file contains too many MS/AR numbers."
-	,"XML: verify dateCreated values" : "The mods file lacks verification of dateCreated values."
-	,"XML: too many dateIssued elements" : "The mods file contains too many dateIssued values."
-	,"XML: problems with digitalOrigin" : "The mods file has problems with the digitalOrigin value."
-	,"XML: too many extent elements" : "The mods file contains too many extent values."
-	,"XML: please verify identifier[@type=filename]" : "Please verify identifier[@type=filename]."
-	,"XML: please verify physicalDescription/form" : "Please verify physicalDescription/form value."
-	,"XML: please verify internetMediaType" : "Please verify intenetMediaType value."
-	,"XML: please verify typeOfResource" : "Please verify typeOfResource value."
-	,"XML: please verify languageOfCataloging/languageTerm" : "Please verify languageOfCataloging/languageTerm value."
-	,"XML: please check the number of note[@type=ownership]" : "Please check the number of note[@type=ownership] values."
-	,"XML: please check the number of recordOrigin elements" : "Please check the number of recordOrigin elements."
-	,"XML: please check the number of recordContentSource elements" : "Please check the number of recordOrigin elements."
-	,"XML: please check the number of location/physicalLocation elements" : "Please check the number of location/physicalLocation elements."
-	,"XML: please check the accessCondition element" : "Pease check the accessCondition value."
-	,"XML: too many shelfLocator elements" : "The mods file contains too many shelfLocator values."
-	,"XML: please add a titleInfo/title element" : "Please add a titleInfo/title element."
-	};
+console.log("TAP version 13")
+var count = 0
 
+//This needs a function to process command line arguments in the argv[] array
+//  argv[0] = name of the program (the first command line argument)
+//  argv[1] = second command line argument
+//  argv[2] = third command line argument
 
-var rawValue  = "";//argv[3];///"Incorrect PPI";//test without while_outer
-var engValue  = "";
-var filename  = myargv[0];///imgFile;
-
-var retString = "\nFilename: "+filename+"\nErrorReport:";
-var errorCount = 0;
-var myargvLen=myargv.length;
-
-
-var iargv = 1;//counter for args that list errors (argv[iargv])
-while (iargv<myargvLen){
-	
-	errorCount=errorCount+1;	
-	rawValue= myargv[iargv];
-	engValue=standardError[rawValue];
-	if (!engValue){
-		engValue  = rawValue +" : This error is not found on the standard error list.";
-	}
-	retString = retString+"\n\t "+errorCount+".  "+engValue;
-	iargv=iargv+1;
+function test (list, expect) {
+  count++
+  var actual = abbrev(list)
+  assert.deepEqual(actual, expect,
+    "abbrev("+util.inspect(list)+") === " + util.inspect(expect) + "\n"+
+    "actual: "+util.inspect(actual))
+  actual = abbrev.apply(exports, list)
+  assert.deepEqual(abbrev.apply(exports, list), expect,
+    "abbrev("+list.map(JSON.stringify).join(",")+") === " + util.inspect(expect) + "\n"+
+    "actual: "+util.inspect(actual))
+  console.log('ok - ' + list.join(' '))
 }
-	 
-return(retString);
- }//end function translateArgs(myargv)
 
+//The values in "list" come from the current version of the file IMGvalidation.js.
+//These are not final values.
+test([ "Success"
+	,"Cannot read file"
+	,"Cannot read exif data"
+	,"Successfully read file"
+	,"Successfully read exif"
+	,"Incorrect file format"
+	,"Incorrect PPI"
+	,"More than 16 Bit Depth"
+	,"Not color"
+	,"Not 600 PPI" ],
+	{         
+	'Success': 'The image file passes all validation tests.'
+	,'Cannot read file': 'The image file cannot be read.'
+	,'Cannot read exif data': 'The exif data in the image file cannot be read.'
+	,'Successfully read file': 'The image file is readable.'
+	,'Successfully read exif': 'The exif data in the image file is readable.'
+	,'Incorrect file format': 'The image file is not in the correct file format.'
+	,'Incorrect PPI': 'The image file has incorrect PPI.'
+	,'More than 16 Bit Depth': 'The image file has a bit depth greater than 16.'
+	,'Not color': 'The image file is not color.'
+	,'Not 600 PPI':	'The image file is not 600 PPI.'	
+	})
+/* ************************************************ **
+test([ "ruby", "ruby", "rules", "rules", "rules" ],
+{ rub: 'ruby'
+, ruby: 'ruby'
+, rul: 'rules'
+, rule: 'rules'
+, rules: 'rules'
+})
+** ************************************************ */
+
+console.log("1..%d", count)
