@@ -39,7 +39,7 @@ var xmlTargets = [0,   //collTitle (req if avail, non-repeating)
                  ];
 var xmlErrors = ["XML: too many collection titles",
                  "XML: too many MS/AR numbers",
-                 "XML: verify dateCreated values",
+                 "XML: please verify dateCreated elements and attributes",
                  "XML: too many dateIssued elements",
                  "XML: problems with digitalOrigin",
                  "XML: too many extent elements",
@@ -79,18 +79,6 @@ xmlValues[17] = jp.query(modsObj, '$.mods.titleInfo..title').length;
 
 console.log('xmlValues:  ' + xmlValues + ' length: ' + xmlValues.length);
 console.log('xmlTargets: ' + xmlTargets + ' length: ' + xmlTargets.length);
-console.log(jp.query(modsObj, '$.mods.originInfo.dateCreated[?(@keyDate && @point=="start")]'));
-console.log('typeof modsObj: ' + typeof modsObj);
-console.log(Object.keys(modsObj));
-if("point" in modsObj["mods"]["originInfo"]["dateCreated"]) {
-  console.log('point is there');
-} else {
-  console.log('point is not there');
-}
-console.log( 'keyDate: ' + modsObj.mods.originInfo.dateCreated[1].keyDate );
-
-
-
 
 for(i=0; i < xmlValues.length; i++) {
   // collection titles
@@ -102,21 +90,16 @@ for(i=0; i < xmlValues.length; i++) {
     console.log(`${xmlErrors[i]}`);
   }
   // dateCreated
-  // TODO asdfasdf
-  if((i==2) && (xmlValues[i]>xmlTargets[i])) {
-    console.log(`dateCreated error: ${xmlValues[i]} didn\'t match the expected value of ${xmlTargets[i]}`);
-    if(jp.query(modsObj, '$.mods.originInfo.dateCreated[?(@.keyDate && @.point)]')) {
-      console.log('dateCreated is here');
-    } else {
-      console.log('problems finding dateCreated');
-    }
-  }
-  // dateCreated
-  //
   if((i==2) && (xmlValues[i]<xmlTargets[i])) {
     console.log(`${xmlErrors[i]}`);
   } else if ((i==2) && ((xmlValues[i]==xmlTargets[i]) || (xmlValues[i]>xmlTargets[i]))) {
-
+      for(n=0; n<xmlValues[i]; n++) {
+        if((n==0) && ((!modsObj.mods.originInfo.dateCreated[n].keyDate) && (!modsObj.mods.originInfo.dateCreated[n].point))) {
+          console.log('first dateCreated is okay');
+        } else if((n>0) && ((!modsObj.mods.originInfo.dateCreated[n].keyDate) && (!modsObj.mods.originInfo.dateCreated[n].point))) {
+          console.log(`${xmlErrors[i]}`);
+        }
+      }
   }
   // dateIssued
   if((i==3) && (xmlValues[i]>xmlTargets[i]+1)) {
@@ -179,11 +162,6 @@ for(i=0; i < xmlValues.length; i++) {
   if((i==17) && (xmlValues[i]<xmlTargets[i])) {
     console.log(`${xmlErrors[i]}`);
   }
-  // else {
-  //  if(xmlValues[i]!=xmlTargets[i]) {
-  //    console.log(`oops! Error Message: \"${xmlErrors[i]}\"\n ${xmlValues[i]} didn\'t match the expected value of ${xmlTargets[i]}`);
-  //  }
-  //}
 }
 
 startProcessing(filename, fileRead);
