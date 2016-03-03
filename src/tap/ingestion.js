@@ -76,18 +76,20 @@ function ingestion(target,parentpid,namespace,model) {
     exec(cmd, function(error, stdout, stderr) {
      // command output is in stdout
      console.log(stdout);
+     var stdtest = '${stdout}';
      // test command log for success indication
      // test for substr in stdout
      //if(stdout.indexOf('Command dispatch complete') > -1) {
-     if(stdout.indexOf('README.md') > -1) {
+     if(stdtest.indexOf('README.md') > -1) {
        $message = 'ingest prep drush command success';
-       console.log(stdout);
+       console.log(stdtest);
        console.log($message);
        status.push("$message");
        //return $message;
      }// end if
      else {
-       $message = 'first ingest command failed!';
+       //$message = 'first ingest command failed!';
+       $message = 'test failed!';
        console.log($message);
        status.push("$message");
        return $message;
