@@ -6,10 +6,11 @@
  * 3. namespace
  * 4. model
  *   (note: basic image,large image,audio,video, collection, pdf, binary -- all require
- * the "ibsp" in the command string, book requires the "ibbp" part in the drush command.)
+ * the "ibsp" in the command string.)
  * output:
  *  log of drush run
  * errors:
+ *  if drush not installed
  *  if parameters missing
  *  if first command did not run
  *  if first command did run but did not prep ingest
