@@ -95,11 +95,11 @@ function ingestion(target,parentpid,namespace,model) {
   if ((target !='')&&(contentmodel !='')&&(parentpid !='')&&(namespace !='')) {
     exec(cmd, function(error, stdout, stderr) {
      // command output is in stdout
-     var output = `stdout:${stdout}`;
+     var output1 = `stdout:${stdout}`;
      //console.log(`stdout:${stdout}`);
      // test command log for success indication
      // test for substr in stdout
-     if(output.indexOf('SetID:') > -1) {
+     if(output1.indexOf('SetID:') > -1) {
        $message = 'ingest prep drush command success';
        console.log($message);
        status.push("$message");
@@ -126,11 +126,11 @@ function ingestion(target,parentpid,namespace,model) {
   if ($message = 'ingest prep drush command success') { 
     exec(cmd2, function(error, stdout, stderr) {
      // command output is in stdout
-     var output = `stdout:${stdout}`;
+     var output2 = `stdout:${stdout}`;
      //console.log(`stdout:${stdout}`);
      // test command log for success indication
      // test for substr in stdout
-     if(output.indexOf('Processing complete;') > -1) {
+     if(output2.indexOf('Processing complete;') > -1) {
        $message = 'ingest drush command success';
        console.log($message);
        status.push("$message");
