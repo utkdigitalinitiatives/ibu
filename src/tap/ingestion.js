@@ -69,7 +69,6 @@ function ingestion(target,parentpid,namespace,model) {
   console.log('model = ',model);
   // execute first drush command 
   var exec = require('child_process').exec;
-/*
   // test for drush existance
   var cmdtest = String('whereis drush')
   exec(cmdtest, function(error, stdout, stderr) {
@@ -90,7 +89,6 @@ function ingestion(target,parentpid,namespace,model) {
        return $message;
      }//end else
   });//end exec
-*/
   // prepare first drush command
   var cmd = String('drush -r '+drupalhome+' -v -u 1 --uri='+serveruri+' ibsp --content_models='+contentmodel+' --type=directory --parent='+parentpid+' --namespace='+namespace+' --target='+target );
   // show assembled command
@@ -98,10 +96,9 @@ function ingestion(target,parentpid,namespace,model) {
   if ((target !='')&&(contentmodel !='')&&(parentpid !='')&&(namespace !='')) {
     // execute first drush command 
     exec(cmd, function(error, stdout, stderr) {
-     // command output is in stdout
-     var output1 = `stdout:${stdout}`;
+     // drush command output is in stderr
+     var output1 = `stderr:${stderr}`;
      console.log('output1=',output1);
-     console.log(`stderr:${stderr}`);
      // test command log, stdout, for success indication
      if(output1.indexOf('SetId:') > -1) {
        $message = 'ingest prep drush command success';
@@ -130,8 +127,8 @@ function ingestion(target,parentpid,namespace,model) {
   if ($message == 'ingest prep drush command success') { 
      // execute second drush command 
     exec(cmd2, function(error, stdout, stderr) {
-     // command output is in stdout
-     var output2 = `stdout:${stdout}`;
+     // command output is in stderr
+     var output2 = `stderr:${stderr}`;
      //console.log(`stdout:${stdout}`);
      // test command log, stdout, for success indication
      if(output2.indexOf('Processing complete;') > -1) {
