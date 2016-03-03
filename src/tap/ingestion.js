@@ -81,15 +81,15 @@ function ingestion(target,parentpid,namespace,model) {
      // test for substr in stdout
      //if(stdout.indexOf('Command dispatch complete') > -1) {
      if(stdtest.indexOf('README.md') > -1) {
-       $message = 'ingest prep drush command success';
-       console.log(stdtest);
-       //console.log($message);
+       //$message = 'ingest prep drush command success';
+       $message = 'exec ok, str test ok';
+       //console.log(stdtest);
+       console.log($message);
        status.push("$message");
        //return $message;
      }// end if
      else {
-       //$message = 'first ingest command failed!';
-       $message = 'test failed!';
+       $message = 'first ingest command failed!';
        console.log($message);
        status.push("$message");
        return $message;
