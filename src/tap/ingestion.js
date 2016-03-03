@@ -65,7 +65,7 @@ function ingestion(target,parentpid,namespace,model) {
     contentmodel = 'islandora:sp_basic_image';
   }   
   if ((model)&&(model==='large')) {
-    contentmodel = 'islandora:sp_Large_image';
+    contentmodel = 'islandora:sp_large_image_cmodel';
   }
   console.log('model = ',model);
   // execute first drush command 
