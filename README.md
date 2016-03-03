@@ -1,7 +1,6 @@
 # Ingestion Batch Utility
 Sprint to Ingestion Batch Utility for automating, validating Objects and ingestion
 ![IBU](http://i.imgur.com/wTI6m0G.png)
-<br/>:bangbang: **Don't fork!** :bangbang:<br/>
 NOT A WORKING REPO<br/>
 This is a proof of concept only
 
@@ -135,13 +134,16 @@ This is a proof of concept only
 ###ingestion.js
   Input: **String**  (*'/d1/delivery/'* ) the complete target directory<br/>
   Input: **String**  (*'collections:heilman'* ) the collection parent pid<br/>
-  Input: **String**  (*'heilman'* ) the namespace of the collection<br/> 
+  Input: **String**  (*'heilman'* ) the namespace of the collection<br/>
   Input: **String**  (*'basic'* ) the content model - either "basic" or "large"<br/>
   Output: ***Array*** ( [Sucess] **OR** [Error Message 1 , Error Message 2, Error...] <hr>
 ###status.js
   Input: ***Array***  (*[Error, Error, Errors]* )<br/>
   Output: ***Array*** ( [Full Error Message 1 , Full Error Message 2, Full Error...] )
 <hr>
+
+###Sample Data for MongoShell from terminal:
+>mongoimport --db ibu --collection ibuerrordoc --drop --file /src/tap/InsertDummyData.json
 
 ##Resources
 * This is not important but useful
