@@ -22,7 +22,7 @@ function controller(){
 
 function ingestionPrep(status){
   if(fs.existsSync('./test/staging')){
-      console.log('Already Exist');
+      // console.log('Already Exist');
       return status;
   }else{
     fs.mkdir('./test/staging', (err)=> {
@@ -31,7 +31,7 @@ function ingestionPrep(status){
           status = err;
           return status;
         }else{
-          console.log('directory Created');
+          // console.log('directory Created');
           return status;
           };
       });
