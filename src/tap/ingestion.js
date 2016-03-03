@@ -68,16 +68,37 @@ function ingestion(target,parentpid,namespace,model) {
   console.log('model = ',model);
   // execute first drush command 
   var exec = require('child_process').exec;
+  // test for drush existance
+  var cmdtest = String('whereis drush')
+    exec(cmdtest, function(error, stdout, stderr) {
+     // command output is in stdout
+     var output = `stdout:${stdout}`;
+     //console.log(`stdout:${stdout}`);
+     // test command log for success indication
+     // test for substr in stdout
+     if(output.indexOf('bin/drush') > -1) {
+       $message = 'drush installed';
+       console.log($message);
+       //status.push("$message");
+     }// end if
+     else {
+       $message = 'drush not installed';
+       console.log($message);
+       status.push("$message");
+       return $message;
+     }//end else
+  };//end exec
   var cmd = String('drush -r '+drupalhome+' -v -u=1 --uri='+serveruri+' ibsp --content_models='+contentmodel+' --type=directory --parent='+parentpid+' --namespace='+namespace+' --target='+target );
   // show assembled command
   //console.log('cmd=',cmd);
   if ((target !='')&&(contentmodel !='')&&(parentpid !='')&&(namespace !='')) {
     exec(cmd, function(error, stdout, stderr) {
      // command output is in stdout
+     var output = `stdout:${stdout}`;
      //console.log(`stdout:${stdout}`);
      // test command log for success indication
      // test for substr in stdout
-     if(stdout.indexOf('Command dispatch complete') > -1) {
+     if(output.indexOf('SetID:') > -1) {
        $message = 'ingest prep drush command success';
        console.log($message);
        status.push("$message");
@@ -104,12 +125,22 @@ function ingestion(target,parentpid,namespace,model) {
   if ($message = 'ingest prep drush command success') { 
     exec(cmd2, function(error, stdout, stderr) {
      // command output is in stdout
-     console.log(`stdout:${stdout}`);
+     var output = `stdout:${stdout}`;
+     //console.log(`stdout:${stdout}`);
      // test command log for success indication
      // test for substr in stdout
-     $message = 'ingest drush command success';
-     console.log($message);
-     status.push($message);
+     if(output.indexOf('Processing complete;') > -1) {
+       $message = 'ingest drush command success';
+       console.log($message);
+       status.push("$message");
+       //return $message;
+     }// end if
+     else {
+       $message = 'first ingest command failed!';
+       console.log($message);
+       status.push("$message");
+       return $message;
+     }//end else
     });
   }// end if
   return $message;
