@@ -42,7 +42,7 @@ function ingestion(target,parentpid,namespace,model) {
   //var drupalhome = '/vhosts/dlwork/web/collections';
   console.log('drupalhome = ',drupalhome);
   // serveruri is the location of the drupal_home on the drupal server
-  var serveruri = 'http://localhost/';
+  var serveruri = 'http://localhost';
 
   //var serveruri = 'http://dlwork.lib.utk.edu/dev/';
   console.log('serveruri = ',serveruri);
@@ -84,8 +84,9 @@ function ingestion(target,parentpid,namespace,model) {
      }// end if
      else {
        $message = 'drush not installed';
-       console.log($message);
+       //console.log($message);
        status.push("$message");
+       //exit if drush not installed
        return $message;
      }//end else
   });//end exec
