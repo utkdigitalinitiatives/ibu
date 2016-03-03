@@ -201,7 +201,7 @@ function startProcessing(file, callback) {
 startProcessing(filename, fileRead);
 
 console.log(status);
-
+// rename startProcessing function
 
 
 
