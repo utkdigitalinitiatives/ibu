@@ -120,31 +120,33 @@ function ingestion(target,parentpid,namespace,model) {
      status.push("$message");
      return $message;
   }// end else
-  // exec second drush command
-  var cmd2 = String('drush -r '+drupalhome+' -v -u 1 --uri='+serveruri+' islandora_batch_ingest');
-  console.log('cmd2=',cmd2);
-  //$message = 'hold';
-  if ($message == 'ingest prep drush command success') { 
-     // execute second drush command 
-    exec(cmd2, function(error, stdout, stderr) {
-     // command output is in stderr
-     var output2 = `stderr:${stderr}`;
-     //console.log(`stdout:${stdout}`);
-     // test command log, stdout, for success indication
-     if(output2.indexOf('Processing complete;') > -1) {
-       $message = 'ingest drush command success';
-       console.log($message);
-       status.push("$message");
-       //return $message;
-     }// end if
-     else {
-       $message = 'second ingest command failed!';
-       console.log($message);
-       status.push("$message");
-       return $message;
-     }//end else
-    });
-  }// end if
+  // exec second drush command after success or failure
+  while (($message != 'ingest prep drush command success')||($message != 'first ingest command failed')) {
+    if ($message == 'ingest prep drush command success') {
+      var cmd2 = String('drush -r '+drupalhome+' -v -u 1 --uri='+serveruri+' islandora_batch_ingest');
+      console.log('cmd2=',cmd2);
+      //$message = 'hold';
+      // execute second drush command 
+      exec(cmd2, function(error, stdout, stderr) {
+        // command output is in stderr
+        var output2 = `stderr:${stderr}`;
+        //console.log(`stdout:${stdout}`);
+        // test command log, stdout, for success indication
+        if(output2.indexOf('Processing complete;') > -1) {
+          $message = 'ingest drush command success';
+          console.log($message);
+          status.push("$message");
+          //return $message;
+        }// end if
+        else {
+          $message = 'second ingest command failed!';
+          console.log($message);
+          status.push("$message");
+          return $message;
+        }//end else
+      }); // end exec
+    }// end if
+  } // end while
   return $message;
 }// end function
 //export default ingestion;
