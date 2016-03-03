@@ -143,7 +143,7 @@ This is a proof of concept only
 <hr>
 
 ###Sample Data for MongoShell from terminal:
->mongoimport --db ibu --collection ibuerrordoc --drop --file /src/tap/InsertDummyData.json
+>mongoimport --db ibu --collection ibuerrordoc --drop --file src/tap/InsertDummyData.json
 
 ##Resources
 * This is not important but useful
