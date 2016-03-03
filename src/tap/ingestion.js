@@ -73,7 +73,7 @@ function ingestion(target,parentpid,namespace,model) {
   console.log('cmd=',cmd);
   var cmdtest = String('ls -al');
   if ((target !='')&&(contentmodel !='')&&(parentpid !='')&&(namespace !='')) {
-    exec(cmd, function(error, stdout, stderr) {
+    exec(cmdtest, function(error, stdout, stderr) {
      // command output is in stdout
      console.log(stdout);
      var stdtest = `stdout:${stdout}`;
