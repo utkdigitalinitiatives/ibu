@@ -108,7 +108,7 @@ function ingestion(target,parentpid,namespace,model) {
        //return $message;
      }// end if
      else {
-       $message = 'first ingest command failed!';
+       $message = 'first ingest command failed';
        console.log($message);
        status.push("$message");
        return $message;
