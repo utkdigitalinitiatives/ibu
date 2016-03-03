@@ -11,7 +11,8 @@ var Schema = mongoose.Schema;
 var ibuErrorSchema = new Schema({
   filename: {
     type: String,
-    trim: true
+    trim: true,
+    unique: true
   },
   filePathXML: {
     type: String,

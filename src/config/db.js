@@ -7,7 +7,7 @@ let config = {
   'port': 27017
 };
 
-const dbUri = 'mongodb://localhost:27017/fileList';
+const dbUri = 'mongodb://localhost:27017/ibu';
 
 mongoose.connect(dbUri);
 

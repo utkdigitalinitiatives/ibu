@@ -58,7 +58,8 @@ function ingestion(target,parentpid,namespace,model) {
   var conn = mongoose.connection;
   */
   //
-  var $message = 'ingest did not happen';
+  var $message = '';
+  var $errmessage = '';
   var contentmodel = '';
   if ((model)&& (model==='basic')) {
     contentmodel = 'islandora:sp_basic_image';
@@ -77,37 +78,58 @@ function ingestion(target,parentpid,namespace,model) {
      //console.log(`stdout:${stdout}`);
      // test command log, stdout, for success indication
      if(output.indexOf('bin/drush') > -1) {
-       $message = 'drush installed';
-       console.log($message);
+       $errmessage = 'drush installed';
+       console.log($errmessage);
        //status.push("$message");
      }// end if
      else {
-       $message = 'drush not installed';
+       $errmessage = 'drush not installed';
        //console.log($message);
-       status.push("$message");
+       status.push("$errmessage");
        //exit if drush not installed
-       return $message;
+       return $errmessage;
      }//end else
   });//end exec
+  // prepare first drush command
   var cmd = String('drush -r '+drupalhome+' -v -u 1 --uri='+serveruri+' ibsp --content_models='+contentmodel+' --type=directory --parent='+parentpid+' --namespace='+namespace+' --target='+target );
   // show assembled command
   console.log('cmd=',cmd);
   if ((target !='')&&(contentmodel !='')&&(parentpid !='')&&(namespace !='')) {
     // execute first drush command 
-    var exec1 = require('child_process').exec;
-    exec1(cmd, function(error, stdout, stderr) {
-     // command output is in stdout
-     var output1 = `stdout:${stdout}`;
-     console.log(output1);
+    exec(cmd, function(error, stdout, stderr) {
+     // drush command output is in stderr
+     var output1 = `stderr:${stderr}`;
+     console.log('output1=',output1);
      // test command log, stdout, for success indication
-     if(output1.indexOf('SetId') > -1) {
+     if(output1.indexOf('SetId:') > -1) {
        $message = 'ingest prep drush command success';
        console.log($message);
-       //status.push("$message");
-       //return $message;
+       // start second command
+      var cmd2 = String('drush -r '+drupalhome+' -v -u 1 --uri='+serveruri+' islandora_batch_ingest');
+      console.log('cmd2=',cmd2);
+      //$message = 'hold';
+      // execute second drush command 
+      exec(cmd2, function(error, stdout, stderr) {
+        // command output is in stderr
+        var output2 = `stderr:${stderr}`;
+        //console.log(`stdout:${stdout}`);
+        // test command log, stdout, for success indication
+        if(output2.indexOf('Processing complete;') > -1) {
+          $message = 'ingest drush command success';
+          console.log($message);
+          status.push("$message");
+          //return $message;
+        }// end if
+        else {
+          $message = 'second ingest command failed!';
+          console.log($message);
+          status.push("$message");
+          return $message;
+        }//end else
+      }); // end exec
      }// end if
      else {
-       $message = 'first ingest command failed!';
+       $message = 'first ingest command failed';
        console.log($message);
        status.push("$message");
        return $message;
@@ -120,32 +142,6 @@ function ingestion(target,parentpid,namespace,model) {
      status.push("$message");
      return $message;
   }// end else
-  // exec second drush command
-  var cmd2 = String('drush -r '+drupalhome+' -v -u 1 --uri='+serveruri+' islandora_batch_ingest');
-  console.log('cmd2=',cmd2);
-  //$message = 'hold';
-  if ($message == 'ingest prep drush command success') { 
-     // execute second drush command 
-    var exec2 = require('child_process').exec;
-    exec2(cmd2, function(error, stdout, stderr) {
-     // command output is in stdout
-     var output2 = `stdout:${stdout}`;
-     //console.log(`stdout:${stdout}`);
-     // test command log, stdout, for success indication
-     if(output2.indexOf('Processing complete;') > -1) {
-       $message = 'ingest drush command success';
-       console.log($message);
-       status.push("$message");
-       //return $message;
-     }// end if
-     else {
-       $message = 'second ingest command failed!';
-       console.log($message);
-       status.push("$message");
-       return $message;
-     }//end else
-    });
-  }// end if
   return $message;
 }// end function
 //export default ingestion;
