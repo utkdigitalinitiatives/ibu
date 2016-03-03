@@ -69,6 +69,7 @@ function ingestion(target,parentpid,namespace,model) {
   console.log('model = ',model);
   // execute first drush command 
   var exec = require('child_process').exec;
+/*
   // test for drush existance
   var cmdtest = String('whereis drush')
   exec(cmdtest, function(error, stdout, stderr) {
@@ -89,6 +90,8 @@ function ingestion(target,parentpid,namespace,model) {
        return $message;
      }//end else
   });//end exec
+*/
+  // prepare first drush command
   var cmd = String('drush -r '+drupalhome+' -v -u 1 --uri='+serveruri+' ibsp --content_models='+contentmodel+' --type=directory --parent='+parentpid+' --namespace='+namespace+' --target='+target );
   // show assembled command
   console.log('cmd=',cmd);
