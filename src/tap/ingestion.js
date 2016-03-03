@@ -91,7 +91,7 @@ function ingestion(target,parentpid,namespace,model) {
   });//end exec
   var cmd = String('drush -r '+drupalhome+' -v -u=1 --uri='+serveruri+' ibsp --content_models='+contentmodel+' --type=directory --parent='+parentpid+' --namespace='+namespace+' --target='+target );
   // show assembled command
-  //console.log('cmd=',cmd);
+  console.log('cmd=',cmd);
   if ((target !='')&&(contentmodel !='')&&(parentpid !='')&&(namespace !='')) {
     exec(cmd, function(error, stdout, stderr) {
      // command output is in stdout
