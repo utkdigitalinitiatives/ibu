@@ -71,7 +71,7 @@ function ingestion(target,parentpid,namespace,model) {
   var exec = require('child_process').exec;
   // test for drush existance
   var cmdtest = String('whereis drush')
-    exec(cmdtest, function(error, stdout, stderr) {
+  exec(cmdtest, function(error, stdout, stderr) {
      // command output is in stdout
      var output = `stdout:${stdout}`;
      //console.log(`stdout:${stdout}`);
@@ -88,7 +88,7 @@ function ingestion(target,parentpid,namespace,model) {
        status.push("$message");
        return $message;
      }//end else
-  };//end exec
+  });//end exec
   var cmd = String('drush -r '+drupalhome+' -v -u=1 --uri='+serveruri+' ibsp --content_models='+contentmodel+' --type=directory --parent='+parentpid+' --namespace='+namespace+' --target='+target );
   // show assembled command
   //console.log('cmd=',cmd);
