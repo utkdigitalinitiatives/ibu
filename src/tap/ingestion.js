@@ -28,11 +28,12 @@
 //
 var param = process.argv;
 console.log('hi');
+/*
 target = String(param[2]);
 parentpid = String(param[3]);
 namespace = String(param[4]);
 model = String(param[5]);
-
+*/
 var status=[];
 
 function ingestion(target,parentpid,namespace,model) {
@@ -65,7 +66,7 @@ function ingestion(target,parentpid,namespace,model) {
     contentmodel = 'islandora:sp_basic_image';
   }   
   if ((model)&&(model==='large')) {
-    contentmodel = 'islandora:sp_Large_image';
+    contentmodel = 'islandora:sp_large_image_cmodel';
   }
   console.log('model = ',model);
   // execute first drush command 
@@ -144,6 +145,6 @@ function ingestion(target,parentpid,namespace,model) {
   }// end else
   return $message;
 }// end function
-//export default ingestion;
-ingestion(target,parentpid,namespace,model);
+//ingestion(target,parentpid,namespace,model);
+export default ingestion;
 

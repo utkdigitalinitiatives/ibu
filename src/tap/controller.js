@@ -3,7 +3,12 @@
 import abduction from './abduction';
 // import imgvalid from './IMGvalidation';
 // import xmlvalid from './XMLvalidation';
-// import ingest from './ingestion';
+target = '/home/vagrant/imagetest';
+parentpid = 'islandora;test2';
+namespace = 'test2';
+model = 'basic';
+ import ingest from './ingestion';
+
 const fs = require('fs');
 //import db from './schema';
 
@@ -18,6 +23,7 @@ let Promise = require('bluebird');
 function controller(){
    abduction(gravity);
    ingestionPrep();
+   ingestion(target,parentpid,namespace,model);
 };
 
 function ingestionPrep(status){
