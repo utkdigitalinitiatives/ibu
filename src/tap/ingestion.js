@@ -101,7 +101,7 @@ function ingestion(target,parentpid,namespace,model) {
      if(output1.indexOf('SetID:') > -1) {
        $message = 'ingest prep drush command success';
        console.log($message);
-       status.push("$message");
+       //status.push("$message");
        //return $message;
      }// end if
      else {
