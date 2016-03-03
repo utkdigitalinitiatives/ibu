@@ -104,26 +104,7 @@ function ingestion(target,parentpid,namespace,model) {
      if(output1.indexOf('SetId:') > -1) {
        $message = 'ingest prep drush command success';
        console.log($message);
-       //status.push("$message");
-       //return $message;
-     }// end if
-     else {
-       $message = 'first ingest command failed';
-       console.log($message);
-       status.push("$message");
-       return $message;
-     }//end else
-    });// end exec
-  }// end if
-  else {
-     $message = 'parameters for first command missing, ingest not started.';
-     console.log($message);
-     status.push("$message");
-     return $message;
-  }// end else
-  // exec second drush command after success or failure
-  while (($message != 'ingest prep drush command success')||($message != 'first ingest command failed')) {
-    if ($message == 'ingest prep drush command success') {
+       // start second command
       var cmd2 = String('drush -r '+drupalhome+' -v -u 1 --uri='+serveruri+' islandora_batch_ingest');
       console.log('cmd2=',cmd2);
       //$message = 'hold';
@@ -146,8 +127,21 @@ function ingestion(target,parentpid,namespace,model) {
           return $message;
         }//end else
       }); // end exec
-    }// end if
-  } // end while
+     }// end if
+     else {
+       $message = 'first ingest command failed';
+       console.log($message);
+       status.push("$message");
+       return $message;
+     }//end else
+    });// end exec
+  }// end if
+  else {
+     $message = 'parameters for first command missing, ingest not started.';
+     console.log($message);
+     status.push("$message");
+     return $message;
+  }// end else
   return $message;
 }// end function
 //export default ingestion;
