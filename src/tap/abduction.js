@@ -17,44 +17,51 @@ function saveToDB(file){
   let ext = path.extname(file);
   // console.log( path.basename(file, path.extname(file) ) );
   if(ext!=''){
-    //console.log('Found Records', ext, path.basename(file, path.extname(file)));
-    ibuErrorDoc.count({'filename': path.basename(file, path.extname(file)) }, (count) => {
-        console.log('Count: ',count);
-        if(count>0){
-            console.log('if');
-            ibuErrorDoc.findOne({ fileName: path.basename(file, path.extname(file)) },
-              function(err, doc){
-                console.log('doc: ',doc);
-                if( ext=='xml' ){doc.filePathXML= path.resolve(file);};
-                if( (ext=='tif')||(ext=='jp2') ){doc.filePathIMG= path.resolve(file);};
-                doc.filename = path.basename(file, path.extname(file));
-                doc.update();
-              });
-        }else{
-          console.log('else ', ext);
-          if(ext=='.xml'){
-            console.log('xml');
-            let xmlfileFoundInFolder = new ibuErrorDoc ({
-                filename: path.basename(file, path.extname(file)),
-                filePathXML: path.resolve(file)
-              });
-            xmlfileFoundInFolder.save(function (err) {if (err)
-                console.log ('Error on save!');
-              });
-          };
+    ibuErrorDoc.findOne({'filename': 'freshman-record_1986_0001'},
+      'filename filePathIMG filePathXML created _id', function(err, item){
+        if(err) return handleError(err);
+        console.log(item.filename , item.filePathXML);
+      })
 
-          if( (ext=='.tif')||(ext=='.jp2') ){
-            console.log('img');
-            let tiffileFoundInFolder = new ibuErrorDoc ({
-              filename: path.basename(file, path.extname(file)),
-              filePathIMG: path.resolve(file)
-            });
-            tiffileFoundInFolder.save(function (err) {if (err)
-              console.log ('Error on save!');
-              });
-          };
-        };
-      });
+    //console.log('Found Records', ext, path.basename(file, path.extname(file)));
+    // ibuErrorDoc.count({'filename': path.basename(file, path.extname(file))},
+    //  (count) => {
+    //     console.log('Count: ',count);
+    //     if(count>0|| count!=null){
+    //         console.log('if count: ', count);
+    //         ibuErrorDoc.findOne({ fileName: path.basename(file, path.extname(file)) },
+    //           function(err, doc){
+    //             console.log('doc: ',doc);
+    //             if( ext=='xml' ){doc.filePathXML= path.resolve(file);};
+    //             if( (ext=='tif')||(ext=='jp2') ){doc.filePathIMG= path.resolve(file);};
+    //             doc.filename = path.basename(file, path.extname(file));
+    //             doc.update();
+    //           });
+    //     }else{
+    //       console.log('else ', ext);
+    //       if(ext=='.xml'){
+    //         console.log('xml');
+    //         let xmlfileFoundInFolder = new ibuErrorDoc ({
+    //             filename: path.basename(file, path.extname(file)),
+    //             filePathXML: path.resolve(file)
+    //           });
+    //         xmlfileFoundInFolder.save(function (err) {if (err)
+    //             console.log ('Error on save!');
+    //           });
+    //       };
+    //
+    //       if( (ext=='.tif')||(ext=='.jp2') ){
+    //         console.log('img');
+    //         let tiffileFoundInFolder = new ibuErrorDoc ({
+    //           filename: path.basename(file, path.extname(file)),
+    //           filePathIMG: path.resolve(file)
+    //         });
+    //         tiffileFoundInFolder.save(function (err) {if (err)
+    //           console.log ('Error on save!');
+    //           });
+    //       };
+    //     };
+    //   });
     };
 };
 
