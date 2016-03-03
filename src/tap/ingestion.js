@@ -75,8 +75,7 @@ function ingestion(target,parentpid,namespace,model) {
      // command output is in stdout
      var output = `stdout:${stdout}`;
      //console.log(`stdout:${stdout}`);
-     // test command log for success indication
-     // test for substr in stdout
+     // test command log, stdout, for success indication
      if(output.indexOf('bin/drush') > -1) {
        $message = 'drush installed';
        console.log($message);
@@ -98,8 +97,7 @@ function ingestion(target,parentpid,namespace,model) {
      // command output is in stdout
      var output1 = `stdout:${stdout}`;
      //console.log(`stdout:${stdout}`);
-     // test command log for success indication
-     // test for substr in stdout
+     // test command log, stdout, for success indication
      if(output1.indexOf('SetID:') > -1) {
        $message = 'ingest prep drush command success';
        console.log($message);
@@ -129,8 +127,7 @@ function ingestion(target,parentpid,namespace,model) {
      // command output is in stdout
      var output2 = `stdout:${stdout}`;
      //console.log(`stdout:${stdout}`);
-     // test command log for success indication
-     // test for substr in stdout
+     // test command log, stdout, for success indication
      if(output2.indexOf('Processing complete;') > -1) {
        $message = 'ingest drush command success';
        console.log($message);
