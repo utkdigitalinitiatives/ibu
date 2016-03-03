@@ -1,4 +1,4 @@
-[
+
   {
     "filename": "9733.2309.4609.0",
     "filePathXML": "test/9733.2309.4609.0.xml",
@@ -6,7 +6,7 @@
     "digitalcollection": "",
     "IMGerrors": [],
     "XMLerrors": []
-  },
+  }
   {
     "filename": "9733.2309.4609.1",
     "filePathXML": "test/9733.2309.4609.1.xml",
@@ -14,7 +14,7 @@
     "digitalcollection": "",
     "IMGerrors": [],
     "XMLerrors": []
-  },
+  }
   {
     "filename": "9733.2309.4609.2",
     "filePathXML": "test/9733.2309.4609.2.xml",
@@ -22,7 +22,7 @@
     "digitalcollection": "",
     "IMGerrors": [],
     "XMLerrors": []
-  },
+  }
   {
     "filename": "9733.2309.4609.3",
     "filePathXML": "test/9733.2309.4609.3.xml",
@@ -30,7 +30,7 @@
     "digitalcollection": "",
     "IMGerrors": [],
     "XMLerrors": []
-  },
+  }
   {
     "filename": "9733.2309.4609.4",
     "filePathXML": "test/9733.2309.4609.4.xml",
@@ -38,7 +38,7 @@
     "digitalcollection": "",
     "IMGerrors": [],
     "XMLerrors": []
-  },
+  }
   {
     "filename": "9733.2309.4609.5",
     "filePathXML": "test/9733.2309.4609.5.xml",
@@ -46,7 +46,7 @@
     "digitalcollection": "",
     "IMGerrors": [],
     "XMLerrors": []
-  },
+  }
   {
     "filename": "9733.2309.4609.6",
     "filePathXML": "test/9733.2309.4609.6.xml",
@@ -54,7 +54,7 @@
     "digitalcollection": "",
     "IMGerrors": [],
     "XMLerrors": []
-  },
+  }
   {
     "filename": "9733.2309.4609.7",
     "filePathXML": "test/9733.2309.4609.7.xml",
@@ -62,7 +62,7 @@
     "digitalcollection": "",
     "IMGerrors": [],
     "XMLerrors": []
-  },
+  }
   {
     "filename": "9733.2309.4609.8",
     "filePathXML": "test/9733.2309.4609.8.xml",
@@ -70,7 +70,7 @@
     "digitalcollection": "",
     "IMGerrors": [],
     "XMLerrors": []
-  },
+  }
   {
     "filename": "9733.2309.4609.9",
     "filePathXML": "test/9733.2309.4609.9.xml",
@@ -78,7 +78,7 @@
     "digitalcollection": "",
     "IMGerrors": [],
     "XMLerrors": []
-  },
+  }
   {
     "filename": "9733.2309.4609.10",
     "filePathXML": "test/9733.2309.4609.10.xml",
@@ -86,7 +86,7 @@
     "digitalcollection": "",
     "IMGerrors": [],
     "XMLerrors": []
-  },
+  }
   {
     "filename": "9733.2309.4609.11",
     "filePathXML": "test/9733.2309.4609.11.xml",
@@ -94,7 +94,7 @@
     "digitalcollection": "",
     "IMGerrors": [],
     "XMLerrors": []
-  },
+  }
   {
     "filename": "9733.2309.4609.12",
     "filePathXML": "test/9733.2309.4609.12.xml",
@@ -102,7 +102,7 @@
     "digitalcollection": "",
     "IMGerrors": [],
     "XMLerrors": []
-  },
+  }
   {
     "filename": "9733.2309.4609.13",
     "filePathXML": "test/9733.2309.4609.13.xml",
@@ -111,4 +111,4 @@
     "IMGerrors": [],
     "XMLerrors": []
   }
-]
+
