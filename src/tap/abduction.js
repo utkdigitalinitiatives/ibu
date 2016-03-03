@@ -1,96 +1,78 @@
 let Promise = require('bluebird');
 const fs = Promise.promisifyAll(require('fs'));
 const path = require('path');
-
 const mongoose = require('mongoose');
 let ibuErrorDoc = require('./schema');
 let db = require('../config/db');
-
-// TEMP
-//ibuErrorDoc.collection.drop('ibuerrordoc');
-
+/**
+ * Serch directory for Image & MODS file and saves to db
+ * @param  {[type]} gravity - The directory to search
+ * @return {[type]} db      - ported to the database
+ */
 module.exports = function abduction(gravity){
   filelistings(gravity);
 };
-
+/**
+ * [saveToDB description]
+ * @param  {Object} file - File from fs
+ * @return {*}      - None
+ */
 function saveToDB(file){
   let ext = path.extname(file);
-  // console.log( path.basename(file, path.extname(file) ) );
   if(ext!=''){
-    ibuErrorDoc.findOne({'filename': 'freshman-record_1986_0001'},
-      'filename filePathIMG filePathXML created _id', function(err, item){
-        if(err) return handleError(err);
-        console.log(item.filename , item.filePathXML);
-      })
-
-    //console.log('Found Records', ext, path.basename(file, path.extname(file)));
-    // ibuErrorDoc.count({'filename': path.basename(file, path.extname(file))},
-    //  (count) => {
-    //     console.log('Count: ',count);
-    //     if(count>0|| count!=null){
-    //         console.log('if count: ', count);
-    //         ibuErrorDoc.findOne({ fileName: path.basename(file, path.extname(file)) },
-    //           function(err, doc){
-    //             console.log('doc: ',doc);
-    //             if( ext=='xml' ){doc.filePathXML= path.resolve(file);};
-    //             if( (ext=='tif')||(ext=='jp2') ){doc.filePathIMG= path.resolve(file);};
-    //             doc.filename = path.basename(file, path.extname(file));
-    //             doc.update();
-    //           });
-    //     }else{
-    //       console.log('else ', ext);
-    //       if(ext=='.xml'){
-    //         console.log('xml');
-    //         let xmlfileFoundInFolder = new ibuErrorDoc ({
-    //             filename: path.basename(file, path.extname(file)),
-    //             filePathXML: path.resolve(file)
-    //           });
-    //         xmlfileFoundInFolder.save(function (err) {if (err)
-    //             console.log ('Error on save!');
-    //           });
-    //       };
-    //
-    //       if( (ext=='.tif')||(ext=='.jp2') ){
-    //         console.log('img');
-    //         let tiffileFoundInFolder = new ibuErrorDoc ({
-    //           filename: path.basename(file, path.extname(file)),
-    //           filePathIMG: path.resolve(file)
-    //         });
-    //         tiffileFoundInFolder.save(function (err) {if (err)
-    //           console.log ('Error on save!');
-    //           });
-    //       };
-    //     };
-    //   });
-    };
+    /**
+     * Using Mongoose count to see if file exist
+     * @param  {string|object|*} { 'filename': path.basename(file,
+     * path.extname(file)) - Searching for the current file's name
+     * @fires exec -
+     * @param {number} - number of files found with this same filename (1 or 0)
+     * @return {*}  - Returns nothing
+     */
+    ibuErrorDoc.count({ 'filename' : path.basename(file, path.extname(file))})
+      .exec((err, number)=>{
+        if(number==0){
+            if(ext=='.xml'){
+              let xmlfileFoundInFolder = new ibuErrorDoc ({
+                  filename: path.basename(file, path.extname(file)),
+                  filePathXML: path.resolve(file),
+                  filePathIMG: ""
+                });
+              xmlfileFoundInFolder.save(function (err) {if (err)
+                  setTimeout(saveToDB(file), 1000);
+                });
+            };// xml new
+            if( (ext=='.tif')||(ext=='.jp2') ){
+              let tiffileFoundInFolder = new ibuErrorDoc ({
+                filePathIMG: path.resolve(file)
+              }, {upsert: true});
+              tiffileFoundInFolder.update(function (err) {if (err)
+                setTimeout(saveToDB(file), 1000);
+                });
+              };
+      }else{
+        let stream = ibuErrorDoc.find({ 'filename' : path.basename(file, path.extname(file))})
+          .select('_id filename filePathXML filePathIMG').stream();
+          stream.on('data', function(doc){
+            if((doc.filePathXML=="") && (ext=='.xml')){
+              ibuErrorDoc.findByIdAndUpdate(doc._id, { $set: {filePathXML: path.resolve(file)} }, (err,foo)=>{console.log(err,foo);});
+            }else if((doc.filePathIMG=="") && ((ext=='.tif'))||(ext=='.jp2')){
+              ibuErrorDoc.findByIdAndUpdate(doc._id, { $set: {filePathIMG: path.resolve(file)} }, (err,foo)=>{console.log(err,foo);});
+            };
+          }).on('error', function(err){
+            console.err(err);
+          }).on('close', function(){
+            // console.log('Done');
+          });
+      };//if 0 / ELSE
+    });//exec
+  };
 };
 
-    // ibuErrorDoc.findOneAndUpdate({_id: id }, { $set: {
-    //   _id: id,
-    //   filename: file,
-    //   extentionName: ext
-    // }},{upset: true},
-    // function(err){
-    //   if(err) {
-    //     throw err;
-    //   }
-    // });
-
-  //   let lookup =  {'_id': path.resolve(file)};
-  //   console.log(ibuErrorDoc.find(lookup));
-  // if(ibuErrorDoc.find(lookup) ){
-  //   // console.log('found');
-  //   ibuErrorDoc.findOneAndUpdate(lookup, fileFoundInFolder);
-  // }else{
-  //   console.log('New');
-  //   fileFoundInFolder.save(function (err) {if (err) console.log ('Error on save!')});
-  // };
-  // fileFoundInFolder.save(function (err) {if (err)
-  //    console.log ('Error on save!');
-  //    ibuErrorDoc.findOneAndUpdate();
-  //  });
-
-
+/**
+ * [filelistings description]
+ * @param  {[type]} gravity [description]
+ * @return {[type]}         [description]
+ */
 function filelistings(gravity){
   let readFiles = 0;
   let readDirrectories = 0;
@@ -110,9 +92,6 @@ function filelistings(gravity){
       readFiles++;
       if(path.extname(file)=='.tif'||path.extname(file)=='.jp2'|| path.extname(file)=='.xml') {
         saveToDB(file);
-        if( (readFiles+readDirrectories)===files.length) {
-          //saveToDB('complete');
-        };
       };
     });
   });
