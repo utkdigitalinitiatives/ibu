@@ -58,7 +58,8 @@ function ingestion(target,parentpid,namespace,model) {
   var conn = mongoose.connection;
   */
   //
-  var $message = 'ingest did not happen';
+  var $message = '';
+  var $errmessage = '';
   var contentmodel = '';
   if ((model)&& (model==='basic')) {
     contentmodel = 'islandora:sp_basic_image';
@@ -77,16 +78,16 @@ function ingestion(target,parentpid,namespace,model) {
      //console.log(`stdout:${stdout}`);
      // test command log, stdout, for success indication
      if(output.indexOf('bin/drush') > -1) {
-       $message = 'drush installed';
-       console.log($message);
+       $errmessage = 'drush installed';
+       console.log($errmessage);
        //status.push("$message");
      }// end if
      else {
-       $message = 'drush not installed';
+       $errmessage = 'drush not installed';
        //console.log($message);
-       status.push("$message");
+       status.push("$errmessage");
        //exit if drush not installed
-       return $message;
+       return $errmessage;
      }//end else
   });//end exec
   // prepare first drush command
