@@ -94,13 +94,13 @@ function ingestion(target,parentpid,namespace,model) {
   console.log('cmd=',cmd);
   if ((target !='')&&(contentmodel !='')&&(parentpid !='')&&(namespace !='')) {
     // execute first drush command 
-    var exec1 = require('child_process').exec;
-    exec1(cmd, function(error, stdout, stderr) {
+    //var exec = require('child_process').exec;
+    exec(cmd, function(error, stdout, stderr) {
      // command output is in stdout
      var output1 = `stdout:${stdout}`;
      console.log(output1);
      // test command log, stdout, for success indication
-     if(output1.indexOf('SetId') > -1) {
+     if(output1.indexOf('SetId:') > -1) {
        $message = 'ingest prep drush command success';
        console.log($message);
        //status.push("$message");
@@ -126,8 +126,8 @@ function ingestion(target,parentpid,namespace,model) {
   //$message = 'hold';
   if ($message == 'ingest prep drush command success') { 
      // execute second drush command 
-    var exec2 = require('child_process').exec;
-    exec2(cmd2, function(error, stdout, stderr) {
+    //var exec = require('child_process').exec;
+    exec(cmd2, function(error, stdout, stderr) {
      // command output is in stdout
      var output2 = `stdout:${stdout}`;
      //console.log(`stdout:${stdout}`);
