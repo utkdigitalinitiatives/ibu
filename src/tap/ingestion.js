@@ -93,7 +93,9 @@ function ingestion(target,parentpid,namespace,model) {
   // show assembled command
   console.log('cmd=',cmd);
   if ((target !='')&&(contentmodel !='')&&(parentpid !='')&&(namespace !='')) {
-    exec(cmd, function(error, stdout, stderr) {
+    // execute first drush command 
+    var exec1 = require('child_process').exec;
+    exec1(cmd, function(error, stdout, stderr) {
      // command output is in stdout
      var output1 = `stdout:${stdout}`;
      console.log(output1);
@@ -122,8 +124,10 @@ function ingestion(target,parentpid,namespace,model) {
   var cmd2 = String('drush -r '+drupalhome+' -v -u 1 --uri='+serveruri+' islandora_batch_ingest');
   console.log('cmd2=',cmd2);
   //$message = 'hold';
-  if ($message = 'ingest prep drush command success') { 
-    exec(cmd2, function(error, stdout, stderr) {
+  if ($message == 'ingest prep drush command success') { 
+     // execute second drush command 
+    var exec2 = require('child_process').exec;
+    exec2(cmd2, function(error, stdout, stderr) {
      // command output is in stdout
      var output2 = `stdout:${stdout}`;
      //console.log(`stdout:${stdout}`);
@@ -135,7 +139,7 @@ function ingestion(target,parentpid,namespace,model) {
        //return $message;
      }// end if
      else {
-       $message = 'first ingest command failed!';
+       $message = 'second ingest command failed!';
        console.log($message);
        status.push("$message");
        return $message;
