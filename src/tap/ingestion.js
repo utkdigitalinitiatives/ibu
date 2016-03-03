@@ -70,20 +70,15 @@ function ingestion(target,parentpid,namespace,model) {
   var exec = require('child_process').exec;
   var cmd = String('drush -r '+drupalhome+' -v -u=1 --uri='+serveruri+' ibsp --content_models='+contentmodel+' --type=directory --parent='+parentpid+' --namespace='+namespace+' --target='+target );
   // show assembled command
-  console.log('cmd=',cmd);
-  var cmdtest = String('ls -al');
+  //console.log('cmd=',cmd);
   if ((target !='')&&(contentmodel !='')&&(parentpid !='')&&(namespace !='')) {
-    exec(cmdtest, function(error, stdout, stderr) {
+    exec(cmd, function(error, stdout, stderr) {
      // command output is in stdout
-     console.log(stdout);
-     var stdtest = `stdout:${stdout}`;
+     //console.log(`stdout:${stdout}`);
      // test command log for success indication
      // test for substr in stdout
-     //if(stdout.indexOf('Command dispatch complete') > -1) {
-     if(stdtest.indexOf('README.md') > -1) {
-       //$message = 'ingest prep drush command success';
-       $message = 'exec ok, str test ok';
-       //console.log(stdtest);
+     if(stdout.indexOf('Command dispatch complete') > -1) {
+       $message = 'ingest prep drush command success';
        console.log($message);
        status.push("$message");
        //return $message;
@@ -97,19 +92,19 @@ function ingestion(target,parentpid,namespace,model) {
     });// end exec
   }// end if
   else {
-     console.log('parameters for first command missing, ingest not started.\n');
      $message = 'parameters for first command missing, ingest not started.';
+     console.log($message);
      status.push("$message");
      return $message;
   }// end else
   // exec second drush command
   var cmd2 = String('drush -r '+drupalhome+'-v -u=1 --uri='+serveruri+' islandora_batch_ingest');
   console.log('cmd2=',cmd2);
-  $message = 'hold';
+  //$message = 'hold';
   if ($message = 'ingest prep drush command success') { 
     exec(cmd2, function(error, stdout, stderr) {
      // command output is in stdout
-     console.log(stdout);
+     console.log(`stdout:${stdout}`);
      // test command log for success indication
      // test for substr in stdout
      $message = 'ingest drush command success';
