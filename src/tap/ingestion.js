@@ -76,7 +76,7 @@ function ingestion(target,parentpid,namespace,model) {
     exec(cmd, function(error, stdout, stderr) {
      // command output is in stdout
      console.log(stdout);
-     var stdtest = 'stdout:${stdout}';
+     var stdtest = `stdout:${stdout}`;
      // test command log for success indication
      // test for substr in stdout
      //if(stdout.indexOf('Command dispatch complete') > -1) {
