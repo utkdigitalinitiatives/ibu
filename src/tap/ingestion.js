@@ -89,7 +89,7 @@ function ingestion(target,parentpid,namespace,model) {
        return $message;
      }//end else
   });//end exec
-  var cmd = String('drush -r '+drupalhome+' -v -u=1 --uri='+serveruri+' ibsp --content_models='+contentmodel+' --type=directory --parent='+parentpid+' --namespace='+namespace+' --target='+target );
+  var cmd = String('drush -r '+drupalhome+' -v -u 1 --uri='+serveruri+' ibsp --content_models='+contentmodel+' --type=directory --parent='+parentpid+' --namespace='+namespace+' --target='+target );
   // show assembled command
   console.log('cmd=',cmd);
   if ((target !='')&&(contentmodel !='')&&(parentpid !='')&&(namespace !='')) {
@@ -119,7 +119,7 @@ function ingestion(target,parentpid,namespace,model) {
      return $message;
   }// end else
   // exec second drush command
-  var cmd2 = String('drush -r '+drupalhome+' -v -u=1 --uri='+serveruri+' islandora_batch_ingest');
+  var cmd2 = String('drush -r '+drupalhome+' -v -u 1 --uri='+serveruri+' islandora_batch_ingest');
   console.log('cmd2=',cmd2);
   //$message = 'hold';
   if ($message = 'ingest prep drush command success') { 
