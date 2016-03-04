@@ -34,6 +34,10 @@ parentpid = String(param[3]);
 namespace = String(param[4]);
 model = String(param[5]);
 */
+// enable db
+//const IbuErrorDoc = require('./schema');
+//const db = require('../config/db');
+
 var status=[];
 
 function ingestion(target,parentpid,namespace,model) {
