@@ -138,8 +138,9 @@ This is a proof of concept only
   Input: **String**  (*'basic'* ) the content model - either "basic" or "large"<br/>
   Output: ***Array*** ( [Success] **OR** [Error Message 1 , Error Message 2, Error...] <hr>
 ###status.js
-  Input: ***Array***  (*[Error, Error, Errors]* )<br/>
-  Output: ***Array*** ( [Full Error Message 1 , Full Error Message 2, Full Error...] )
+  Input: ***Array***  ([Filename, code_errMsg1, code_errMsg2...code_errMsgN])
+  <br/>
+  Output: ***Array*** ([Header_with_Filename, full_errMsg1, full_errMsg2...full_errMsgN])
 <hr>
 
 ###Sample Data for MongoShell from terminal:
