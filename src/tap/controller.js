@@ -4,7 +4,7 @@ import abduction from './abduction';
 // import imgvalid from './IMGvalidation';
 // import xmlvalid from './XMLvalidation';
 target = '/home/vagrant/imagetest';
-parentpid = 'islandora;test2';
+parentpid = 'islandora:test2';
 namespace = 'test2';
 model = 'basic';
  import ingest from './ingestion';
