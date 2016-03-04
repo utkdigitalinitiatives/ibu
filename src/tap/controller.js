@@ -3,10 +3,10 @@
 import abduction from './abduction';
 // import imgvalid from './IMGvalidation';
 // import xmlvalid from './XMLvalidation';
-target = '/home/vagrant/imagetest';
-parentpid = 'islandora:test2';
-namespace = 'test2';
-model = 'basic';
+var target = '/home/vagrant/imagetest';
+var parentpid = 'islandora:test2';
+var namespace = 'test2';
+var model = 'basic';
  import ingest from './ingestion';
 
 const fs = require('fs');
