@@ -42,8 +42,18 @@ var status=[];
 
 function ingestion(target,parentpid,namespace,model) {
   // build command pieces
+  //detect drupal home
   // two drupalhomes one for testing on vagrant and one for server installation
-  var drupalhome = '/var/www/drupal';
+  var fs=require('fs');
+  fs.exists('/var/www/drupal',function(exists){
+    if(exists){
+      var drupalhome = '/var/www/drupal';
+      console.log('yes');
+    }else{
+      var drupalhome = '/vhosts/dlwork/web/collections';
+      console.log("no");
+    }
+  });
   //var drupalhome = '/vhosts/dlwork/web/collections';
   console.log('drupalhome = ',drupalhome);
   // serveruri is the location of the drupal_home on the drupal server
