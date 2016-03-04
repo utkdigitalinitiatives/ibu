@@ -13,8 +13,11 @@ import abduction from './abduction';
 // parentpid = 'islandora;test2';
 // namespace = 'test2';
 // model = 'basic';
-// import ingest from './ingestion';
-
+let target = '/home/vagrant/imagetest';
+let parentpid = 'islandora:test2';
+let namespace = 'test2';
+let model = 'basic';
+import ingest from './ingestion';
 
 const gravity = './test/';
 let steps = 0;
