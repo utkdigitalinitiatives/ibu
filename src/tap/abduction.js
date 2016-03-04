@@ -13,8 +13,8 @@ module.exports = function abduction(gravity){
   filelistings(gravity);
 };
 /**
- * [saveToDB description]
- * @param  {Object} file - File from fs
+ * Find and Update database document Or create a new one
+ * @param  {Object} file - File(s) from fs
  * @return {*}      - None
  */
 function saveToDB(file){
@@ -32,6 +32,7 @@ function saveToDB(file){
       .exec(function numbers(err, number){
         if(number==0){
             if(ext=='.xml'){
+              console.log('ext: ', ext);
               let xmlfileFoundInFolder = new ibuErrorDoc ({
                   filename: path.basename(file, path.extname(file)),
                   filePathXML: path.resolve(file),
@@ -39,27 +40,42 @@ function saveToDB(file){
                 });
               xmlfileFoundInFolder.save(function (err) {
                 if (err){
-                  // console.log(err);
+                  console.log('XML new Error ',err);
                   setTimeout(saveToDB(file), 100);
                   };
                 });
-            };
-
-            if( (ext=='.tif')||(ext=='.jp2') ){
+            }else if( (ext=='.tif') || (ext=='.jp2') ){
+              console.log('ext: ', ext);
               let tiffileFoundInFolder = new ibuErrorDoc ({
+                filename: path.basename(file, path.extname(file)),
+                filePathXML: "",
                 filePathIMG: path.resolve(file)
               }, {upsert: true});
-              tiffileFoundInFolder.update(function (err) {
+              tiffileFoundInFolder.save(function (err) {
                 if (err){
-                  // console.log(err);
+                  console.log('IMG new Error ',err);
                   setTimeout(saveToDB(file), 100);
                 };
               });
             };
       }else{
+        /**
+         * Find Existing db object(s) and stram a stream
+         * @param  {string|object|*} { 'filename': path.basename(file,
+         * path.extname(file)) - Searching for the current file's name
+         * @lends .stream -Creates a stream
+         */
         let stream = ibuErrorDoc.find({ 'filename' : path.basename(file, path.extname(file))})
           .select('_id filename filePathXML filePathIMG').stream();
-          stream.on('data', function(doc){
+          /**
+           * Stream is
+           * @constructor
+           * @param  {object} 'data' -Sent from ibuErrorDoc.find
+           * @param  {function} streamOn -Seperates MODS & IMG for Updating
+           * @param  {function} close -Closes stream
+           * @return {function} saveToDB -Recursive Call in case of a data crash
+           */
+          stream.on('data', function streamOn(doc){
             if((doc.filePathXML=="") && (ext=='.xml')){
               ibuErrorDoc.findByIdAndUpdate(doc._id, { $set: {filePathXML: path.resolve(file)} },
                 (err)=>{
@@ -77,13 +93,13 @@ function saveToDB(file){
           }).on('close', function(){
             // console.log('Done');
           });
-      };//if 0 / ELSE
-    });//exec
+      };
+    });
   };
 };
 
 /**
- * [filelistings description]
+ * Recersive Index of a specified directory and sends to db save function
  * @param  {string} gravity - Directory passed by controller.js
  * @param  {object} !files.length - Evaluate if the folders are empty
  * @param  {string} path.join(gravity, file) - Returns Full path of file
