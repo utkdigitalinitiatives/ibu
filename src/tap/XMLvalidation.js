@@ -2,18 +2,53 @@
  * [XMLvalidation evaluates an MODS XML file and ensures it meets standards set here: https://wiki.lib.utk.edu/display/DLP/UTK+Data+Dictionary]
  * @param {[String]} input [MODS XML filename]
  * @return {[Array]}       [Success] or [Filename, Error 1, Error 2, Error 3, ...]
- *
+ * inputs
+ * outputs
  */
 
 var fs = require('fs');
 var parser = require('xml2json');
 var jp = require('jsonpath');
-var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:ibu');
-var conn = mongoose.connection;
+//var mongoose = require('mongoose');
+//mongoose.connect('mongodb://localhost:ibu');
+//var conn = mongoose.connection;
 var status = [];
-var filename = process.argv;
-filename = String(filename[2]);
+// var filename = process.argv;
+// filename = String(filename[2]);
+
+//var MongoClient = require('mongodb').MongoClient;
+//
+//MongoClient.connect('mongodb://localhost:27017/ibu', function(err, db) {
+//  if(!err) {
+//    console.log('we have a connection');
+//  }
+//});
+
+// encapsulation, gahd
+
+
+const IbuErrorDoc = require('./schema');
+const db = require('../config/db');
+
+//console.log('hello world!');
+
+//IbuErrorDoc.find({ filename: ''}).exec( function (w) {console.log('w: ' + w)});
+//IbuErrorDoc.find({ filename: "9733.2309.4609.0" }).exec( function(x) {console.log('x: ' + x)});
+//IbuErrorDoc.find({ "filename": "9733.2309.4609.0" }).exec( function(y) {console.log('y: ' + y)});
+//IbuErrorDoc.find({ filePathXML: '' }).exec( function(z) {console.log('z: ' + z)});
+//IbuErrorDoc.find({ filename: "freshman-record_1986_0001" }).exec( function(aa) {console.log('aa: ' + aa)});
+//IbuErrorDoc.find({}).exec(function(bb) {console.log('bb: ' + bb)});
+//IbuErrorDoc.find().exec(function(cc) {console.log(cc)});
+// doesn't work
+//IbuErrorDoc.find({"*"}).exec(function(dd) {console.log('dd: ' + dd)});
+function findmesome(){
+  IbuErrorDoc.find().exec( (data) => {
+    console.log('CC ', data);
+});
+
+};
+
+//IbuErrorDoc.find({ filename: "9733.2309.4609.0.xml"}.exec( function(x) {console.log('x output: ' + x)}))
 
 function fileRead(err, data) {
   var message;
@@ -43,7 +78,7 @@ function postResults(x, data) {
 }
 
 function startProcessing(file, callback) {
-  var modsIn = fs.readFileSync(filename, 'utf8');
+  var modsIn = fs.readFileSync(file, 'utf8');
   var modsObj = parser.toJson(modsIn, options = {object: true});
 
   var xmlValues = [];
@@ -198,9 +233,11 @@ function startProcessing(file, callback) {
   }
 }
 
-startProcessing(filename, fileRead);
+//startProcessing(filename, fileRead);
 
-console.log(status);
+export default findmesome;
+
+//console.log(status);
 // rename startProcessing function
 
 
