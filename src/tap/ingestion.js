@@ -44,6 +44,7 @@ var status=[];
 
 function ingestion(target,parentpid,namespace,model) {
   var fs=require('fs');
+  /*
   // test target
   fs.exists('/var/www/drupal',function(exists){
     if(!exists){
@@ -59,7 +60,7 @@ function ingestion(target,parentpid,namespace,model) {
     //status.push("$message");
     return $errmessage;
   }// end if
-  
+  */
   // build command pieces
   //detect drupal home
   // two drupalhomes one for testing on vagrant and one for server installation
