@@ -41,31 +41,47 @@ model = String(param[5]);
 var status=[];
 
 function ingestion(target,parentpid,namespace,model) {
+  var fs=require('fs');
+  // test target
+  fs.exists('/var/www/drupal',function(exists){
+    if(!exists){
+       $errmessage = 'target does not exist';
+       //status.push("$errmessage");
+       return $errmessage;
+    }
+  });
+  // test parentpid
+  if(parentpid.indexOf(':') > -1) {
+    $errmessage = 'parentpid is not correct';
+    //console.log($errmessage);
+    //status.push("$message");
+    return $errmessage;
+  }// end if
+  
   // build command pieces
   //detect drupal home
   // two drupalhomes one for testing on vagrant and one for server installation
-  var fs=require('fs');
   fs.exists('/var/www/drupal',function(exists){
     if(exists){
       var drupalhome = '/var/www/drupal';
-      console.log('yes');
+      //console.log('yes');
     }else{
       var drupalhome = '/vhosts/dlwork/web/collections';
-      console.log("no");
+      //console.log("no");
     }
   });
   //var drupalhome = '/vhosts/dlwork/web/collections';
-  console.log('drupalhome = ',drupalhome);
+  //console.log('drupalhome = ',drupalhome);
   // serveruri is the location of the drupal_home on the drupal server
   var serveruri = 'http://localhost';
 
   //var serveruri = 'http://dlwork.lib.utk.edu/dev/';
-  console.log('serveruri = ',serveruri);
-  console.log('parentpid = ',parentpid);
+  //console.log('serveruri = ',serveruri);
+  //console.log('parentpid = ',parentpid);
   // namespace
-  console.log('namespace = ',namespace);
+  //console.log('namespace = ',namespace);
   // target is the local directory holding the ingest files
-  console.log('target = ',target);
+  //console.log('target = ',target);
   // make mongo connection
   /*
   var mongoose = require('mongoose');
