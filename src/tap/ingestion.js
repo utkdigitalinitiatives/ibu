@@ -11,6 +11,8 @@
  *  log of drush run
  * errors:
  *  if drush not installed
+ *  if target does not exist
+ *  if parentpid incorrect
  *  if parameters missing
  *  if first command did not run
  *  if first command did run but did not prep ingest
