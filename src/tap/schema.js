@@ -1,54 +1,55 @@
-'use strict';
+
 /**
- * [schema defines validation schemas for Mongo documents being inserted into db:ibu collection:ibuerrors]
- *
+ * [schema defines validation schemas for Mongo
+ * documents being inserted into db:ibu collection:ibuerrors]
  *
  */
  // Mongoose connection to MongoDB
 const mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+let Schema = mongoose.Schema;
 
-var ibuErrorSchema = new Schema({
+let ibuErrorSchema = new Schema({
   filename: {
     type: String,
     trim: true,
-    unique: true
+    unique: true,
   },
   filePathXML: {
     type: String,
-    unique: true
+    unique: true,
   },
   filePathIMG: {
     type: String,
-    unique: true
+    unique: true,
   },
   digitalcollection: {
-    type: String
+    type: String,
   },
   IMGerrors: {
-    type: Array
+    type: Array,
   },
   XMLerrors: {
-    type: Array
+    type: Array,
   },
   created: {
-    type: Date , default: Date.now
-  }
+    type: Date, default: Date.now,
+  },
 });
-//,
-// validate: {
-//   validator: function(v){
-//     return /^[^.]+$/.test(v);
+/*,
+* validate: {
+*   validator: function(v){
+*     return /^[^.]+$/.test(v);
+*/
 
-var ibuErrorDoc = mongoose.model('ibuErrorDoc', ibuErrorSchema);
+let ibuErrorDoc = mongoose.model('ibuErrorDoc', ibuErrorSchema);
 // exports.default = new ibuErrorDoc();
 module.exports = ibuErrorDoc;
 
 // Some test's to show schema validator working
-//testobj.filename = 'testdoc.xml';
+// testobj.filename = 'testdoc.xml';
 //
-//testobj.save(function(err){
+// testobj.save(function(err){
 //  console.log(err.errors.filename);
-//});
+// });
 //
-//console.log(testobj);
+// console.log(testobj);
