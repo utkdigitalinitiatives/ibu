@@ -9,43 +9,44 @@
 var fs = require('fs');
 var parser = require('xml2json');
 var jp = require('jsonpath');
-//var mongoose = require('mongoose');
-//mongoose.connect('mongodb://localhost:ibu');
-//var conn = mongoose.connection;
 var status = [];
-// var filename = process.argv;
-// filename = String(filename[2]);
-
-//var MongoClient = require('mongodb').MongoClient;
-//
-//MongoClient.connect('mongodb://localhost:27017/ibu', function(err, db) {
-//  if(!err) {
-//    console.log('we have a connection');
-//  }
-//});
-
-// encapsulation, gahd
-
 
 const IbuErrorDoc = require('./schema');
 const db = require('../config/db');
 
-//console.log('hello world!');
-
-//IbuErrorDoc.find({ filename: ''}).exec( function (w) {console.log('w: ' + w)});
-//IbuErrorDoc.find({ filename: "9733.2309.4609.0" }).exec( function(x) {console.log('x: ' + x)});
-//IbuErrorDoc.find({ "filename": "9733.2309.4609.0" }).exec( function(y) {console.log('y: ' + y)});
-//IbuErrorDoc.find({ filePathXML: '' }).exec( function(z) {console.log('z: ' + z)});
-//IbuErrorDoc.find({ filename: "freshman-record_1986_0001" }).exec( function(aa) {console.log('aa: ' + aa)});
-//IbuErrorDoc.find({}).exec(function(bb) {console.log('bb: ' + bb)});
-//IbuErrorDoc.find().exec(function(cc) {console.log(cc)});
-// doesn't work
-//IbuErrorDoc.find({"*"}).exec(function(dd) {console.log('dd: ' + dd)});
 function findmesome(){
-  IbuErrorDoc.find().exec( (data) => {
-    console.log('CC ', data);
-});
-
+  // gets 1
+  IbuErrorDoc.find({filename:"9733.2309.4609.13"}).exec( (err, data) => {
+    console.log('first:');
+    console.log(data);
+  });
+  // gets 1 w/ .where()s
+  IbuErrorDoc.find({}).where({filename:"problems"}).where({filePathIMG:""}).exec( (err, data) => {
+    console.log('second:');
+    console.log(data);
+    console.log('typeof: ' + typeof data);
+    console.log('index 0?' + data[0].filePathXML);
+  });
+  // gets all w/ .where()s empty filePathIMG as a test
+  IbuErrorDoc.find({}).where({filePathIMG:""}).exec( (err, data) => {
+    console.log('third:');
+    console.log('length: ' + data.length);
+    var i = 0;
+    //for(; i < data.length; i++) {
+    //  console.log(i + ' : ' + data[i].filePathXML);
+    //}
+    console.log(data[14]);
+  });
+  // trying to query for an empty XMLerrors array (works) join with a populated filePathXML field (doesn't work)
+  IbuErrorDoc.find({}).where({XMLerrors: []}).where({filePathXML: { $gt: 0}}).exec( (err, data) => {
+    console.log('fourth:');
+    console.log(data);
+  });
+  // different syntax, same result (probably a syntax error)
+  IbuErrorDoc.find({}).where('XMLErrors').equals([]).where('filePathXML').gt(0).exec( (err, data) => {
+    console.log('fifth:');
+    console.log(data);
+  })
 };
 
 //IbuErrorDoc.find({ filename: "9733.2309.4609.0.xml"}.exec( function(x) {console.log('x output: ' + x)}))
@@ -237,13 +238,4 @@ function startProcessing(file, callback) {
 
 export default findmesome;
 
-//console.log(status);
 // rename startProcessing function
-
-
-
-//var fileID = jp.query(modsObj, '$.mods.identifier[?(@.type=="filename")]["$t"]');
-//var fileKey = String(fileID[0]).slice(0, -4);
-//console.log('fileID: ' + fileID);
-//console.log('fileKey: ' + fileKey);
-
