@@ -1,5 +1,5 @@
 /**
- * 160304 coding by Cricket Deane for DLI project "sprint"
+ * 160309 coding by Cricket Deane for DLI project "sprint"
  * to be posted as status.js in https://github.com/utkdigitalinitiatives/ibu
  * path: /src/tap/status.js
  *
@@ -24,19 +24,19 @@
  *
  * function call example:
  * returnString= tranlsateArgs(myargv);
- * where myargv is the array:
+ * where myargv is an ordered array of strings, [filename, error1, error2, ... errorN]:
  
-  var myargv = [ "0012_000251_000028_0001.jp2"
-                 ,"Cannot read file" 
-				 ,"Incorrect file format" 
-				 ,"no kittens"
+  var myargv = [ "0012_000251_000028_0001.jp2" //filename
+                 ,"Cannot read file"           //error1 
+				 ,"Incorrect file format"      //error2 
+				 ,"no kittens"                 //errorN
 				 ];
  * 
- * Example of ErrorReport:
+ * Example of ErrorReport (output):
  
  
  Filename: 0012_000251_000028_0001.jp2
- ErrorReport:
+ Validation Errors:
          1.  The image file cannot be read.
          2.  The image file is not in the correct file format.
          3.  no kittens : This error is not found on the standard error list.
@@ -48,69 +48,48 @@
  * 
  */
 
-
-/******************************************************
- * argv block                                         *
- ******************************************************/
-var process = require('process');
-var argv = process.argv;
-/******************************************************
- * end argv block                                     *
- ******************************************************/
- 
- var myargv=[];
- var i  = 0;
- var ct = 2; 
- while (ct < argv.length){
-	 myargv[i] = argv[ct];
-	 //console.log ("myargv["+i+"]="+myargv[i]);
-	 i  = i  +1;
-	 ct = ct +1;
- }
- 
-
- var returnString = translateArgs(myargv);
- console.log(returnString);
  
  function translateArgs(myargv){
 
-var standardError = {"Cannot read file" :   "The application cannot read the file."
-                  ,"Successfully read file" :   "The application successfully read the file."
+var standardError = {
+	"Success" : "The image file passes all validation tests."
+	,"Cannot read file" : "The image file cannot be read."
+	,"Cannot read exif data" : "The exif data in the image file cannot be read."
+	,"Successfully read file" : "The image file is readable."
+	,"Successfully read exif" : "The exif data in the image file is readable."
+	,"Incorrect file format" : "The image file is not in the correct file format."	
+	,"Incorrect PPI" : "The image file has incorrect PPI."
+    ,"Wrong Color Depth" : "The image file has the wrong color depth."
+	,"More than 16 Bit Depth" : "The image file has a bit depth greater than 16."
+	,"Not color" : "The image file is not color."
+	,"Not 600 PPI" : "The image file is not 600 PPI."
+    ,"No material type description declared." : "The image file has no material type description declared." 
+	,"XML: too many collection titles" : "The mods file contains too many collection titles."
+	,"XML: too many MS/AR numbers" : "The mods file contains too many MS/AR numbers."
+	,"XML: verify dateCreated values" : "The mods file lacks verification of dateCreated values."
+	,"XML: too many dateIssued elements" : "The mods file contains too many dateIssued values."
+	,"XML: problems with digitalOrigin" : "The mods file has problems with the digitalOrigin value."
+	,"XML: too many extent elements" : "The mods file contains too many extent values."
+	,"XML: please verify identifier[@type=filename]" : "Please verify identifier[@type=filename]."
+	,"XML: please verify physicalDescription/form" : "Please verify physicalDescription/form value."
+	,"XML: please verify internetMediaType" : "Please verify intenetMediaType value."
+	,"XML: please verify typeOfResource" : "Please verify typeOfResource value."
+	,"XML: please verify languageOfCataloging/languageTerm" : "Please verify languageOfCataloging/languageTerm value."
+	,"XML: please check the number of note[@type=ownership]" : "Please check the number of note[@type=ownership] values."
+	,"XML: please check the number of recordOrigin elements" : "Please check the number of recordOrigin elements."
+	,"XML: please check the number of recordContentSource elements" : "Please check the number of recordOrigin elements."
+	,"XML: please check the number of location/physicalLocation elements" : "Please check the number of location/physicalLocation elements."
+	,"XML: please check the accessCondition element" : "Pease check the accessCondition value."
+	,"XML: too many shelfLocator elements" : "The mods file contains too many shelfLocator values."
+	,"XML: please add a titleInfo/title element" : "Please add a titleInfo/title element."
+	};
 
-				  ,"xml00" :   "The mods file contains too many collection titles."
-                  ,"xml01" :   "The mods file contains too many MS/AR numbers."
-                  ,"xml02" :   "Please verify dateCreated elements and attributes."
-                  ,"xml03" :   "The mods file contains too many dateIssued elements."
-                  ,"xml04" :   "The mods file hass problems with digitalOrigin."
-                  ,"xml05" :   "The mods file contains too many extent elements."
-                  ,"xml06" :   "Please verify identifier[@type=filename] in the mods file."
-                  ,"xml07" :   "Please verify physicalDescription/form  in the mods file."
-                  ,"xml08" :   "Please verify internetMediaType in the mods file."
-                  ,"xml09" :   "Please verify typeOfResource in the mods file."
-                  ,"xml10" :   "Please verify languageOfCataloging/languageTerm in the mods file."
-                  ,"xml11" :   "Please check the number of note[@type=ownership] values in the mods file."
-                  ,"xml12" :   "Please check the number of recordOrigin elements in the mods file."
-                  ,"xml13" :   "Please check the number of recordContentSource elements in the mods file."
-                  ,"xml14" :   "Please check the number of location/physicalLocation elements in the mods file."
-                  ,"xml15" :   "Please check the text of accessCondition (rights) in the mods file."
-                  ,"xml16" :   "Please verify the value of shelfLocator in the mods file."
-                  ,"xml17" :   "Please verify the value of titleInfo/title in the mods file."
-        ,"Incorrect file format" : "The image file has an incorrect file format."
-        ,"Incorrect PPI" : "The image file has an incorrect PPI value."
-        ,"Wrong Color Depth" : "The image file has the wrong color depth value."
-        ,"Not color" : "The image file is not color."
-        ,"No material type description declared." : "The image file lacks a declaration of material type description."
-        ,"Success" : "The image file passes all validation tests."
-};
-				  
-				  
 
-
-var rawValue  = "";//argv[3];///"Incorrect PPI";//test without while_outer
+var rawValue  = "";
 var engValue  = "";
-var filename  = myargv[0];///imgFile;
+var filename  = myargv[0];
 
-var retString = "\nFilename: "+filename+"\nErrorReport:";
+var retString = "\nFilename: "+filename+"\nValidation Errors:";
 var errorCount = 0;
 var myargvLen=myargv.length;
 
