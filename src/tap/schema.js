@@ -1,4 +1,4 @@
-
+'use strict';
 /**
  * [schema defines validation schemas for Mongo
  * documents being inserted into db:ibu collection:ibuerrors]
@@ -23,6 +23,9 @@ let ibuErrorSchema = new Schema({
     unique: true,
   },
   digitalcollection: {
+    type: String,
+  },
+  expectedNumObjects: {
     type: String,
   },
   IMGerrors: {
