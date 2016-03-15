@@ -1,5 +1,5 @@
 /**
- * 160309 coding by Cricket Deane for DLI project "sprint"
+ * 160315 coding by Cricket Deane for DLI project "sprint"
  * to be posted as status.js in https://github.com/utkdigitalinitiatives/ibu
  * path: /src/tap/status.js
  *
@@ -49,7 +49,7 @@
  */
 
  
- function translateArgs(myargv){
+ function status(myargv){
 
 var standardError = {
 	"Success" : "The image file passes all validation tests."
@@ -108,5 +108,5 @@ while (iargv<myargvLen){
 }
 	 
 return(retString);
- }//end function translateArgs(myargv)
+ }//end function status(myargv)
 

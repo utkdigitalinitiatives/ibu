@@ -1,4 +1,4 @@
-/* chd 160310 unittest function call to status.translateArgs
+/* chd 160315 unittest function call to status()
  *
  * command line example:
  * using default ErrorArray inside the script.
@@ -43,5 +43,5 @@ var Fname = "./status.js"
 
 vm.runInThisContext(fs.readFileSync(Fname));
 
-var returnString = translateArgs(ErrorArray);
+var returnString = status(ErrorArray);
  console.log(returnString);
