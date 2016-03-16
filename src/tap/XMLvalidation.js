@@ -14,40 +14,30 @@ var status = [];
 const IbuErrorDoc = require('./schema');
 const db = require('../config/db');
 
+let stream = IbuErrorDoc.find({}).where({"XMLerrors":[]}).where({"filePathXML":{$exists:true,$ne:""}}).stream();
+//let stream = IbuErrorDoc.find().stream();
 function findmesome(){
-  // gets 1
-  IbuErrorDoc.find({filename:"9733.2309.4609.13"}).exec( (err, data) => {
-    console.log('first:');
-    console.log(data);
+  //IbuErrorDoc.find({}).where({"XMLerrors":[]}).where({"filePathXML":{$exists:true,$ne:""}}).exec((err,data) => {
+  //  console.log('output:');
+  //  console.log(data);
+  //});
+
+  stream.on('data', function(doc) {
+    if(doc.filename === "problems") {
+      console.log('Winner!');
+    } else {
+      console.log('Not quite!');
+    }
+  }).on('error', function(err) {
+    console.log('err: ' + err);
+  }).on('close', function() {
+
   });
-  // gets 1 w/ .where()s
-  IbuErrorDoc.find({}).where({filename:"problems"}).where({filePathIMG:""}).exec( (err, data) => {
-    console.log('second:');
-    console.log(data);
-    console.log('typeof: ' + typeof data);
-    console.log('index 0?' + data[0].filePathXML);
-  });
-  // gets all w/ .where()s empty filePathIMG as a test
-  IbuErrorDoc.find({}).where({filePathIMG:""}).exec( (err, data) => {
-    console.log('third:');
-    console.log('length: ' + data.length);
-    var i = 0;
-    //for(; i < data.length; i++) {
-    //  console.log(i + ' : ' + data[i].filePathXML);
-    //}
-    console.log(data[14]);
-  });
-  // trying to query for an empty XMLerrors array (works) join with a populated filePathXML field (doesn't work)
-  IbuErrorDoc.find({}).where({XMLerrors: []}).where({filePathXML: { $gt: 0}}).exec( (err, data) => {
-    console.log('fourth:');
-    console.log(data);
-  });
-  // different syntax, same result (probably a syntax error)
-  IbuErrorDoc.find({}).where('XMLErrors').equals([]).where('filePathXML').gt(0).exec( (err, data) => {
-    console.log('fifth:');
-    console.log(data);
-  })
-};
+
+
+}
+
+
 
 //IbuErrorDoc.find({ filename: "9733.2309.4609.0.xml"}.exec( function(x) {console.log('x output: ' + x)}))
 
