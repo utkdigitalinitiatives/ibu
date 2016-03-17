@@ -199,4 +199,3 @@ function xmlProcessing(){
 
 export default xmlProcessing;
 
-// rename startProcessing function
