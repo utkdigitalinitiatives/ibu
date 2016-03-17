@@ -143,7 +143,7 @@ This is a proof of concept only
 <hr>
 
 ###Sample Data for MongoShell from terminal:
->mongoimport --db ibu --collection ibuerrordoc --drop --file src/tap/InsertDummyData.json
+>mongoimport --db ibu --collection ibuerrordocs --drop --file src/tap/InsertDummyData.json
 
 There are sample XML files, pulled from the Adams collection, in `ibu/test`. Some of them have been invalidated. 
 **Question:** Does it make sense to keep the XML and IMG files in sync? There are excellent reasons for changing these, randomizing them, etc., but is there any reason to _not_ keep files from the same collections in `test/`? 
