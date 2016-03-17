@@ -9,7 +9,6 @@
 var fs = require('fs');
 var parser = require('xml2json');
 var jp = require('jsonpath');
-var status = [];
 
 const IbuErrorDoc = require('./schema');
 const db = require('../config/db');
@@ -19,6 +18,7 @@ let stream = IbuErrorDoc.find({}).where({"XMLerrors":[]}).where({"filePathXML":{
 
 function findmesome(){
   stream.on('data', function(doc) {
+    var status = [];
     var options;
     var modsIn = fs.readFileSync(doc.filePathXML, 'utf8');
     var modsObj = parser.toJson(modsIn, options = {object: true});
@@ -89,6 +89,7 @@ function findmesome(){
     //console.log('IF:xmlValues:  ' + xmlValues + ' length: ' + xmlValues.length);
     //console.log('IF:xmlTargets: ' + xmlTargets + ' length: ' + xmlTargets.length);
 
+    //status.push(doc.filename);
     var i = 0;
     for(; i < xmlValues.length; i++) {
       // collection titles
@@ -175,6 +176,20 @@ function findmesome(){
         status.push(`${xmlErrors[i]}`);
       }
     }
+    console.log('file _id: ' + doc._id);
+    console.log(status);
+    //console.log('file: ' + doc.filePathXML + ' check. And xmlValues array:\n' + xmlTargets);
+
+    console.log('filename: ' + doc.filename + ' typeof: ' + typeof doc.filename);
+
+    IbuErrorDoc.findOneAndUpdate({"filename":doc.filename},{$set:{"XMLerrors":status}},function(err,doc){
+      if(err) {
+        console.log(err);
+      } else {
+        console.log('successfully saved');
+      }
+
+    });
   }).on('error', function(err) {
     console.log('err: ' + err);
   }).on('close', function() {
