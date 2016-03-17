@@ -36,31 +36,12 @@ parentpid = String(param[3]);
 namespace = String(param[4]);
 model = String(param[5]);
 */
-// enable db
-//const IbuErrorDoc = require('./schema');
-//const db = require('../config/db');
 
 var status=[];
 
 function ingestion(target,parentpid,namespace,model) {
   var fs=require('fs');
-  /*
-  // test target
-  fs.exists('/var/www/drupal',function(exists){
-    if(!exists){
-       $errmessage = 'target does not exist';
-       //status.push("$errmessage");
-       return $errmessage;
-    }
-  });
-  // test parentpid
-  if(parentpid.indexOf(':') > -1) {
-    $errmessage = 'parentpid is not correct';
-    //console.log($errmessage);
-    //status.push("$message");
-    return $errmessage;
-  }// end if
-  */
+
   // build command pieces
   //detect drupal home
   // two drupalhomes one for testing on vagrant and one for server installation
@@ -86,11 +67,6 @@ function ingestion(target,parentpid,namespace,model) {
   // target is the local directory holding the ingest files
   //console.log('target = ',target);
   // make mongo connection
-  /*
-  var mongoose = require('mongoose');
-  mongoose.connect('mongodb://localhost/ibu');
-  var conn = mongoose.connection;
-  */
   //
   var $message = '';
   var $errmessage = '';

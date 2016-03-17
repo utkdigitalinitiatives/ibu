@@ -1,5 +1,5 @@
 /**
- * 160309 coding by Cricket Deane for DLI project "sprint"
+ * 160315 coding by Cricket Deane for DLI project "sprint"
  * to be posted as status.js in https://github.com/utkdigitalinitiatives/ibu
  * path: /src/tap/status.js
  *
@@ -19,11 +19,11 @@
  * command line example:
  * node status.js 0012_000251_000028_0001.jp2 "Cannot read file" "Incorrect file format" "no kittens" 
  *
- * function translateArgs(array) expects the following array to be passed:
+ * function status(array) expects the following array to be passed:
  * filename, error1, [error2, error3, ...errorN]
  *
  * function call example:
- * returnString= tranlsateArgs(myargv);
+ * returnString= status(myargv);
  * where myargv is an ordered array of strings, [filename, error1, error2, ... errorN]:
  
   var myargv = [ "0012_000251_000028_0001.jp2" //filename
@@ -49,7 +49,7 @@
  */
 
  
- function translateArgs(myargv){
+ function status(myargv){
 
 var standardError = {
 	"Success" : "The image file passes all validation tests."
@@ -108,5 +108,5 @@ while (iargv<myargvLen){
 }
 	 
 return(retString);
- }//end function translateArgs(myargv)
+ }//end function status(myargv)
 
