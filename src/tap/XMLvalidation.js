@@ -14,20 +14,12 @@ var status = [];
 const IbuErrorDoc = require('./schema');
 const db = require('../config/db');
 
-let stream = IbuErrorDoc.find({}).where({"XMLerrors":[]}).where({"filePathXML":{$exists:true,$ne:""}}).stream();
 //let stream = IbuErrorDoc.find().stream();
-function findmesome(){
-  //IbuErrorDoc.find({}).where({"XMLerrors":[]}).where({"filePathXML":{$exists:true,$ne:""}}).exec((err,data) => {
-  //  console.log('output:');
-  //  console.log(data);
-  //});
+let stream = IbuErrorDoc.find({}).where({"XMLerrors":[]}).where({"filePathXML":{$exists:true,$ne:""}}).stream();
 
+function findmesome(){
   stream.on('data', function(doc) {
-    if(doc.filename === "problems") {
-      console.log('Winner!');
-    } else {
-      console.log('Not quite!');
-    }
+    startProcessing(doc.filePathXML)
   }).on('error', function(err) {
     console.log('err: ' + err);
   }).on('close', function() {
@@ -68,7 +60,7 @@ function postResults(x, data) {
   }
 }
 
-function startProcessing(file, callback) {
+function startProcessing(file) {
   var modsIn = fs.readFileSync(file, 'utf8');
   var modsObj = parser.toJson(modsIn, options = {object: true});
 
