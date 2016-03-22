@@ -5,7 +5,8 @@ const IbuErrorDoc = require('./schema');
 const db = require('../config/db');
 /*eslint-enable*/
 // import * as status from './status';
-import abduction from './abduction';
+const abduction = Promise.promisify(require('./abduction'));
+// let abduction = require('abduction');
 // import imgvalid from './IMGvalidation';
 // import xmlvalid from './XMLvalidation';
 // let target = '/home/vagrant/imagetest';
@@ -13,24 +14,18 @@ import abduction from './abduction';
 // let namespace = 'test2';
 // let model = 'basic';
 // import ingest from './ingestion';
+import ingestionPrep from './ingestionPrep';
+// import config from '../config/index';
 
-const gravity = './test/';
-
-function ingestionPrep(resolve, reject) {
-  if (fs.existsSync('./test/staging')) {
-    return resolve('success');
-  } else { //eslint-disable-line
-    fs.mkdir('./test/staging', (err) => {
-      if (err) {
-        return reject(err);
-      } else { //eslint-disable-line
-        return resolve('success');
-      }
-    });
-  }
-}
-
-
+// const gravity = config.production.rootPath;
+let overallStatus = 'failing';
+/**
+ * pitching Checks if there are any errors in the database
+ * @method pitching is a Promise
+ * @param  {promise} resolve Successful value
+ * @param  {promise} reject  Failure value
+ * @return {[type]}         [description]
+ */
 function pitching(resolve, reject) {
   let ErrorLog = [];
   let pH = 0;
@@ -54,23 +49,79 @@ function pitching(resolve, reject) {
   }).on('error', (err) => {
     return reject(err);
   }).on('close', () => {
-    let message;
     if (pH > 0) {
-      // message = reject(Error(ErrorLog));
-      message = 'success';
+      overallStatus = 'failing';
+      return reject(overallStatus);
     } else {
-      message = 'success';
+      overallStatus = 'Success';
+      return resolve(overallStatus);
     }
-  }).then(resolve(message));
+  });
 }
+
+
 
 // ingestion(target,parentpid,namespace,model);
 
+// ES6 generator waiting on a recursive function to procceed
+// Function timed loops until it finds a 'success'
+// 'success' from pitch
+function checkIfDone() {
+  if (overallStatus === 'success') {
+    step.next();
+  } else if (overallStatus === 'failing') {
+    setTimeout(() => {
+      // console.log('Trying again.');
+      // checkIfDone();
+      step.next();
+    }, 3000);
+
+  } else {
+    setTimeout(() => {
+      checkIfDone();
+    }, 3000);
+  }
+}
+
+
+function *steps() {
+
+  setTimeout(function () {
+    // console.log(abduction());
+    abduction().then((resolve) => {
+      console.log('done? ', resolve);
+    }).catch((err)=>{
+      console.log(err);
+    });
+    // step.next();
+  }, 1000);
+  yield 0;
+  // xmlvalid();
+  // imgvalid;
+  setTimeout(() => {
+    // console.log('next.');
+    checkIfDone();
+  }, 3000);
+  yield 1;
+  setTimeout(() => {
+    if (ingestionPrep() === 'success') {
+      step.next();
+    } else {
+      // console.log('Else');
+    }
+    // checkIfDone();
+  }, 3000);
+  yield 2;
+  yield 3;
+  yield 4;
+  yield 5;
+}
+
+const step = steps();
+
 function controller() {
-  abduction(gravity);
-  Promise.race([pitching])
-  .then(console.log)
-  .catch(function(num) { console.log('catch: ', num); });
+  step.next();
+  // console.log(step.next().value);
 }
 
 export default controller;
