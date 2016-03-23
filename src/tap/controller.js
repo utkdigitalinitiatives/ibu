@@ -85,16 +85,9 @@ function checkIfDone() {
 
 
 function *steps() {
-
-  setTimeout(function () {
-    // console.log(abduction());
-    abduction().then((resolve) => {
-      console.log('done? ', resolve);
-    }).catch((err)=>{
-      console.log(err);
-    });
-    // step.next();
-  }, 1000);
+  // console.log(abduction());
+  // console.log(typeof abduction());
+  // step.next();
   yield 0;
   // xmlvalid();
   // imgvalid;
@@ -120,7 +113,14 @@ function *steps() {
 const step = steps();
 
 function controller() {
-  step.next();
+Promise.resolve(abduction())
+  .then((x) => {
+    console.log('Then... ', x);
+  }).catch((err) => {
+    console.log('Caught: ', err);
+  });
+
+  //step.next();
   // console.log(step.next().value);
 }
 
