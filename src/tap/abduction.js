@@ -4,15 +4,12 @@ const path = require('path');
 const IbuErrorDoc = require('./schema');
 /*eslint-disable*/
 const db = require('../config/db');
-let index = 100;
+let indexed = -10;
 let totalProcessed = 0;
-let readDirrectories = 0;
 let error = [];
 
 import config from '../config/index';
-
 let gravity = config.development.rootPath;
-
 /*eslint-enable*/
 /**
  * Find and Update database document Or create a new one
@@ -20,9 +17,14 @@ let gravity = config.development.rootPath;
  * @return {*}      - None
  */
 function saveToDB(file) {
-    const ext = path.extname(file);
-    const FILENAME = { filename: path.basename(file, path.extname(file)) };
-    if (ext !== '') {
+  const ext = path.extname(file);
+  let filename = path.basename(file, ext);
+  let FILEPATH = path.resolve(file);
+  let FILENAMESTRING = { filename: filename };
+  let filePathIMG;
+  let filePathXML;
+  // console.log(ext, filename, FILEPATH, FILENAMESTRING);
+  if (ext !== '') {
       /**
        * Using Mongoose count to see if file exist
        * @param  {string|object|*} { 'filename': path.basename(file,
@@ -31,18 +33,18 @@ function saveToDB(file) {
        * @param {number} - number of files found with this same filename (1 or 0)
        * @return {*}  - No Return
        */
-       IbuErrorDoc.count(FILENAME)
+       IbuErrorDoc.count(FILENAMESTRING)
         .exec((err, number) => {
           if (number === 0) {
             if (ext === '.xml') {
               const xmlfileFoundInFolder = new IbuErrorDoc({
-                filename: path.basename(file, path.extname(file)),
-                filePathXML: path.resolve(file),
-                filePathIMG: '',
+                filename: filename,
+                filePathXML: FILEPATH,
+                indexed,
+                filePathIMG,
               });
               xmlfileFoundInFolder.save((xmlSaveErr) => {
                 if (xmlSaveErr) {
-                  // Recursive Function for data crashes
                   setTimeout(saveToDB(file), 2000);
                 } else {
                   totalProcessed++;
@@ -50,10 +52,11 @@ function saveToDB(file) {
               });
             } else if ((ext === '.tif') || (ext === '.jp2')) {
               const tiffileFoundInFolder = new IbuErrorDoc({
-                filename: path.basename(file, path.extname(file)),
-                filePathIMG: path.resolve(file),
-                filePathXML: '',
-              }, { upsert: true });
+                filename: filename,
+                filePathIMG: FILEPATH,
+                indexed,
+                filePathXML: null,
+              });
               tiffileFoundInFolder.save((tifUpdateErr) => {
                 if (tifUpdateErr) {
                   // Recursive Function for data crashes
@@ -62,6 +65,10 @@ function saveToDB(file) {
                   totalProcessed++;
                 }
               });
+            } else {
+              // Formats outside of scope
+              indexed--;
+              totalProcessed++;
             }
           } else {
           /**
@@ -70,7 +77,7 @@ function saveToDB(file) {
            * path.extname(file)) - Searching for the current file's name
            * @lends .stream -Creates a stream
            */
-            const stream = IbuErrorDoc.find(FILENAME)
+            const stream = IbuErrorDoc.find(FILENAMESTRING)
             .select('_id filename filePathXML filePathIMG').stream();
             /**
              * Stream is
@@ -82,30 +89,36 @@ function saveToDB(file) {
              */
             stream.on('data', (doc) => {
               if ((doc.filePathXML === '') && (ext === '.xml')) {
-                IbuErrorDoc.findByIdAndUpdate(doc._id, { $set: { filePathXML: path.resolve(file) } },
+                IbuErrorDoc.findByIdAndUpdate(doc._id, { $set: {
+                  filePathXML: FILEPATH, indexed,
+                } },
                   (err) => {
-                    console.log('Find ID Update xml', err);
+                    // console.log('Find ID Update xml', err);
                     // Recursive Function for data crashes
                     setTimeout(saveToDB(file), 2000);
                   });
+                totalProcessed++;
               } else if ((doc.filePathIMG === '') && ((ext === '.tif')) || (ext === '.jp2')) {
-                IbuErrorDoc.findByIdAndUpdate(doc._id, { $set: { filePathIMG: path.resolve(file) } },
+                IbuErrorDoc.findByIdAndUpdate(doc._id, { $set: {
+                  filePathIMG: FILEPATH, indexed,
+                } },
                   (err) => {
-                    console.log('Find ID Update img', err);
+                    // console.log('Find ID Update img', err);
                     // Recursive Function for data crashes
                     setTimeout(saveToDB(file), 2000);
                   });
+                totalProcessed++;
               }
             }).on('error', (err) => {
               throw new Error(error);
               // throw err;
               // console.warn(err);
             }).on('close', () => {
-              // console.log('Closing: ', index, totalProcessed);
-              totalProcessed++;
-              if (index === totalProcessed) {
-                // console.log('Triggered');
-              }
+              console.log('Closing: ', indexed, totalProcessed);
+              // totalProcessed++;
+              // if (indexed === totalProcessed) {
+              //   // console.log('Triggered');
+              // }
             });
           }
         });
@@ -123,10 +136,11 @@ function saveToDB(file) {
  */
 function filelistings() {
   fs.readdirAsync(gravity, (err, files) => {
+    let fileLength = files.length;
     if (err) {
       return console.log(err);
     }
-    index = files.length;
+    indexed = files.length;
     if (!files.length) {
       return console.log('No files to show');
     }
@@ -134,11 +148,10 @@ function filelistings() {
       return path.join(gravity, file);
     }).filter((file) => {
       if (fs.statSync(file).isFile() === false) {
-        readDirrectories++;
         totalProcessed++;
       }
       return fs.statSync(file).isFile();
-    }).forEach((file) => {
+    }).forEach((file, fileLength) => {
       if (path.extname(file) === '.tif' || path.extname(file) === '.jp2' ||
       path.extname(file) === '.xml') {
         saveToDB(file);
@@ -147,30 +160,22 @@ function filelistings() {
   });
 }
 
-function checkIfDone() {
-  console.log('checking');
+function checkIfDone(resolve) {
   if (error.length > 0) {
-    console.log('errors everywhere!');
-    return Promise.reject(error);
-   //  throw new Error('Errors Everywhere in Abduction');
+    let errors = error.toString();
+    return Promise.reject();
   }
-  console.log(index, totalProcessed);
-  if (index !== totalProcessed) {
-    console.log('Again');
+  if (indexed !== totalProcessed) {
+    // console.log('Again');
     setTimeout(checkIfDone, 1000);
     // console.log('success');
   } else {
-    console.log('Gottem haha');
-    return 'success';
+    return Promise.resolve('success');
   }
 }
-/**
- * Serch directory for Image & MODS file and saves to db
- * @param  {[type]} gravity - The directory to search
- * @return {[type]} db      - ported to the database
- */
-module.exports = function abduction(resolve) {
-     filelistings();
-    let answer = setTimeout(checkIfDone, 3000);
-    return answer;
+
+module.exports = function abduction() {
+  filelistings();
+  let answer = checkIfDone();
+  return Promise.resolve(answer);
 };
