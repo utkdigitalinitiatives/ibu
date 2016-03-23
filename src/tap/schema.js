@@ -16,23 +16,29 @@ let ibuErrorSchema = new Schema({
   },
   filePathXML: {
     type: String,
-    unique: true,
+    trim: true,
   },
   filePathIMG: {
     type: String,
-    unique: true,
+    trim: true,
   },
   digitalcollection: {
     type: String,
+    trim: true,
   },
   expectedNumObjects: {
     type: String,
+    trim: true,
   },
   IMGerrors: {
     type: Array,
   },
   XMLerrors: {
     type: Array,
+  },
+  indexed: {
+    type: String,
+    trim: true,
   },
   created: {
     type: Date, default: Date.now,
