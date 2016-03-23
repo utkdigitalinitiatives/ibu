@@ -2,7 +2,7 @@
 const path = require('path');
 // const rootPath = path.normalize(__dirname + '/test/');
 // const rootPath = path.normalize('./test/');
-const rootPath = './test';
+const rootPath = './test/delivery';
 // const rootPath = path.normalize('./test');
 module.exports = {
   development: {
