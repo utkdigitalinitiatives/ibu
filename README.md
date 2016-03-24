@@ -8,6 +8,15 @@ This is a proof of concept only
   Takes files (either through drag and drop or from syncing a folder) and automates the process
   of import then validation then renaming files then processes during ingestion.
 
+##Front End Development
+###Phase 1: Proof of concept
+Website Layout <br/>
+Front End: <br/>
+List of Pending Collections folders (example: \\central\arc3\prod3\seth\) <br/>
+List Cuurently processing folders (example: \\central\arc3\prod3\seth\delivery) <br/>
+db.ibuerrors.find({ postErrorProcessing: "Concatenated Errors in a string"}); <br/>
+
+###Phase 2:
 
 ###At a glance
 *Assumptions being made: samba share's directory structure is regular, AdminDB collection(s) already exist, metadata (MODS) will eventually move to the same delivery directory as the TIF|JPG, we're __only__ talking about basic|large image processing, and __several__ other unarticulated assumptions.*
