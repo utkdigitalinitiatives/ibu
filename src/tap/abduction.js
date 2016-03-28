@@ -61,8 +61,6 @@ function saveToDB(file) {
           } else {
             const stream = IbuErrorDoc.find(FILENAMESTRING)
             .select('_id filename filePathXML filePathIMG expectedNumObjects').stream();
-            console.log('Found now Update');
-            // Found now update
             stream.on('data', (doc) => {
               console.log('doc: ', doc._id, ext);
               if (ext === '.xml') {
@@ -130,8 +128,7 @@ function checkIfDone(resolve) {
   } else {
     setTimeout(checkIfDone, 4000);
   }
-  console.log(`${fileList.length + totalProcessed} ${fileList.length} ${totalProcessed}`);
-
+  return resolve = 'Success';
 }
 
 module.exports = function abduction() {
