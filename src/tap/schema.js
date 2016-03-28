@@ -36,6 +36,9 @@ let ibuErrorSchema = new Schema({
   XMLerrors: {
     type: Array,
   },
+  postErrorProcessing: {
+    type: String,
+  },
   indexed: {
     type: String,
     trim: true,
