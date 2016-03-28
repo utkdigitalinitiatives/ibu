@@ -7,7 +7,7 @@ const db = require('../config/db');
 // import * as status from './status';
 const abduction = Promise.promisify(require('./abduction'));
 // let abduction = require('abduction');
-// import imgvalid from './IMGvalidation';
+import imgvalid from './IMGvalidation';
 // import xmlvalid from './XMLvalidation';
 // let target = '/home/vagrant/imagetest';
 // let parentpid = 'islandora:test2';
@@ -64,15 +64,11 @@ function pitching(resolve, reject) {
 // ingestion(target,parentpid,namespace,model);
 
 // ES6 generator waiting on a recursive function to procceed
-// Function timed loops until it finds a 'success'
-// 'success' from pitch
 function checkIfDone() {
   if (overallStatus === 'success') {
     step.next();
   } else if (overallStatus === 'failing') {
     setTimeout(() => {
-      // console.log('Trying again.');
-      // checkIfDone();
       step.next();
     }, 3000);
 
@@ -85,14 +81,10 @@ function checkIfDone() {
 
 
 function *steps() {
-  // console.log(abduction());
-  // console.log(typeof abduction());
-  // step.next();
+  abduction();
+//  imgvalid();
   yield 0;
-  // xmlvalid();
-  // imgvalid;
   setTimeout(() => {
-    // console.log('next.');
     checkIfDone();
   }, 3000);
   yield 1;
@@ -100,9 +92,7 @@ function *steps() {
     if (ingestionPrep() === 'success') {
       step.next();
     } else {
-      // console.log('Else');
     }
-    // checkIfDone();
   }, 3000);
   yield 2;
   yield 3;
@@ -113,14 +103,7 @@ function *steps() {
 const step = steps();
 
 function controller() {
-Promise.resolve(abduction())
-  .then((x) => {
-    console.log('Then... ', x);
-  }).catch((err) => {
-    console.log('Caught: ', err);
-  });
-
-  //step.next();
+  step.next();
   // console.log(step.next().value);
 }
 

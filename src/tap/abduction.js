@@ -62,7 +62,6 @@ function saveToDB(file) {
             const stream = IbuErrorDoc.find(FILENAMESTRING)
             .select('_id filename filePathXML filePathIMG expectedNumObjects').stream();
             stream.on('data', (doc) => {
-              console.log('doc: ', doc._id, ext);
               if (ext === '.xml') {
                 if (doc) {
                   doc.filePathXML = FILEPATH;
