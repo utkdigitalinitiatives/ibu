@@ -8,14 +8,13 @@
 var exif = require('exiftool');
 var fs   = require('fs');
 var status = [];
-var filename = process.argv;
-filename = String(filename[2]);
-
+var filename;
 const IbuErrorDoc = require('./schema');
 const db = require('../config/db');
 
 function fileRead(err, data){
   var message;
+  console.log(filename);
   if (err){
     message = "Cannot read file";
   }
@@ -46,7 +45,6 @@ function postResults(x, data) {
 
 function postStatus(x, y){
   IbuErrorDoc.findOneAndUpdate({"filename":filename,"collection":y,"IMGerrors":x});
-  return;
 }
 
 function testExif(err, metadata){
@@ -201,6 +199,12 @@ function readExif(metadata) {
 
 function startProcessing (file, callback){
   fs.readFile(file, callback);
-}
+};
 
-startProcessing(filename, fileRead);
+module.exports = function letsBegin(file){
+  filename = file;
+  console.log(file, filename);
+  startProcessing(file,fileRead);
+};
+
+
