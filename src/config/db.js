@@ -12,7 +12,7 @@ const config = {
 
 const dbUri = 'mongodb://localhost:27017/ibu';
 
-mongoose.createConnection(dbUri);
+mongoose.connect(dbUri);
 
 mongoose.connection.on('connected', () => {
   // console.log('Connected to DB,,, Now what?');
