@@ -10,9 +10,9 @@ var fs   = require('fs');
 var status = [];
 var filename = process.argv;
 filename = String(filename[2]);
-var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/ibu');
-var conn = mongoose.connection;
+
+const IbuErrorDoc = require('./schema');
+const db = require('../config/db');
 
 function fileRead(err, data){
   var message;
@@ -45,10 +45,8 @@ function postResults(x, data) {
 }
 
 function postStatus(x, y){
-  var mongoDoc = {"file":filename, "collection":y,"IMGerrors":x};
-  console.log(mongoDoc);
-  conn.collection('ibuerrors').insert(mongoDoc);
-  return x;
+  IbuErrorDoc.findOneAndUpdate({"filename":filename,"collection":y,"IMGerrors":x});
+  return;
 }
 
 function testExif(err, metadata){
