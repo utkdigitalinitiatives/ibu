@@ -1,4 +1,6 @@
 # Ingestion Batch Utility
+
+[![Join the chat at https://gitter.im/utkdigitalinitiatives/ibu](https://badges.gitter.im/utkdigitalinitiatives/ibu.svg)](https://gitter.im/utkdigitalinitiatives/ibu?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 Sprint to Ingestion Batch Utility for automating, validating Objects and ingestion
 ![IBU](http://i.imgur.com/wTI6m0G.png)
 NOT A WORKING REPO<br/>
